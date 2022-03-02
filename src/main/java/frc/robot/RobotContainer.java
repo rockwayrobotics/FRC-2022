@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -39,6 +40,8 @@ public class RobotContainer {
     // Digital.LEFT_ENCODER_1, Digital.LEFT_ENCODER_2,
     // Digital.RIGHT_ENCODER_1, Digital.RIGHT_ENCODER_2
   );
+
+  private ShooterSubsystem m_shooter = new ShooterSubsystem(CAN.SHOOT_MOTOR);
 
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
@@ -71,11 +74,9 @@ public class RobotContainer {
 
     
     new JoystickButton(m_xboxController, Button.kRightBumper.value)
-    .whenPressed(() -> m_drivebase.setScale(0.25))
-    .whenReleased(() -> m_drivebase.setScale(1));
-    
-    }
-
+    .whenPressed(new InstantCommand(() -> m_shooter.spin(0.5), m_shooter))
+    .whenReleased(new InstantCommand(() -> m_shooter.spin(0), m_shooter));
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
