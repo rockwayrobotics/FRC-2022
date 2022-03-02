@@ -26,6 +26,7 @@ public final class Constants {
     public static final int RIGHT_MOTOR_2 = 4;
     // public static final int WINCH_MOTOR = 5;
     // public static final int WHEEL_MOTOR = 6;
+    public static final int SHOOT_MOTOR = 5;
     }
     
 }
