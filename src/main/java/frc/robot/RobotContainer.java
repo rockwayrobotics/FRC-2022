@@ -68,6 +68,12 @@ public class RobotContainer {
     new JoystickButton(m_xboxController, Button.kLeftBumper.value)
     .whenPressed(() -> m_drivebase.setScale(0.5))
     .whenReleased(() -> m_drivebase.setScale(1));
+
+    
+    new JoystickButton(m_xboxController, Button.kRightBumper.value)
+    .whenPressed(() -> m_drivebase.setScale(0.25))
+    .whenReleased(() -> m_drivebase.setScale(1));
+    
     }
 
   /**
