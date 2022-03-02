@@ -63,7 +63,12 @@ public class RobotContainer {
         () -> m_drivebase.set(-m_xboxController.getLeftY(), m_xboxController.getLeftX(), 0),
         m_drivebase
       )
-    );}
+    );
+  
+    new JoystickButton(m_xboxController, Button.kLeftBumper.value)
+    .whenPressed(() -> m_drivebase.setScale(0.5))
+    .whenReleased(() -> m_drivebase.setScale(1));
+    }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
