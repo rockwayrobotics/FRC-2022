@@ -41,7 +41,7 @@ public class RobotContainer {
     // Digital.RIGHT_ENCODER_1, Digital.RIGHT_ENCODER_2
   );
 
-  private ShooterSubsystem m_shooter = new ShooterSubsystem(CAN.SHOOT_MOTOR);
+  private ShooterSubsystem m_shooter = new ShooterSubsystem(CAN.SHOOT_MOTOR, CAN.FEED_MOTOR);
 
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
@@ -71,11 +71,14 @@ public class RobotContainer {
     new JoystickButton(m_xboxController, Button.kLeftBumper.value)
     .whenPressed(() -> m_drivebase.setScale(0.5))
     .whenReleased(() -> m_drivebase.setScale(1));
-
-    
+ 
     new JoystickButton(m_xboxController, Button.kRightBumper.value)
-    .whenPressed(new InstantCommand(() -> m_shooter.spin(0.5), m_shooter))
-    .whenReleased(new InstantCommand(() -> m_shooter.spin(0), m_shooter));
+    .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(0.5), m_shooter))
+    .whenReleased(new InstantCommand(() -> m_shooter.spinFeeder(0), m_shooter));
+
+    new JoystickButton(m_xboxController, Button.kA.value)
+    .whenPressed(new InstantCommand(() -> m_shooter.spinShooter(0.5), m_shooter))
+    .whenReleased(new InstantCommand(() -> m_shooter.spinShooter(0), m_shooter));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -11,25 +11,35 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
   private final CANSparkMax m_shooterMotor;
+  private final CANSparkMax m_feederMotor;
 
-  private double m_spinPow = 0;
+  private double m_shootPow = 0;
+  private double m_feedPow = 0;
 
   /** Creates a new WheelSpinnerSubsystem. */
-  public ShooterSubsystem(int shooterMotor) {
+  public ShooterSubsystem(int shooterMotor, int feederMotor) {
     m_shooterMotor = new CANSparkMax(shooterMotor, MotorType.kBrushed);
+
+    m_feederMotor = new CANSparkMax(feederMotor, MotorType.kBrushless);
   }
 
   /**
    * Spins the wheel spinner at a specified power level.
-   * @param spinPow Speed to spin the wheel. -1 is full backwards, 1 is full forwards.
+   * @param shootPow Speed to spin the wheel. -1 is full backwards, 1 is full forwards.
    */
-  public void spin(double spinPow) {
-    m_spinPow = spinPow;
+  public void spinShooter(double shootPow) {
+    m_shootPow = shootPow;
+  }
+
+  public void spinFeeder(double feedPow) {
+    m_feedPow = feedPow;
   }
 
   @Override
   public void periodic() {
-    m_shooterMotor.set(m_spinPow);
-    m_spinPow = 0;
+    m_shooterMotor.set(m_shootPow);
+    m_feederMotor.set(m_feedPow);
+    m_shootPow = 0;
+    m_feedPow = 0;
   }
 }
