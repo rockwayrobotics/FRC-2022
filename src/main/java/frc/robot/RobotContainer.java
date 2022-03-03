@@ -6,8 +6,8 @@ package frc.robot;
 
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.Controllers;
+import frc.robot.Constants.Digital;
 import frc.robot.subsystems.DrivebaseSubsystem;
-
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -18,11 +18,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
+// import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -38,9 +37,9 @@ public class RobotContainer {
   /* Contstructor for subsystems */
   private DrivebaseSubsystem m_drivebase = new DrivebaseSubsystem(
     CAN.LEFT_MOTOR_1, CAN.LEFT_MOTOR_2,
-    CAN.RIGHT_MOTOR_1, CAN.RIGHT_MOTOR_2
-    // Digital.LEFT_ENCODER_1, Digital.LEFT_ENCODER_2,
-    // Digital.RIGHT_ENCODER_1, Digital.RIGHT_ENCODER_2
+    CAN.RIGHT_MOTOR_1, CAN.RIGHT_MOTOR_2,
+    Digital.LEFT_ENCODER_1, Digital.LEFT_ENCODER_2,
+    Digital.RIGHT_ENCODER_1, Digital.RIGHT_ENCODER_2
   );
 
   private ShooterSubsystem m_shooter = new ShooterSubsystem(CAN.SHOOT_MOTOR, CAN.FEED_MOTOR);

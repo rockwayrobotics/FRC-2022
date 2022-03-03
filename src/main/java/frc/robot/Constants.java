@@ -15,23 +15,37 @@ package frc.robot;
 public final class Constants {
 
 
-    /* Motor controller IDs, defined from DriverStation */
+    // Motor controller IDs, defined from DriverStation
     public static final class Controllers {
         public static final int XBOX = 0;
         public static final int FLIGHT = 1;
     }
 
 
-    /* CAN IDs for motor controllers */
+    // CAN IDs for motor controllers
     public static final class CAN {
-    public static final int LEFT_MOTOR_1 = 1;
-    public static final int LEFT_MOTOR_2 = 2;
-    public static final int RIGHT_MOTOR_1 = 3;
-    public static final int RIGHT_MOTOR_2 = 4;
-    // public static final int WINCH_MOTOR = 5;
-    // public static final int WHEEL_MOTOR = 6;
-    public static final int SHOOT_MOTOR = 5;
-    public static final int FEED_MOTOR = 6;
+        public static final int LEFT_MOTOR_1 = 1;
+        public static final int LEFT_MOTOR_2 = 2;
+        public static final int RIGHT_MOTOR_1 = 3;
+        public static final int RIGHT_MOTOR_2 = 4;
+        // public static final int WINCH_MOTOR = 5;
+        // public static final int WHEEL_MOTOR = 6;
+        public static final int SHOOT_MOTOR = 5;
+        public static final int FEED_MOTOR = 6;
     }
+
+    // Information on digital pins on RoboRio
+    public static final class Digital {
+        public static final int LEFT_ENCODER_1 = 0;
+        public static final int LEFT_ENCODER_2 = 1;
+        public static final int RIGHT_ENCODER_1 = 2;
+        public static final int RIGHT_ENCODER_2 = 3;
+      }
     
+    // Constants related to robot driving
+    public static final class Drive {
+        public final static double ENCODER_PULSES_PER_REVOLUTION = 360;
+        public final static double WHEEL_DIAMETER = 6;
+        public final static double DISTANCE_PER_ENCODER_PULSE = WHEEL_DIAMETER * Math.PI / ENCODER_PULSES_PER_REVOLUTION;
+    }
 }
