@@ -1,3 +1,2 @@
 # FRC-2022
-Epic FRC code go here
-Things Working?
+Code repository for the 2022 robot from Rockway Robotics - FRC 8089
