@@ -16,7 +16,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private double m_shootPow = 0;
   private double m_feedPow = 0;
 
-  /** Creates a new WheelSpinnerSubsystem. */
+  /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(int shooterMotor, int feederMotor) {
     m_shooterMotor = new CANSparkMax(shooterMotor, MotorType.kBrushed);
 
