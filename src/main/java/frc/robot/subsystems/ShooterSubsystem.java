@@ -24,7 +24,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   /**
-   * Spins the wheel spinner at a specified power level.
+   * Spins the shooter wheel at a specified power level.
    * @param shootPow Speed to spin the wheel. -1 is full backwards, 1 is full forwards.
    */
   public void spinShooter(double shootPow) {

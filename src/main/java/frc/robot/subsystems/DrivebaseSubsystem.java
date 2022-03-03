@@ -34,7 +34,10 @@ public class DrivebaseSubsystem extends SubsystemBase {
     int rightMotor1, int rightMotor2
     // int leftEncoder1, int leftEncoder2,
     // int rightEncoder1, int rightEncoder2
-  ) {
+  ) 
+  
+  /* Create motor controller groups for left and right side of drivebase */
+  {
     MotorControllerGroup rightDrive = new MotorControllerGroup(
         new CANSparkMax(rightMotor1, MotorType.kBrushed),
         new CANSparkMax(rightMotor2, MotorType.kBrushed)
@@ -51,7 +54,10 @@ public class DrivebaseSubsystem extends SubsystemBase {
     //   new WPI_VictorSPX(rightMotor1),
     //   new WPI_VictorSPX(rightMotor2)
     // );
+
+    /* Create new DifferentialDrive from the previously created MotorControllerGroups */
     m_drive = new DifferentialDrive(leftDrive, rightDrive);
+
     // m_leftEncoder = new Encoder(leftEncoder1, leftEncoder2);
     // m_rightEncoder = new Encoder(rightEncoder1, rightEncoder2);
     // // when robot goes forward, left encoder spins positive and right encoder spins negative
@@ -145,6 +151,8 @@ public class DrivebaseSubsystem extends SubsystemBase {
 //     m_rightEncoder.reset();
 //   }
 
+
+  /* Periodic method that runs once every cycle */
   @Override
   public void periodic() {
     if (m_usingLR) {
