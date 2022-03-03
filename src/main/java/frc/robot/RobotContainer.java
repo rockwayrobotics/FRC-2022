@@ -64,7 +64,7 @@ public class RobotContainer {
   private void configureButtonBindings() {    
     m_drivebase.setDefaultCommand(
       new RunCommand(
-        () -> m_drivebase.set(m_xboxController.getLeftX(), m_xboxController.getLeftY(), 0),
+        () -> m_drivebase.set(-m_xboxController.getLeftX(), m_xboxController.getLeftY(), 0),
         m_drivebase
       )
     );
@@ -74,12 +74,20 @@ public class RobotContainer {
     .whenReleased(() -> m_drivebase.setScale(1));
  
     new JoystickButton(m_xboxController, Button.kRightBumper.value)
-    .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(0.5), m_shooter))
-    .whenReleased(new InstantCommand(() -> m_shooter.spinFeeder(0), m_shooter));
+    .whenPressed(() -> m_shooter.spinFeeder(-0.8))
+    .whenReleased(() -> m_shooter.spinFeeder(0));
 
     new JoystickButton(m_xboxController, Button.kA.value)
-    .whenPressed(new InstantCommand(() -> m_shooter.spinShooter(0.5), m_shooter))
-    .whenReleased(new InstantCommand(() -> m_shooter.spinShooter(0), m_shooter));
+    .whenPressed(() -> m_shooter.spinShooter(-0.8))
+    .whenReleased(() -> m_shooter.spinShooter(0));
+
+    // new JoystickButton(m_xboxController, Button.kRightBumper.value)
+    // .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(0.5), m_shooter))
+    // .whenReleased(new InstantCommand(() -> m_shooter.spinFeeder(0), m_shooter));
+
+    // new JoystickButton(m_xboxController, Button.kA.value)
+    // .whenPressed(new InstantCommand(() -> m_shooter.spinShooter(0.5), m_shooter))
+    // .whenReleased(new InstantCommand(() -> m_shooter.spinShooter(0), m_shooter));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

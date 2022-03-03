@@ -39,7 +39,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     m_shooterMotor.set(m_shootPow);
     m_feederMotor.set(m_feedPow);
-    m_shootPow = 0;
-    m_feedPow = 0;
+    // m_shootPow = 0;
+    // m_feedPow = 0;
   }
 }
