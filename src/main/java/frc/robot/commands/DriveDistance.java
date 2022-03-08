@@ -24,11 +24,12 @@ public class DriveDistance extends CommandBase {
 
   private DrivebaseSubsystem m_drivebase;
 
-  private double distance;
+  private double m_distance;
 
-  public DriveDistance(DrivebaseSubsystem subsystem) {
+  public DriveDistance(DrivebaseSubsystem subsystem, double distance) {
 
     m_drivebase = subsystem;
+    m_distance = distance;
 
     addRequirements(m_drivebase);
 
@@ -54,7 +55,7 @@ public class DriveDistance extends CommandBase {
   public boolean isFinished() {
     // This will say to end when the encoders are equal with the distance we want
     double averageDistance = (m_drivebase.getLDistance() + m_drivebase.getRDistance()) / 2; 
-    return averageDistance >= distance;  //there are encoders for l and r
+    return averageDistance >= m_distance;  //there are encoders for l and r
 
   }
 
