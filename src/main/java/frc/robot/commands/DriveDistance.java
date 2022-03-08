@@ -25,11 +25,13 @@ public class DriveDistance extends CommandBase {
   private DrivebaseSubsystem m_drivebase;
 
   private double m_distance;
+  private double m_speed;
 
-  public DriveDistance(DrivebaseSubsystem subsystem, double distance) {
+  public DriveDistance(DrivebaseSubsystem subsystem, double distance, double speed) {
 
     m_drivebase = subsystem;
     m_distance = distance;
+    m_speed = speed;
 
     addRequirements(m_drivebase);
 
@@ -46,7 +48,7 @@ public class DriveDistance extends CommandBase {
   @Override
   public void execute() {
     // This needs to be constantly forward
-    m_drivebase.set(1, 0, 1);
+    m_drivebase.set(m_speed, 0, 1);
 
   }
 
