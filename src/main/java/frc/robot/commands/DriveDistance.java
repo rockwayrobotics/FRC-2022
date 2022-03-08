@@ -48,7 +48,7 @@ public class DriveDistance extends CommandBase {
   @Override
   public void execute() {
     // This needs to be constantly forward
-    m_drivebase.set(m_speed, 0, 1);
+    m_drivebase.set(0, m_speed, 1);
 
   }
 
