@@ -48,7 +48,7 @@ public class RobotContainer {
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
 
-  private final DriveDistance m_autoCommand = new DriveDistance(m_drivebase, 94, 0.5); //pass in drivebase here
+  private final DriveDistance m_autoCommand = new DriveDistance(m_drivebase, 120, 0.5); //pass in drivebase here
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
