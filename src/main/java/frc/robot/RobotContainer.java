@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.Controllers;
 import frc.robot.Constants.Digital;
+import frc.robot.Constants.Drive;
 import frc.robot.subsystems.DrivebaseSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -48,7 +50,7 @@ public class RobotContainer {
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
 
-  private final DriveDistance m_autoCommand = new DriveDistance(m_drivebase, 120, 0.5); //pass in drivebase here
+  public final Command m_autoCommand = new SequentialCommandGroup(new DriveDistance(m_drivebase, 120, 0.5)); //pass in drivebase here
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
