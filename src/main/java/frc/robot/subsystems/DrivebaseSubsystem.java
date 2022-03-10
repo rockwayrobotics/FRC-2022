@@ -26,7 +26,6 @@ public class DrivebaseSubsystem extends SubsystemBase {
   private double m_r = 0;
   private double m_scale = 1;
   private boolean m_usingLR = false;
-  private int m_priority = 0;
 
   /** Creates a new DrivebaseSubsystem. */
   public DrivebaseSubsystem(
@@ -72,30 +71,22 @@ public class DrivebaseSubsystem extends SubsystemBase {
    * Sets the speed of the drivebase.
    * @param y Y speed. -1 is full backwards, 1 is full forwards.
    * @param x X speed. -1 is full left, 1 is full right.
-   * @param priority Priority for this action. Only the highest priority action is run each cycle.
    */
-  public void set(double y, double x, int priority) {
-    if (priority >= m_priority) {
-      m_y = y;
-      m_x = x;
-      m_priority = priority;
-      m_usingLR = false;
-    }
+  public void set(double y, double x) {
+    m_y = y;
+    m_x = x;
+    m_usingLR = false;
   }
 
   /**
    * Sets the left and right side speeds of the drivebase.
    * @param l Speed for the left side wheels. -1 is full backwards, 1 is full forwards.
    * @param r Speed for the right side wheels. -1 is full backwards, 1 is full forwards.
-   * @param priority Priority for this action. Only the highest priority action is run each cycle.
    */
-  public void setLR(double l, double r, int priority) {
-    if (priority >= m_priority) {
+  public void setLR(double l, double r) {
       m_l = l;
       m_r = r;
-      m_priority = priority;
       m_usingLR = true;
-    }
   }
 
   /**
@@ -162,7 +153,6 @@ public class DrivebaseSubsystem extends SubsystemBase {
       m_drive.arcadeDrive(m_scale * m_y, m_scale * m_x);
     }
   
-    m_priority = 0;
 
     m_x = 0;
     m_y = 0;

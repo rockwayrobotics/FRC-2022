@@ -65,7 +65,7 @@ public class RobotContainer {
   private void configureButtonBindings() {    
     m_drivebase.setDefaultCommand(
       new RunCommand(
-        () -> m_drivebase.set(-m_xboxController.getLeftX(), m_xboxController.getLeftY(), 0),
+        () -> m_drivebase.set(-m_xboxController.getLeftX(), m_xboxController.getLeftY()),
         m_drivebase
       )
     );
