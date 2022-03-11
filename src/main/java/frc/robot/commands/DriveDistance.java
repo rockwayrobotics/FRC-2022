@@ -25,8 +25,8 @@ public class DriveDistance extends CommandBase {
   public DriveDistance(DrivebaseSubsystem subsystem, double distance, double speed) {
 
     m_drivebase = subsystem;
-    m_distance = -distance;
-    m_speed = -speed;
+    m_distance = distance;
+    m_speed = speed;
 
     addRequirements(m_drivebase);
 
@@ -51,12 +51,20 @@ public class DriveDistance extends CommandBase {
     // This takes the values from encoder L and R and averages them out
     double averageDistance = (m_drivebase.getLDistance() + m_drivebase.getRDistance()) / 2; 
     // This will say to end when the encoders are equal with the distance we want
-    return averageDistance <= m_distance;  
+    if (m_speed < 0) {
+      System.out.println("less than 0");
+      System.out.println(m_distance);
+      System.out.println(averageDistance);
+      return averageDistance <= m_distance;
+    } 
+    System.out.println("Triggered after 0");
+    return averageDistance >= m_distance;  
   }
 
   @Override
   public void end(boolean cancelled) {
     m_drivebase.set(0,0); // Resets the drivebase to 0
+    System.out.println("Ended Drive distance");
   }
 
 }

@@ -61,8 +61,8 @@ public class DrivebaseSubsystem extends SubsystemBase {
     m_rightEncoder = new Encoder(rightEncoder1, rightEncoder2);
     
     // when robot goes forward, left encoder spins positive and right encoder spins negative
-    m_leftEncoder.setDistancePerPulse(Drive.DISTANCE_PER_ENCODER_PULSE);
-    m_rightEncoder.setDistancePerPulse(-Drive.DISTANCE_PER_ENCODER_PULSE);
+    m_leftEncoder.setDistancePerPulse(-Drive.DISTANCE_PER_ENCODER_PULSE);
+    m_rightEncoder.setDistancePerPulse(Drive.DISTANCE_PER_ENCODER_PULSE);
     m_leftEncoder.reset();
     m_rightEncoder.reset();
   }
@@ -148,9 +148,9 @@ public class DrivebaseSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (m_usingLR) {
-      m_drive.tankDrive(m_scale * m_l, m_scale * m_r, false);
+      m_drive.tankDrive(-m_scale * m_l, -m_scale * m_r, false);
     } else {
-      m_drive.arcadeDrive(m_scale * m_y, m_scale * m_x);
+      m_drive.arcadeDrive(-m_scale * m_y, -m_scale * m_x);
     }
   
 

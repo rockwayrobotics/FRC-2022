@@ -9,7 +9,7 @@ public class AutonomousCmdList extends SequentialCommandGroup {
 
     public AutonomousCmdList(DrivebaseSubsystem m_drivebase) {
         super();
-        this.addCommands(new DriveDistance(m_drivebase, 15, 0.5));
+        this.addCommands(new DriveDistance(m_drivebase, -25, -0.5));
     }
     
     
