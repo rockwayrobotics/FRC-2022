@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.Controllers;
 import frc.robot.Constants.Digital;
+import frc.robot.Constants.Drive;
 import frc.robot.subsystems.DrivebaseSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -15,9 +16,11 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import frc.robot.commands.AutonomousCmdList;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -48,7 +51,7 @@ public class RobotContainer {
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
 
-  private final DriveDistance m_autoCommand = new DriveDistance(m_drivebase, 120, 0.5); //pass in drivebase here
+  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase); //pass in drivebase here
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -65,7 +68,7 @@ public class RobotContainer {
   private void configureButtonBindings() {    
     m_drivebase.setDefaultCommand(
       new RunCommand(
-        () -> m_drivebase.set(-m_xboxController.getLeftX(), m_xboxController.getLeftY(), 0),
+        () -> m_drivebase.set(m_xboxController.getLeftX(), -m_xboxController.getLeftY()),
         m_drivebase
       )
     );
@@ -96,7 +99,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    // An ExampleCommand will run in autonomous\
     return m_autoCommand;
   }
 }
