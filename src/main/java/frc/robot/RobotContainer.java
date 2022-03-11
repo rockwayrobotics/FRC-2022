@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import frc.robot.commands.Autonomous;
+import frc.robot.commands.AutonomousCmdList;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -51,7 +51,7 @@ public class RobotContainer {
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
 
-  public final Command m_autoCommand = new Autonomous(m_drivebase); //pass in drivebase here
+  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase); //pass in drivebase here
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -99,7 +99,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    // An ExampleCommand will run in autonomous\
     return m_autoCommand;
   }
 }
