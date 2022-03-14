@@ -53,7 +53,8 @@ public class DrivebaseSubsystem extends SubsystemBase {
     //   new WPI_VictorSPX(rightMotor1),
     //   new WPI_VictorSPX(rightMotor2)
     // );
-
+    rightDrive.setInverted(true);
+    leftDrive.setInverted(true);
     /* Create new DifferentialDrive from the previously created MotorControllerGroups */
     m_drive = new DifferentialDrive(leftDrive, rightDrive);
 
@@ -149,9 +150,9 @@ public class DrivebaseSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (m_usingLR) {
-      m_drive.tankDrive(-m_scale * m_l, -m_scale * m_r, false);
+      m_drive.tankDrive(m_scale * m_l, m_scale * m_r, false);
     } else {
-      m_drive.arcadeDrive(-m_scale * m_y, -m_scale * m_x);
+      m_drive.arcadeDrive(m_scale * m_y, m_scale * m_x);
     }
   
 
