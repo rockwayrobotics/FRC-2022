@@ -163,6 +163,7 @@ bin/
 
 # Local FRC team 8089 additions
 *.sublime-*
-_assets/
+vision/assets/
 __pycache__/
 *.pyc
+

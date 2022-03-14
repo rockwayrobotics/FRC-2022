@@ -2,11 +2,12 @@
 
 import itertools
 from pathlib import Path
+import re
 
 import numpy as np
 import cv2 as cv
 
-ASSETS = Path(__package__).parent / '_assets'
+ASSETS = Path(__package__) / 'assets'
 # print('assets are in', ASSETS.resolve())
 
 
@@ -38,7 +39,10 @@ def aspect_ratio(cnt):
 
 def showContours(im, contours, area=(150, 1000), ar=(2, 5), name=''):
     sized = [c for c in contours if area[0] < cv.contourArea(c) < area[1]]
-    print('contours', '\n'.join(f'{i}={cv.contourArea(c)} @{aspect_ratio(c)}' for i, c in enumerate(sized)))
+    if sized:
+        print('contours', '\n'.join(f'{i}={cv.contourArea(c)} @{aspect_ratio(c)}' for i, c in enumerate(sized)))
+    else:
+        print('no contours found')
     rects = [c for c in sized if ar[0] < aspect_ratio(c) < ar[1]]
     imx = cv.drawContours(im.copy(), rects, -1, (0, 0, 255), 3)
     cv.putText(imx, f'Found {len(rects)} candidate{"s" if len(rects) != 1 else ""}.', (10, 60), cv.FONT_HERSHEY_SIMPLEX, fontScale=0.8, color=(0, 255, 0), thickness=2)
@@ -65,7 +69,21 @@ if __name__ == '__main__':
     parser.add_argument('paths', default=['2022VisionSampleImages'], nargs='*')
     args = parser.parse_args()
 
-    paths = list(*itertools.chain((ASSETS / p).glob('*.png') for p in args.paths))
+    print()
+    print('Use f or j to move forward, b or k to move backward, q or ESC to quit.')
+    print()
+
+    def sortnums(x):
+        '''Return a sorting key that compares digits numerically.'''
+        def trynum(y):
+            try:
+                return int(y)
+            except ValueError:
+                return y
+        return tuple(trynum(y) for y in re.split(r'(\d+)', str(x)))
+
+    paths = sorted(list(*itertools.chain((ASSETS / p).glob('*.png') for p in args.paths)),
+        key=sortnums)
     index = 0
     while True:
         p = paths[index % len(paths)]

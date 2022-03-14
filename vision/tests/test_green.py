@@ -10,10 +10,10 @@ from vision import green
 
 @pytest.fixture
 def sampledir(pytestconfig):
-    p = pytestconfig.rootpath / '_assets/2022VisionSampleImages'
+    p = pytestconfig.rootpath / 'vision/assets/2022VisionSampleImages'
     if not p.exists():
         print('missing', p)
-        raise SystemExit('run "bin/install-deps.py samples"')
+        raise SystemExit('run "vision/install-deps.py samples"')
     return p
 
 
