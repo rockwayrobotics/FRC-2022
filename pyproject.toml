@@ -1,0 +1,51 @@
+# Background: https://www.python.org/dev/peps/pep-0518/
+# Syntax: https://toml.io/en/
+
+# These are the defaults:
+#[build-system]
+#requires = ["setuptools>=40.8.0", "wheel"]
+#build-backend = ""setuptools.build_meta:__legacy__"
+
+
+# https://www.python.org/dev/peps/pep-0621/
+[project]
+name = "FRC-8089-2022"
+urls.repository = "https://github.com/rockwayrobotics/FRC-2022"
+version = "0.1"
+
+requires-python = ">=3.7"
+dependencies = [
+  "numpy >= 1.20",
+  "websockets >= 10.0",
+  "opencv-python >= 4.5",
+  "pillow >= 8.3",
+  "requests >= 2.26",
+  "pytest >= 7.0",
+  "pytest-cov",
+]
+
+
+#----------------------------------------
+# Section for FRC team 8089 tools including: install-deps.py
+[tool.frc8089]
+
+assets.samples = "https://firstfrc.blob.core.windows.net/frc2022/FieldAssets/2022VisionSampleImages.zip"
+
+# These don't include any "green" images for now.
+assets.field = "http://firstfrc.blob.core.windows.net/frc2022/FieldAssets/WPIPlayingFieldImages.zip"
+
+
+#----------------------------------------
+# https://docs.pytest.org/en/7.0.x/reference/reference.html#configuration-options
+[tool.pytest.ini_options]
+
+minversion = "7.0"
+#addopts = "-ra -q"
+testpaths = [
+    "vision",
+]
+filterwarnings = []
+log_cli = true
+
+
+# EOF
