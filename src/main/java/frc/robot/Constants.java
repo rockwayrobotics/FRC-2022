@@ -59,10 +59,9 @@ public final class Constants {
    */
   public static final class Pneumatics {
     public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.CTREPCM;
-    public static final int HOPPER_FORWARD = 1;
-    public static final int HOPPER_REVERSE = 2;
-    public static final int FLAP_FORWARD = 7;
-    public static final int FLAP_REVERSE = 6;
+    public static final int HOPPER_FORWARD = 7;
+    public static final int HOPPER_REVERSE = 8;
+
 
   }
 }
