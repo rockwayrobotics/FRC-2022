@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -25,7 +26,11 @@ public class DrivebaseSubsystem extends SubsystemBase {
   private double m_l = 0;
   private double m_r = 0;
   private double m_scale = 1;
-  private boolean m_usingLR = false;
+  private boolean m_usingLS = false;
+
+  private final SlewRateLimiter filter = new SlewRateLimiter(1);
+  
+  private final SlewRateLimiter turnFilter = new SlewRateLimiter(1.7);
 
   /** Creates a new DrivebaseSubsystem. */
   public DrivebaseSubsystem(
@@ -74,21 +79,21 @@ public class DrivebaseSubsystem extends SubsystemBase {
    * @param y Y speed. -1 is full backwards, 1 is full forwards.
    * @param x X speed. -1 is full left, 1 is full right.
    */
-  public void set(double y, double x) {
+  public void set(double x, double y) {
     m_y = y;
     m_x = x;
-    m_usingLR = false;
+    m_usingLS = false;
   }
 
   /**
-   * Sets the left and right side speeds of the drivebase.
-   * @param l Speed for the left side wheels. -1 is full backwards, 1 is full forwards.
-   * @param r Speed for the right side wheels. -1 is full backwards, 1 is full forwards.
+   * Sets the speed of the drivebase.
+   * @param y Y speed. -1 is full backwards, 1 is full forwards.
+   * @param x X speed. -1 is full left, 1 is full right.
    */
-  public void setLR(double l, double r) {
-      m_l = l;
-      m_r = r;
-      m_usingLR = true;
+  public void setLS(double x, double y) {
+      m_y = y;
+      m_x = x;
+      m_usingLS = true;
   }
 
   /**
@@ -149,10 +154,10 @@ public class DrivebaseSubsystem extends SubsystemBase {
   /* Periodic method that runs once every cycle */
   @Override
   public void periodic() {
-    if (m_usingLR) {
-      m_drive.tankDrive(m_scale * m_l, m_scale * m_r, false);
-    } else {
+    if (m_usingLS) {
       m_drive.arcadeDrive(m_scale * m_y, m_scale * m_x);
+    } else {
+      m_drive.arcadeDrive(turnFilter.calculate(m_scale * m_x), filter.calculate(m_scale * m_y), false);
     }
   
 
