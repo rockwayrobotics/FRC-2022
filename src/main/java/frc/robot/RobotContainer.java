@@ -8,6 +8,7 @@ import frc.robot.Constants.CAN;
 import frc.robot.Constants.Controllers;
 import frc.robot.Constants.Digital;
 import frc.robot.Constants.Drive;
+import frc.robot.Constants.Pneumatics;
 import frc.robot.subsystems.DrivebaseSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,6 +25,7 @@ import frc.robot.commands.AutonomousCmdList;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 // import edu.wpi.first.wpilibj2.command.Command;
 
@@ -47,6 +49,11 @@ public class RobotContainer {
   );
 
   private ShooterSubsystem m_shooter = new ShooterSubsystem(CAN.SHOOT_MOTOR, CAN.FEED_MOTOR);
+  
+  private IntakeSubsystem m_intake = new IntakeSubsystem(
+    Pneumatics.INTAKE_EXTEND, Pneumatics.INTAKE_RETRACT, 
+    CAN.INTAKE_MOTOR
+  );
 
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);

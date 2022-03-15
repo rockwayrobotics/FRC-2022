@@ -36,6 +36,7 @@ public final class Constants {
         // public static final int WHEEL_MOTOR = 6;
         public static final int SHOOT_MOTOR = 5;
         public static final int FEED_MOTOR = 6;
+        public static final int INTAKE_MOTOR = 7; 
     }
 
     // Information on digital pins on RoboRio
@@ -59,8 +60,9 @@ public final class Constants {
    */
   public static final class Pneumatics {
     public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.CTREPCM;
-    public static final int HOPPER_FORWARD = 7;
-    public static final int HOPPER_REVERSE = 8;
+    public static final int INTAKE_EXTEND = 7;
+    public static final int INTAKE_RETRACT = 8;
+    
 
 
   }
