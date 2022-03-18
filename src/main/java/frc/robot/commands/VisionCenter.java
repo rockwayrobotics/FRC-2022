@@ -42,7 +42,7 @@ public class VisionCenter extends CommandBase {
 
   @Override
   public void execute() {
-    int command = camEntry.getNumber(2).intValue(); 
+    int command = camEntry.getNumber(STOP).intValue(); 
     
     if (command == LEFT) {
       m_drivebase.set(-0.5, 0);
