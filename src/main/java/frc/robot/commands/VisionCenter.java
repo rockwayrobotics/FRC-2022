@@ -33,11 +33,11 @@ public class VisionCenter extends CommandBase {
       //Get the table within that instance that contains the data. There can
       //be as many tables as you like and exist to make it easier to organize
       //your data. In this case, it's a table called datatable.
-      NetworkTable table = inst.getTable("datatable");
+      NetworkTable table = inst.getTable("dataTable");
 
       //Get the entries within that table that correspond to the X and Y values
       //for some operation in your program.
-      camEntry = table.getEntry("CAM");
+      camEntry = table.getEntry("camX");
   }
 
   @Override
