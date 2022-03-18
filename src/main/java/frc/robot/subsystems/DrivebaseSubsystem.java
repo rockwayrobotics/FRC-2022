@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 // import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -39,13 +40,21 @@ public class DrivebaseSubsystem extends SubsystemBase {
   
   /* Create motor controller groups for left and right side of drivebase */
   {
+    CANSparkMax rightMotorController1 = new CANSparkMax(rightMotor1, MotorType.kBrushed);
+    CANSparkMax rightMotorController2 = new CANSparkMax(rightMotor2, MotorType.kBrushed);
+    CANSparkMax leftMotorController1 = new CANSparkMax(leftMotor1, MotorType.kBrushed);
+    CANSparkMax leftMotorController2 = new CANSparkMax(leftMotor2, MotorType.kBrushed);
+
+    rightMotorController1.setIdleMode(Drive.IDLE_MODE);
+    rightMotorController2.setIdleMode(Drive.IDLE_MODE);
+    leftMotorController1.setIdleMode(Drive.IDLE_MODE);
+    leftMotorController2.setIdleMode(Drive.IDLE_MODE);
+
     MotorControllerGroup rightDrive = new MotorControllerGroup(
-        new CANSparkMax(rightMotor1, MotorType.kBrushed),
-        new CANSparkMax(rightMotor2, MotorType.kBrushed)
+        rightMotorController1, rightMotorController2
     );
     MotorControllerGroup leftDrive = new MotorControllerGroup(
-      new CANSparkMax(leftMotor1, MotorType.kBrushed),
-      new CANSparkMax(leftMotor2, MotorType.kBrushed)
+      leftMotorController1, leftMotorController2
     );
     // MotorControllerGroup leftDrive = new MotorControllerGroup(
     //   new WPI_VictorSPX(leftMotor1),
