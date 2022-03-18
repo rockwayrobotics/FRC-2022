@@ -16,7 +16,12 @@ public class ShooterSubsystem extends SubsystemBase {
   private double m_shootPow = 0;
   private double m_feedPow = 0;
 
-  /** Creates a new ShooterSubsystem. */
+    /**
+   * Creates a new ShooterSubsystem.
+   * @param shooterMotor Set to your Shooter Motor
+   * @param feederMotore Set to your Feeder Motor
+   */
+
   public ShooterSubsystem(int shooterMotor, int feederMotor) {
     m_shooterMotor = new CANSparkMax(shooterMotor, MotorType.kBrushless);
 

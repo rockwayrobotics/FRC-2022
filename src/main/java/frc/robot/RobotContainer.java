@@ -78,12 +78,12 @@ public class RobotContainer {
     .whenReleased(() -> m_drivebase.setScale(1));
  
     new JoystickButton(m_xboxController, Button.kRightBumper.value)
-    .whenPressed(() -> m_shooter.spinFeeder(-0.8))
-    .whenReleased(() -> m_shooter.spinFeeder(0));
+    .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(-0.8), m_shooter))
+    .whenReleased(new InstantCommand(() -> m_shooter.spinFeeder(0), m_shooter));
 
     new JoystickButton(m_xboxController, Button.kA.value)
-    .whenPressed(() -> m_shooter.spinShooter(-0.8))
-    .whenReleased(() -> m_shooter.spinShooter(0));
+    .whenPressed(new InstantCommand(() -> m_shooter.spinShooter(-0.8), m_shooter))
+    .whenReleased(new InstantCommand(() -> m_shooter.spinShooter(0), m_shooter));
 
     // new JoystickButton(m_xboxController, Button.kRightBumper.value)
     // .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(0.5), m_shooter))
