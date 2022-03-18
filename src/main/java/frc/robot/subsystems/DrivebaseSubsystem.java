@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
+// import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -23,14 +23,11 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
   private double m_y = 0;
   private double m_x = 0;
-  private double m_l = 0;
-  private double m_r = 0;
   private double m_scale = 1;
-  private boolean m_usingLS = false;
 
-  private final SlewRateLimiter filter = new SlewRateLimiter(1);
+  // private final SlewRateLimiter filter = new SlewRateLimiter(1);
   
-  private final SlewRateLimiter turnFilter = new SlewRateLimiter(1.7);
+  // private final SlewRateLimiter turnFilter = new SlewRateLimiter(1.7);
 
   /** Creates a new DrivebaseSubsystem. */
   public DrivebaseSubsystem(
@@ -82,19 +79,8 @@ public class DrivebaseSubsystem extends SubsystemBase {
   public void set(double x, double y) {
     m_y = y;
     m_x = x;
-    m_usingLS = false;
   }
 
-  /**
-   * Sets the speed of the drivebase.
-   * @param y Y speed. -1 is full backwards, 1 is full forwards.
-   * @param x X speed. -1 is full left, 1 is full right.
-   */
-  public void setLS(double x, double y) {
-      m_y = y;
-      m_x = x;
-      m_usingLS = true;
-  }
 
   /**
    * Sets the scale for the drivebase. Speeds are multiplied by the scale before being sent to the motors.
@@ -154,16 +140,10 @@ public class DrivebaseSubsystem extends SubsystemBase {
   /* Periodic method that runs once every cycle */
   @Override
   public void periodic() {
-    if (m_usingLS) {
-      m_drive.arcadeDrive(m_scale * m_y, m_scale * m_x);
-    } else {
-      m_drive.arcadeDrive(turnFilter.calculate(m_scale * m_x), filter.calculate(m_scale * m_y), false);
-    }
-  
+      //m_drive.arcadeDrive(turnFilter.calculate(m_scale * m_x), filter.calculate(m_scale * m_y), false);
+      m_drive.arcadeDrive(m_scale * m_x, m_scale * m_y);
 
     m_x = 0;
     m_y = 0;
-    m_l = 0;
-    m_r = 0;
   }
 }
