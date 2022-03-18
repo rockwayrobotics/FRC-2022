@@ -8,11 +8,14 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Pneumatics;
 
 public class IntakeSubsystem extends SubsystemBase {
   private DoubleSolenoid m_extend;
+  private DoubleSolenoid.Value m_extendCheck;
+  private DoubleSolenoid.Value m_retractCheck;
   private CANSparkMax m_spin; 
   private boolean m_extended = false;
   private double m_speed = 0; 
@@ -61,6 +64,26 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public DoubleSolenoid.Value getExtended() {
     return m_extend.get();
+  }
+
+  public boolean isExtended() {
+    m_extendCheck = getExtended();
+    if (m_extendCheck == Value.kForward){
+    return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  public boolean isRetracted() {
+    m_retractCheck = getExtended();
+    if (m_retractCheck == Value.kReverse){
+    return true;
+    }
+    else{
+      return false;
+    }
   }
 
   /**
