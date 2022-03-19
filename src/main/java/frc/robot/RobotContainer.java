@@ -48,7 +48,11 @@ public class RobotContainer {
     Digital.RIGHT_ENCODER_1, Digital.RIGHT_ENCODER_2
   );
 
-  private ShooterSubsystem m_shooter = new ShooterSubsystem(CAN.SHOOT_MOTOR, CAN.FEED_MOTOR);
+  private ShooterSubsystem m_shooter = new ShooterSubsystem(
+    CAN.FEEDER_MOTOR, CAN.FEEDER_MOTOR2,
+    CAN.INDEX_MOTOR,
+    CAN.FLYWHEEL_MOTOR, CAN.FLYWHEEL_MOTOR2
+    );
   
   private IntakeSubsystem m_intake = new IntakeSubsystem(
     Pneumatics.INTAKE_EXTEND, Pneumatics.INTAKE_RETRACT, 
@@ -89,8 +93,8 @@ public class RobotContainer {
     .whenReleased(() -> m_shooter.spinFeeder(0));
 
     new JoystickButton(m_xboxController, Button.kA.value)
-    .whenPressed(() -> m_shooter.spinShooter(-0.8))
-    .whenReleased(() -> m_shooter.spinShooter(0));
+    .whenPressed(() -> m_shooter.spinFlywheel(-0.8))
+    .whenReleased(() -> m_shooter.spinFlywheel(0));
 
     // new JoystickButton(m_xboxController, Button.kRightBumper.value)
     // .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(0.5), m_shooter))
