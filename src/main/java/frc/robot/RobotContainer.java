@@ -105,7 +105,7 @@ public class RobotContainer {
     .whenPressed(() -> m_intake.retract());
     
     new JoystickButton(m_xboxController, Button.kB.value)
-    .whenPressed(() -> m_intake.spin(-1))
+    .whenPressed(() -> m_intake.spin(0.5))
     .whenReleased(() -> m_intake.spin(0));
     
     // new JoystickButton(m_xboxController, Button.kRightBumper.value)
