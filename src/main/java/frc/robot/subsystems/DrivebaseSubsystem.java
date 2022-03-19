@@ -5,16 +5,17 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-// import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.Drive;
+
+import java.lang.Math;
 
 public class DrivebaseSubsystem extends SubsystemBase {
   private final DifferentialDrive m_drive;
@@ -24,11 +25,13 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
   private double m_y = 0;
   private double m_x = 0;
+  private double p_x = 0;
+  private double p_y = 0;
   private double m_scale = 1;
 
-  // private final SlewRateLimiter filter = new SlewRateLimiter(1);
+  private final SlewRateLimiter filter = new SlewRateLimiter(2);
   
-  // private final SlewRateLimiter turnFilter = new SlewRateLimiter(1.7);
+  private final SlewRateLimiter turnFilter = new SlewRateLimiter(3.4);
 
   /** Creates a new DrivebaseSubsystem. */
   public DrivebaseSubsystem(
@@ -149,9 +152,25 @@ public class DrivebaseSubsystem extends SubsystemBase {
   /* Periodic method that runs once every cycle */
   @Override
   public void periodic() {
-      //m_drive.arcadeDrive(turnFilter.calculate(m_scale * m_x), filter.calculate(m_scale * m_y), false);
-      m_drive.arcadeDrive(m_scale * m_x, m_scale * m_y);
-
+    // u_x is use x, p_x is past x
+    double u_x = 0;
+    double u_y = 0;
+    if (Math.abs(m_x) >= Math.abs(p_x)) {
+      u_x = turnFilter.calculate(m_x);
+    } else {
+      u_x = m_x;
+    }
+    if (Math.abs(m_y) >= Math.abs(p_y)) {
+      u_y = filter.calculate(m_y);
+    } else {
+      u_y = m_y;
+    }
+      //m_drive.arcadeDrive(m_scale * m_x, m_scale * m_y);
+      //m_drive.arcadeDrive(m_x, m_y);
+      // turnFilter.calculate(m_scale * m_x), filter.calculate(m_scale * m_y)
+    m_drive.arcadeDrive(u_x, u_y, false);
+    p_x = u_x;
+    p_y = u_y;
     m_x = 0;
     m_y = 0;
   }
