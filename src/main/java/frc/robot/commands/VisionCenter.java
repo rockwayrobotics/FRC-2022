@@ -3,6 +3,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivebaseSubsystem;
 
+import javax.lang.model.util.ElementScanner6;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -15,7 +17,9 @@ public class VisionCenter extends CommandBase {
   private final int LEFT = 0;
   private final int RIGHT = 1; 
   private final int STOP = 2;
-  private boolean m_stop = false; 
+  private boolean m_stop = false;
+  private final int CENTERX = 100; //Note we will need to configure this once we determine the res we are going to run at
+  private final int xTHRESH = 10; //This is so we dont over steer, may need to get configured
 
 
   public VisionCenter(DrivebaseSubsystem drivebase) {
@@ -39,10 +43,27 @@ public class VisionCenter extends CommandBase {
       //for some operation in your program.
       camEntry = table.getEntry("camX");
   }
+  //takes the value from the x reading of the camera and turns it into a command
+  public int parseNTX(double val)
+  {
+    if (val < CENTERX - xTHRESH)
+    {
+      return 0;
+    }
+    else if (val > CENTERX + xTHRESH)
+    {
+      return 1;
+    }
+    else
+    {
+      return 2;
+    }
+  }
 
   @Override
   public void execute() {
-    int command = camEntry.getNumber(STOP).intValue(); 
+    double commandD = camEntry.getNumber(CENTERX).doubleValue();
+    int command = parseNTX(commandD);
     
     if (command == LEFT) {
       m_drivebase.set(-0.5, 0);
