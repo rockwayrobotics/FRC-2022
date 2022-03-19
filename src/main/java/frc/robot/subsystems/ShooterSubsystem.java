@@ -26,7 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
     int flywheelMotor, int flywheelMotor2
   ) {
     CANSparkMax feeder1 = new CANSparkMax(feederMotor, MotorType.kBrushless);
-    CANSparkMax feeder2 = new CANSparkMax(feederMotor, MotorType.kBrushless);
+    CANSparkMax feeder2 = new CANSparkMax(feederMotor2, MotorType.kBrushless);
     m_feeder = new MotorControllerGroup(feeder1, feeder2);
 
     m_indexer = new CANSparkMax(indexMotor, MotorType.kBrushless);

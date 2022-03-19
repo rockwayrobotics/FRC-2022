@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
+import java.time.Instant;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.commands.AutonomousCmdList;
 import frc.robot.commands.DriveDistance;
@@ -96,6 +98,16 @@ public class RobotContainer {
     .whenPressed(() -> m_shooter.spinFlywheel(-0.8))
     .whenReleased(() -> m_shooter.spinFlywheel(0));
 
+    new JoystickButton(m_xboxController, Button.kY.value)
+    .whenPressed(() -> m_intake.extend());
+    
+    new JoystickButton(m_xboxController, Button.kX.value)
+    .whenPressed(() -> m_intake.retract());
+    
+    new JoystickButton(m_xboxController, Button.kB.value)
+    .whenPressed(() -> m_intake.spin(-1))
+    .whenReleased(() -> m_intake.spin(0));
+    
     // new JoystickButton(m_xboxController, Button.kRightBumper.value)
     // .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(0.5), m_shooter))
     // .whenReleased(new InstantCommand(() -> m_shooter.spinFeeder(0), m_shooter));

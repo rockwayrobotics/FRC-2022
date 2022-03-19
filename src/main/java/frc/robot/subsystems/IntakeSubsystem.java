@@ -4,8 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -14,9 +13,7 @@ import frc.robot.Constants.Pneumatics;
 
 public class IntakeSubsystem extends SubsystemBase {
   private DoubleSolenoid m_extend;
-  private DoubleSolenoid.Value m_extendCheck;
-  private DoubleSolenoid.Value m_retractCheck;
-  private CANSparkMax m_spin; 
+  private WPI_VictorSPX m_spin; 
   private boolean m_extended = false;
   private double m_speed = 0; 
 
@@ -25,7 +22,7 @@ public class IntakeSubsystem extends SubsystemBase {
     int intakeExtend, int intakeRetract, int intakeMotor
   ){
     m_extend = new DoubleSolenoid(Pneumatics.PNEUMATICS_MODULE_TYPE, intakeExtend, intakeRetract);
-    m_spin = new CANSparkMax(intakeMotor, MotorType.kBrushless);
+    m_spin = new WPI_VictorSPX(intakeMotor);
   
   }
 
@@ -67,23 +64,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public boolean isExtended() {
-    m_extendCheck = getExtended();
-    if (m_extendCheck == Value.kForward){
-    return true;
-    }
-    else{
-      return false;
-    }
+    return this.getExtended() == Value.kForward;
   }
 
   public boolean isRetracted() {
-    m_retractCheck = getExtended();
-    if (m_retractCheck == Value.kReverse){
-    return true;
-    }
-    else{
-      return false;
-    }
+    return this.getExtended() == Value.kReverse;
   }
 
   /**
