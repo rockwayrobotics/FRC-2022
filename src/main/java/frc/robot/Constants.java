@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import com.revrobotics.CANSparkMax.IdleMode;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -32,8 +35,12 @@ public final class Constants {
         public static final int RIGHT_MOTOR_2 = 4;
         // public static final int WINCH_MOTOR = 5;
         // public static final int WHEEL_MOTOR = 6;
-        public static final int SHOOT_MOTOR = 5;
-        public static final int FEED_MOTOR = 6;
+        public static final int FEEDER_MOTOR = 5;
+        public static final int FEEDER_MOTOR2 = 6;
+        public static final int INDEX_MOTOR = 7;
+        public static final int FLYWHEEL_MOTOR = 8;
+        public static final int FLYWHEEL_MOTOR2 = 9;
+        public static final int INTAKE_MOTOR = 10;
     }
 
     // Information on digital pins on RoboRio
@@ -51,4 +58,17 @@ public final class Constants {
         public final static double DISTANCE_PER_ENCODER_PULSE = WHEEL_DIAMETER * Math.PI / ENCODER_PULSES_PER_REVOLUTION;
         public final static IdleMode IDLE_MODE = IdleMode.kBrake;
     }
+
+
+  /**
+   * Constants for Pneumatics Control Module ports
+   */
+  public static final class Pneumatics {
+    public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.CTREPCM;
+    public static final int INTAKE_EXTEND = 0;
+    public static final int INTAKE_RETRACT = 1;
+    
+
+
+  }
 }
