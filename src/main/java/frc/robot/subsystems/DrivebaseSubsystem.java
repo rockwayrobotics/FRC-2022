@@ -7,12 +7,15 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.Drive;
+
+import java.lang.Math;
 
 public class DrivebaseSubsystem extends SubsystemBase {
   private final DifferentialDrive m_drive;
@@ -22,10 +25,13 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
   private double m_y = 0;
   private double m_x = 0;
-  private double m_l = 0;
-  private double m_r = 0;
+  private double p_x = 0;
+  private double p_y = 0;
   private double m_scale = 1;
-  private boolean m_usingLR = false;
+
+  private final SlewRateLimiter filter = new SlewRateLimiter(3);
+  
+  private final SlewRateLimiter turnFilter = new SlewRateLimiter(4);
 
   /** Creates a new DrivebaseSubsystem. */
   public DrivebaseSubsystem(
@@ -37,13 +43,21 @@ public class DrivebaseSubsystem extends SubsystemBase {
   
   /* Create motor controller groups for left and right side of drivebase */
   {
+    CANSparkMax rightMotorController1 = new CANSparkMax(rightMotor1, MotorType.kBrushed);
+    CANSparkMax rightMotorController2 = new CANSparkMax(rightMotor2, MotorType.kBrushed);
+    CANSparkMax leftMotorController1 = new CANSparkMax(leftMotor1, MotorType.kBrushed);
+    CANSparkMax leftMotorController2 = new CANSparkMax(leftMotor2, MotorType.kBrushed);
+
+    rightMotorController1.setIdleMode(Drive.IDLE_MODE);
+    rightMotorController2.setIdleMode(Drive.IDLE_MODE);
+    leftMotorController1.setIdleMode(Drive.IDLE_MODE);
+    leftMotorController2.setIdleMode(Drive.IDLE_MODE);
+
     MotorControllerGroup rightDrive = new MotorControllerGroup(
-        new CANSparkMax(rightMotor1, MotorType.kBrushed),
-        new CANSparkMax(rightMotor2, MotorType.kBrushed)
+        rightMotorController1, rightMotorController2
     );
     MotorControllerGroup leftDrive = new MotorControllerGroup(
-      new CANSparkMax(leftMotor1, MotorType.kBrushed),
-      new CANSparkMax(leftMotor2, MotorType.kBrushed)
+      leftMotorController1, leftMotorController2
     );
     // MotorControllerGroup leftDrive = new MotorControllerGroup(
     //   new WPI_VictorSPX(leftMotor1),
@@ -74,22 +88,11 @@ public class DrivebaseSubsystem extends SubsystemBase {
    * @param y Y speed. -1 is full backwards, 1 is full forwards.
    * @param x X speed. -1 is full left, 1 is full right.
    */
-  public void set(double y, double x) {
+  public void set(double x, double y) {
     m_y = y;
     m_x = x;
-    m_usingLR = false;
   }
 
-  /**
-   * Sets the left and right side speeds of the drivebase.
-   * @param l Speed for the left side wheels. -1 is full backwards, 1 is full forwards.
-   * @param r Speed for the right side wheels. -1 is full backwards, 1 is full forwards.
-   */
-  public void setLR(double l, double r) {
-      m_l = l;
-      m_r = r;
-      m_usingLR = true;
-  }
 
   /**
    * Sets the scale for the drivebase. Speeds are multiplied by the scale before being sent to the motors.
@@ -149,16 +152,20 @@ public class DrivebaseSubsystem extends SubsystemBase {
   /* Periodic method that runs once every cycle */
   @Override
   public void periodic() {
-    if (m_usingLR) {
-      m_drive.tankDrive(m_scale * m_l, m_scale * m_r, false);
-    } else {
-      m_drive.arcadeDrive(m_scale * m_y, m_scale * m_x);
+    // u_x is use x, p_x is past x
+    if (Math.abs(m_x) <= Math.abs(p_x)) {
+      turnFilter.reset(m_x);
     }
-  
-
+    if (Math.abs(m_y) <= Math.abs(p_y)) {
+      filter.reset(m_y);
+    }
+      //m_drive.arcadeDrive(m_scale * m_x, m_scale * m_y);
+      //m_drive.arcadeDrive(m_x, m_y);
+      // turnFilter.calculate(m_scale * m_x), filter.calculate(m_scale * m_y)
+    p_x = turnFilter.calculate(m_scale * m_x);
+    p_y = filter.calculate(m_scale * m_y);
+    m_drive.arcadeDrive(p_x, p_y, false);
     m_x = 0;
     m_y = 0;
-    m_l = 0;
-    m_r = 0;
   }
 }

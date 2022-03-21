@@ -52,19 +52,14 @@ public class DriveDistance extends CommandBase {
     double averageDistance = (m_drivebase.getLDistance() + m_drivebase.getRDistance()) / 2; 
     // This will say to end when the encoders are equal with the distance we want
     if (m_speed < 0) {
-      System.out.println("less than 0");
-      System.out.println(m_distance);
-      System.out.println(averageDistance);
       return averageDistance <= m_distance;
     } 
-    System.out.println("Triggered after 0");
     return averageDistance >= m_distance;  
   }
 
   @Override
   public void end(boolean cancelled) {
     m_drivebase.set(0,0); // Resets the drivebase to 0
-    System.out.println("Ended Drive distance");
   }
 
 }

@@ -19,6 +19,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private double m_feederPow = 0;
   private double m_indexerPow = 0; 
 
+
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(
     int feederMotor, int feederMotor2, 

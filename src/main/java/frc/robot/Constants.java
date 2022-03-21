@@ -4,8 +4,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 
 /**
@@ -55,6 +56,7 @@ public final class Constants {
         public final static double ENCODER_PULSES_PER_REVOLUTION = 360;
         public final static double WHEEL_DIAMETER = 6;
         public final static double DISTANCE_PER_ENCODER_PULSE = WHEEL_DIAMETER * Math.PI / ENCODER_PULSES_PER_REVOLUTION;
+        public final static IdleMode IDLE_MODE = IdleMode.kBrake;
     }
 
 
