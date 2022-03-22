@@ -28,7 +28,9 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.HookSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+
 // import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -123,6 +125,7 @@ public class RobotContainer {
     // .whenPressed(new InstantCommand(() -> m_shooter.spinShooter(0.5), m_shooter))
     // .whenReleased(new InstantCommand(() -> m_shooter.spinShooter(0), m_shooter));
   }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

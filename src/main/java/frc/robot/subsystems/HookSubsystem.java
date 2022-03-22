@@ -27,7 +27,6 @@ public class HookSubsystem extends SubsystemBase {
   public void extend(int priority) {
     if (priority >= m_priority) {
       m_pow = 1;
-      priority = m_priority;
     }
   }
 
@@ -38,7 +37,6 @@ public class HookSubsystem extends SubsystemBase {
   public void retract(int priority) {
     if (priority >= m_priority) {
       m_pow = -1;
-      priority = m_priority;
     }
   }
 
@@ -53,11 +51,20 @@ public class HookSubsystem extends SubsystemBase {
       priority = m_priority;
     }
   }
+  /**
+   * Stops the hook.
+   * @param priority Priority for this action. Only the highest priority action is run each cycle.
+   */
+  public void stop(int priority) {
+    if (priority >= m_priority) {
+      m_pow = 0; 
+      m_priority = 0;
+    }
+  }
 
   @Override
   public void periodic() {
     m_winchMotor.set(m_pow);
-    m_pow = 0;
     m_priority = 0;
   }
 }

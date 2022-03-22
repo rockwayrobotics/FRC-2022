@@ -43,6 +43,7 @@ public final class Constants {
         public static final int INTAKE_MOTOR = 10;
         public static final int WINCH_MOTOR = 11;
     }
+    
     // Information on digital pins on RoboRio
     public static final class Digital {
         public static final int LEFT_ENCODER_1 = 0;
