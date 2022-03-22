@@ -41,17 +41,6 @@ public class HookSubsystem extends SubsystemBase {
   }
 
   /**
-   * Moves the hook by a given amount.
-   * @param pow Power to give the hook motor. -1 is full-speed retract, 1 is full-speed extend.
-   * @param priority Priority for this action. Only the highest priority action is run each cycle.
-   */
-  public void move(double pow, int priority) {
-    if (priority >= m_priority) {
-      m_pow = pow;
-      priority = m_priority;
-    }
-  }
-  /**
    * Stops the hook.
    * @param priority Priority for this action. Only the highest priority action is run each cycle.
    */
