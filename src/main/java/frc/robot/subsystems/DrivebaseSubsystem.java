@@ -164,7 +164,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
       // turnFilter.calculate(m_scale * m_x), filter.calculate(m_scale * m_y)
     p_x = turnFilter.calculate(m_scale * m_x);
     p_y = filter.calculate(m_scale * m_y);
-    m_drive.arcadeDrive(p_x, p_y, false);
+    m_drive.arcadeDrive(p_x, p_y / 1.3, false);
     m_x = 0;
     m_y = 0;
   }

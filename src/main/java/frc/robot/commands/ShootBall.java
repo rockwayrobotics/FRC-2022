@@ -18,15 +18,16 @@ public class ShootBall extends CommandBase{
 
   @Override
   public void execute() {
-    m_shooterSubsystem.spinIndex(0.3);
-    m_shooterSubsystem.spinFeeder(0.4);
+    m_shooterSubsystem.spinIndex(-0.3);
+    m_shooterSubsystem.spinFeeder(-0.4);
     m_shooterSubsystem.spinFlywheel(0.8);
   }
+//TODO fix isFInsihed
 
   @Override
   public boolean isFinished() {
     try {
-        Thread.sleep(500);
+        Thread.sleep(5000);
     } catch (InterruptedException e) {
         return true;
     }

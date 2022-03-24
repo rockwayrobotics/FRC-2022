@@ -66,7 +66,7 @@ public class RobotContainer {
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
 
-  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase); //pass in drivebase here
+  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter); //pass in drivebase here
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -98,8 +98,8 @@ public class RobotContainer {
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
 
     new JoystickButton(m_xboxController, XboxController.Button.kY.value)
-    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
-    .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(0.4), m_shooter))
+    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))
+    .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(-0.4), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFeeder(0), m_shooter));  // Feeds ball to flywheel
 
@@ -122,7 +122,7 @@ public class RobotContainer {
     .whenPressed(() -> m_intake.retract());  // Retracts intake
     
     new JoystickButton(m_xboxController, XboxController.Button.kB.value)
-    .whenPressed(() -> m_shooter.spinFeeder(0.4), m_shooter)
+    .whenPressed(() -> m_shooter.spinFeeder(-0.4), m_shooter)
     .whenReleased(() -> m_shooter.spinFeeder(0));  // ejects ball out by running blue feeder wheels backwards
 
     new Button(() -> {return m_xboxController.getPOV() == 0;})
@@ -134,20 +134,20 @@ public class RobotContainer {
       .whenReleased(() -> m_hook.stop());  // retracts hook down/climbs robot, mapped to dpad down
 
 
-    new JoystickButton(m_flightStick, 10)
-    .whenPressed(() -> m_shooter.spinFeeder(-0.4))
+    new JoystickButton(m_flightStick, 11)
+    .whenPressed(() -> m_shooter.spinFeeder(0.4))
     .whenReleased(() -> m_shooter.spinFeeder(0));
 
-    new JoystickButton(m_flightStick, 2)
+    new JoystickButton(m_flightStick, 3)
     .whenPressed(() -> m_intake.spin(-0.4))
     .whenReleased(() -> m_intake.spin(0));
 
-    new JoystickButton(m_flightStick, 3)
+    new JoystickButton(m_flightStick, 4)
     .whenPressed(() -> m_intake.spin(0.4))
     .whenReleased(() -> m_intake.spin(0));
 
-    new JoystickButton(m_flightStick, 11)
-    .whenPressed(() -> m_shooter.spinFlywheel(0.4))
+    new JoystickButton(m_flightStick, 12)
+    .whenPressed(() -> m_shooter.spinFlywheel(-0.4))
     .whenReleased(() -> m_shooter.spinFlywheel(0));
     // new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
     // .whenPressed(() -> m_intake.retract());
