@@ -87,50 +87,49 @@ public class RobotContainer {
         () -> m_drivebase.set(m_xboxController.getLeftX(), -m_xboxController.getLeftY()),
         m_drivebase
       )
-    );
+    );  // Runs drivebase off left stick
   
     new JoystickButton(m_xboxController, XboxController.Button.kLeftBumper.value)
     .whenPressed(() -> m_drivebase.setScale(0.5))
-    .whenReleased(() -> m_drivebase.setScale(1));
+    .whenReleased(() -> m_drivebase.setScale(1));  // Sets drivebase to half speed, for more precise and slow movement (likely going to be used inside hangar)
  
     new JoystickButton(m_xboxController, XboxController.Button.kY.value)
     .whenPressed(new InstantCommand(() -> m_shooter.spinFlywheel(0.8), m_shooter))
-    .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));
+    .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
 
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
     .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
     .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(0.4), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter))
-    .whenReleased(new InstantCommand(() -> m_shooter.spinFeeder(0), m_shooter));
+    .whenReleased(new InstantCommand(() -> m_shooter.spinFeeder(0), m_shooter));  // Feeds ball to flywheel
 
     new JoystickButton(m_xboxController, XboxController.Button.kA.value)
     .whenPressed(() -> m_intake.extend())
     .whenPressed(() -> m_intake.spin(0.5))
     .whenPressed(() -> m_shooter.spinFeeder(-0.4))
     .whenReleased(() -> m_intake.spin(0))
-    .whenReleased(() -> m_shooter.spinFeeder(0));
+    .whenReleased(() -> m_shooter.spinFeeder(0));  // Drops intake, spins meccanum intake wheels, and spins blue feeder wheels
 
-    
     new JoystickButton(m_xboxController, XboxController.Button.kX.value)
-    .whenPressed(() -> m_intake.retract());
+    .whenPressed(() -> m_intake.retract());  // Retracts intake
     
     new JoystickButton(m_xboxController, XboxController.Button.kB.value)
     .whenPressed(() -> m_shooter.spinFeeder(0.4), m_shooter)
-    .whenReleased(() -> m_shooter.spinFeeder(0));
+    .whenReleased(() -> m_shooter.spinFeeder(0));  // ejects ball out by running blue feeder wheels backwards
 
     new Button(() -> {return m_xboxController.getPOV() == 0;})
       .whenPressed(() -> m_hook.extend())
-      .whenReleased(() -> m_hook.stop());
+      .whenReleased(() -> m_hook.stop());  // Extends hook up, mapped to Dpad up
 
     new Button(() -> {return m_xboxController.getPOV() == 180;})
       .whenPressed(() -> m_hook.retract())
-      .whenReleased(() -> m_hook.stop());
+      .whenReleased(() -> m_hook.stop());  // retracts hook down/climbs robot, mapped to dpad down
 
-    new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
-    .whenPressed(() -> m_intake.retract());
+    // new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
+    // .whenPressed(() -> m_intake.retract());
     
-    new Button(() -> {return m_xboxController.getRightTriggerAxis() > 0.5;})
-    .whenPressed(() -> m_intake.extend());
+    // new Button(() -> {return m_xboxController.getRightTriggerAxis() > 0.5;})
+    // .whenPressed(() -> m_intake.extend());
 
     // new JoystickButton(m_xboxController, Button.kRightBumper.value)
     // .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(0.5), m_shooter))
