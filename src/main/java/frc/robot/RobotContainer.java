@@ -133,6 +133,22 @@ public class RobotContainer {
       .whenPressed(() -> m_hook.retract())
       .whenReleased(() -> m_hook.stop());  // retracts hook down/climbs robot, mapped to dpad down
 
+
+    new JoystickButton(m_flightStick, 10)
+    .whenPressed(() -> m_shooter.spinFeeder(-0.4))
+    .whenReleased(() -> m_shooter.spinFeeder(0));
+
+    new JoystickButton(m_flightStick, 2)
+    .whenPressed(() -> m_intake.spin(-0.4))
+    .whenReleased(() -> m_intake.spin(0));
+
+    new JoystickButton(m_flightStick, 3)
+    .whenPressed(() -> m_intake.spin(0.4))
+    .whenReleased(() -> m_intake.spin(0));
+
+    new JoystickButton(m_flightStick, 11)
+    .whenPressed(() -> m_shooter.spinFlywheel(0.4))
+    .whenReleased(() -> m_shooter.spinFlywheel(0));
     // new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
     // .whenPressed(() -> m_intake.retract());
     
