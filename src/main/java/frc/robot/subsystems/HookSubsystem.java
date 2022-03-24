@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,47 +14,36 @@ public class HookSubsystem extends SubsystemBase {
   private final CANSparkMax m_winchMotor;
 
   private double m_pow = 0;
-  private int m_priority = 0;
 
   /** Creates a new HookSubsystem. */
   public HookSubsystem(int winchMotor) {
     m_winchMotor = new CANSparkMax(winchMotor, MotorType.kBrushless);
+    m_winchMotor.setIdleMode(IdleMode.kBrake);
   }
 
   /**
    * Extends the hook.
-   * @param priority Priority for this action. Only the highest priority action is run each cycle.
    */
-  public void extend(int priority) {
-    if (priority >= m_priority) {
-      m_pow = 1;
-    }
+  public void extend() {
+    m_pow = 0.5;
   }
 
   /**
    * Retracts the hook.
-   * @param priority Priority for this action. Only the highest priority action is run each cycle.
    */
-  public void retract(int priority) {
-    if (priority >= m_priority) {
-      m_pow = -1;
-    }
+  public void retract() {
+    m_pow = -0.5;
   }
 
   /**
    * Stops the hook.
-   * @param priority Priority for this action. Only the highest priority action is run each cycle.
    */
-  public void stop(int priority) {
-    if (priority >= m_priority) {
+  public void stop() {
       m_pow = 0; 
-      m_priority = 0;
-    }
   }
 
   @Override
   public void periodic() {
     m_winchMotor.set(m_pow);
-    m_priority = 0;
   }
 }

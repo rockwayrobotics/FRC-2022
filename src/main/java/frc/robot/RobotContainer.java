@@ -25,8 +25,6 @@ import java.time.Instant;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.commands.AutonomousCmdList;
 import frc.robot.commands.DriveDistance;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.HookSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -41,7 +39,6 @@ import frc.robot.subsystems.ShooterSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
 
   /* Contstructor for subsystems */
@@ -63,10 +60,14 @@ public class RobotContainer {
     CAN.INTAKE_MOTOR
   );
 
+  private HookSubsystem m_hook = new HookSubsystem(CAN.WINCH_MOTOR);
+
+
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
 
   public final Command m_autoCommand = new AutonomousCmdList(m_drivebase); //pass in drivebase here
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

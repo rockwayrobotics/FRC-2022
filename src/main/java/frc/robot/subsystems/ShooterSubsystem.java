@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -28,7 +29,12 @@ public class ShooterSubsystem extends SubsystemBase {
   ) {
     CANSparkMax feeder1 = new CANSparkMax(feederMotor, MotorType.kBrushless);
     CANSparkMax feeder2 = new CANSparkMax(feederMotor2, MotorType.kBrushless);
+    feeder1.setIdleMode(IdleMode.kBrake);
+    feeder2.setIdleMode(IdleMode.kBrake);
     m_feeder = new MotorControllerGroup(feeder1, feeder2);
+  
+    m_indexer = new CANSparkMax(indexMotor, MotorType.kBrushed);
+    m_indexer.setIdleMode(IdleMode.kBrake);
 
     m_indexer = new CANSparkMax(indexMotor, MotorType.kBrushed);
     
