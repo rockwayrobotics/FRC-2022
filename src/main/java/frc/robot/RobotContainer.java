@@ -93,30 +93,44 @@ public class RobotContainer {
     .whenPressed(() -> m_drivebase.setScale(0.5))
     .whenReleased(() -> m_drivebase.setScale(1));
  
+    new JoystickButton(m_xboxController, XboxController.Button.kY.value)
+    .whenPressed(new InstantCommand(() -> m_shooter.spinFlywheel(0.8), m_shooter))
+    .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));
+
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
-    .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(-0.2), m_shooter))
+    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
+    .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(0.4), m_shooter))
+    .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFeeder(0), m_shooter));
 
     new JoystickButton(m_xboxController, XboxController.Button.kA.value)
+    .whenPressed(() -> m_intake.extend())
+    .whenPressed(() -> m_intake.spin(0.5))
+    .whenPressed(() -> m_shooter.spinFeeder(-0.4))
+    .whenReleased(() -> m_intake.spin(0))
+    .whenReleased(() -> m_shooter.spinFeeder(0));
 
-    .whenPressed(() -> m_shooter.spinFlywheel(-0.8))
-    .whenReleased(() -> m_shooter.spinFlywheel(0));
-
-    new JoystickButton(m_xboxController, XboxController.Button.kY.value)
-    .whenPressed(() -> m_intake.extend());
     
     new JoystickButton(m_xboxController, XboxController.Button.kX.value)
     .whenPressed(() -> m_intake.retract());
     
     new JoystickButton(m_xboxController, XboxController.Button.kB.value)
-    .whenPressed(() -> m_intake.spin(0.5))
-    .whenReleased(() -> m_intake.spin(0));
+    .whenPressed(() -> m_shooter.spinFeeder(0.4), m_shooter)
+    .whenReleased(() -> m_shooter.spinFeeder(0));
+
+    new Button(() -> {return m_xboxController.getPOV() == 0;})
+      .whenPressed(() -> m_hook.extend())
+      .whenReleased(() -> m_hook.stop());
+
+    new Button(() -> {return m_xboxController.getPOV() == 180;})
+      .whenPressed(() -> m_hook.retract())
+      .whenReleased(() -> m_hook.stop());
 
     new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
-      .whenPressed(() -> m_intake.retract());
+    .whenPressed(() -> m_intake.retract());
     
     new Button(() -> {return m_xboxController.getRightTriggerAxis() > 0.5;})
-      .whenPressed(() -> m_intake.extend());
+    .whenPressed(() -> m_intake.extend());
 
     // new JoystickButton(m_xboxController, Button.kRightBumper.value)
     // .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(0.5), m_shooter))
