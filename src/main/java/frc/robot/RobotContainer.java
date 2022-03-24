@@ -93,15 +93,23 @@ public class RobotContainer {
     .whenPressed(() -> m_drivebase.setScale(0.5))
     .whenReleased(() -> m_drivebase.setScale(1));  // Sets drivebase to half speed, for more precise and slow movement (likely going to be used inside hangar)
  
-    new JoystickButton(m_xboxController, XboxController.Button.kY.value)
+    new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
     .whenPressed(new InstantCommand(() -> m_shooter.spinFlywheel(0.8), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
 
-    new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
+    new JoystickButton(m_xboxController, XboxController.Button.kY.value)
     .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
     .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(0.4), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFeeder(0), m_shooter));  // Feeds ball to flywheel
+
+    new JoystickButton(m_xboxController, XboxController.Button.kStart.value)
+    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))
+    .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));  // Manually jogs blue and green indexer wheel towards the flywheel
+
+    new JoystickButton(m_xboxController, XboxController.Button.kBack.value)
+    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
+    .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));  // Manually jogs blue and green indexer wheel away from the flywheel
 
     new JoystickButton(m_xboxController, XboxController.Button.kA.value)
     .whenPressed(() -> m_intake.extend())
