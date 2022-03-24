@@ -41,15 +41,16 @@ public final class Constants {
         public static final int FLYWHEEL_MOTOR = 8;
         public static final int FLYWHEEL_MOTOR2 = 9;
         public static final int INTAKE_MOTOR = 10;
+        public static final int WINCH_MOTOR = 11;
     }
-
+    
     // Information on digital pins on RoboRio
     public static final class Digital {
         public static final int LEFT_ENCODER_1 = 0;
         public static final int LEFT_ENCODER_2 = 1;
         public static final int RIGHT_ENCODER_1 = 2;
         public static final int RIGHT_ENCODER_2 = 3;
-      }
+    }
     
     // Constants related to robot driving
     public static final class Drive {
@@ -63,10 +64,10 @@ public final class Constants {
   /**
    * Constants for Pneumatics Control Module ports
    */
-  public static final class Pneumatics {
-    public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.CTREPCM;
-    public static final int INTAKE_EXTEND = 1;
-    public static final int INTAKE_RETRACT = 0;
+    public static final class Pneumatics {
+      public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.CTREPCM;
+      public static final int INTAKE_EXTEND = 1;
+      public static final int INTAKE_RETRACT = 0;
     
 
 
