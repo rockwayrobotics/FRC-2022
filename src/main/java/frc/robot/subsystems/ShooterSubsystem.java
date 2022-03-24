@@ -36,8 +36,6 @@ public class ShooterSubsystem extends SubsystemBase {
     m_indexer = new CANSparkMax(indexMotor, MotorType.kBrushed);
     m_indexer.setIdleMode(IdleMode.kBrake);
 
-    m_indexer = new CANSparkMax(indexMotor, MotorType.kBrushed);
-
     m_indexer.setInverted(true); 	
     
     CANSparkMax flywheel1 = new CANSparkMax(flywheelMotor, MotorType.kBrushless);
