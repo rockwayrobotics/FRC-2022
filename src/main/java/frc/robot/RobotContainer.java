@@ -91,7 +91,7 @@ public class RobotContainer {
     .whenReleased(() -> m_drivebase.setScale(1));
  
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
-    .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(-0.1), m_shooter))
+    .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(-0.2), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFeeder(0), m_shooter));
 
     new JoystickButton(m_xboxController, XboxController.Button.kA.value)
