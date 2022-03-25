@@ -98,10 +98,14 @@ public class RobotContainer {
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
 
     new JoystickButton(m_xboxController, XboxController.Button.kY.value)
-    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))
-    .whenPressed(new InstantCommand(() -> m_shooter.spinFeeder(-0.4), m_shooter))
-    .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter))
-    .whenReleased(new InstantCommand(() -> m_shooter.spinFeeder(0), m_shooter));  // Feeds ball to flywheel
+    .whenPressed(new InstantCommand(() -> {
+      m_shooter.spinIndex(-0.3);
+      m_shooter.spinFeeder(-0.4);
+    }, m_shooter))
+    .whenReleased(new InstantCommand(() -> {
+      m_shooter.spinIndex(0);
+      m_shooter.spinFeeder(0);
+    }, m_shooter));  // Feeds ball to flywheel
 
     new JoystickButton(m_xboxController, XboxController.Button.kStart.value)
     .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))

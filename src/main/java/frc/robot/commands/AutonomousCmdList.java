@@ -12,7 +12,6 @@ public class AutonomousCmdList extends SequentialCommandGroup {
         super();
         this.addCommands(new ShootBall(m_shooter, m_drivebase));
         this.addCommands(new DriveDistance(m_drivebase, -25, -0.5));
-        
     }
     
     
