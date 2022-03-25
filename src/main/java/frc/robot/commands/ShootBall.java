@@ -32,7 +32,7 @@ public class ShootBall extends CommandBase{
   public void execute() {
     m_shooterSubsystem.spinIndex(-0.3);
     m_shooterSubsystem.spinFeeder(-0.4);
-    m_shooterSubsystem.spinFlywheel(0.4);
+    m_shooterSubsystem.spinFlywheel(0.55);
     cycles++;
   }
 
