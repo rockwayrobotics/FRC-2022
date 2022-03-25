@@ -112,11 +112,15 @@ public class RobotContainer {
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));  // Manually jogs blue and green indexer wheel away from the flywheel
 
     new JoystickButton(m_xboxController, XboxController.Button.kA.value)
-    .whenPressed(() -> m_intake.extend())
-    .whenPressed(() -> m_intake.spin(0.5))
-    .whenPressed(() -> m_shooter.spinFeeder(-0.4))
-    .whenReleased(() -> m_intake.spin(0))
-    .whenReleased(() -> m_shooter.spinFeeder(0));  // Drops intake, spins meccanum intake wheels, and spins blue feeder wheels
+    .whenPressed(() -> {
+      m_intake.extend();
+      m_intake.spin(0.5);
+      m_shooter.spinFeeder(-0.4);
+    })
+    .whenReleased(() -> {
+      m_intake.spin(0);
+      m_shooter.spinFeeder(0);
+    });  // Drops intake, spins meccanum intake wheels, and spins blue feeder wheels
 
     new JoystickButton(m_xboxController, XboxController.Button.kX.value)
     .whenPressed(() -> m_intake.retract());  // Retracts intake
