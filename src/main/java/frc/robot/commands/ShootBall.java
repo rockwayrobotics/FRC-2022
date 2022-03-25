@@ -9,6 +9,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShootBall extends CommandBase{
   private ShooterSubsystem m_shooterSubsystem;
   private DrivebaseSubsystem m_drivebase;
+  private int cycles = 0;
  
   /**
    * A command that shoots the ball once
@@ -28,12 +29,12 @@ public class ShootBall extends CommandBase{
     m_shooterSubsystem.spinIndex(-0.3);
     m_shooterSubsystem.spinFeeder(-0.4);
     m_shooterSubsystem.spinFlywheel(0.8);
+    cycles++;
   }
 
   @Override
   public boolean isFinished() {
-    new WaitCommand(0.5);
-    return true;
+    return cycles >= 50;
   }
 
 
