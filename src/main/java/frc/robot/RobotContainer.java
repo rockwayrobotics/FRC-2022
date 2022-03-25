@@ -157,6 +157,15 @@ public class RobotContainer {
     new JoystickButton(m_flightStick, 12)
     .whenPressed(() -> m_shooter.spinFlywheel(-0.4))
     .whenReleased(() -> m_shooter.spinFlywheel(0));
+
+    new JoystickButton(m_flightStick, 9)
+    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))
+    .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));  // Manually jogs blue and green indexer wheel towards the flywheel
+
+    new JoystickButton(m_flightStick, 10)
+    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
+    .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));  // Manually jogs blue and green indexer wheel away from the flywheel
+
     // new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
     // .whenPressed(() -> m_intake.retract());
     
