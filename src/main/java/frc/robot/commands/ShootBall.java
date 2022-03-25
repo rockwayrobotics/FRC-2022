@@ -1,19 +1,26 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
 public class ShootBall extends CommandBase{
   private ShooterSubsystem m_shooterSubsystem;
+  private DrivebaseSubsystem m_drivebase;
  
   /**
    * A command that shoots the ball once
    * @param shooter Set this to m_shooterSubsystem
+   * drivebase is added as requirement so command delays without turning it on
    */
-  public ShootBall(ShooterSubsystem shooter){
+   public ShootBall(ShooterSubsystem shooter, DrivebaseSubsystem drivebase){
+    
+    m_drivebase = drivebase;
     m_shooterSubsystem = shooter;
     this.addRequirements(m_shooterSubsystem);
+    this.addRequirements(m_drivebase);
   }
 
   @Override
@@ -22,17 +29,13 @@ public class ShootBall extends CommandBase{
     m_shooterSubsystem.spinFeeder(-0.4);
     m_shooterSubsystem.spinFlywheel(0.8);
   }
-//TODO fix isFInsihed
 
   @Override
   public boolean isFinished() {
-    try {
-        Thread.sleep(5000);
-    } catch (InterruptedException e) {
-        return true;
-    }
+    new WaitCommand(0.5);
     return true;
   }
+
 
   public void end() {
     m_shooterSubsystem.spinIndex(0);
