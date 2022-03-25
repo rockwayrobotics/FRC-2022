@@ -24,6 +24,11 @@ public class ShootBall extends CommandBase{
   }
 
   @Override
+  public void initialize(){
+    cycles = 0; 
+  }
+
+  @Override
   public void execute() {
     m_shooterSubsystem.spinIndex(-0.3);
     m_shooterSubsystem.spinFeeder(-0.4);
@@ -36,11 +41,10 @@ public class ShootBall extends CommandBase{
     return cycles >= 50;
   }
 
-
-  public void end() {
+  @Override 
+  public void end(boolean cancelled) {
     m_shooterSubsystem.spinIndex(0);
     m_shooterSubsystem.spinFeeder(0);
     m_shooterSubsystem.spinFlywheel(0);
-  }
-  
+  }  
 }
