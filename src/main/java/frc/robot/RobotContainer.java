@@ -94,7 +94,7 @@ public class RobotContainer {
     .whenReleased(() -> m_drivebase.setScale(1));  // Sets drivebase to half speed, for more precise and slow movement (likely going to be used inside hangar)
  
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
-    .whenPressed(new InstantCommand(() -> m_shooter.spinFlywheel(0.55), m_shooter))
+    .whenPressed(new InstantCommand(() -> m_shooter.spinFlywheel(0.5), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
 
     new JoystickButton(m_xboxController, XboxController.Button.kY.value)
