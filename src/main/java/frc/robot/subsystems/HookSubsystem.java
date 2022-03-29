@@ -25,14 +25,14 @@ public class HookSubsystem extends SubsystemBase {
    * Extends the hook.
    */
   public void extend() {
-    m_pow = 0.3;
+    m_pow = 0.6;
   }
 
   /**
    * Retracts the hook.
    */
   public void retract() {
-    m_pow = -0.3;
+    m_pow = -0.6;
   }
 
   /**
