@@ -38,7 +38,7 @@ public class ShootBall extends CommandBase{
 
   @Override
   public boolean isFinished() {
-    return cycles >= 50;
+    return cycles >= 100;
   }
 
   @Override 
