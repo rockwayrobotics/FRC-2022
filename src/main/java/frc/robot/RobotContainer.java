@@ -10,7 +10,7 @@ import frc.robot.Constants.Digital;
 import frc.robot.Constants.Drive;
 import frc.robot.Constants.Pneumatics;
 import frc.robot.subsystems.DrivebaseSubsystem;
-
+import frc.robot.subsystems.FeederSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -49,8 +49,9 @@ public class RobotContainer {
     Digital.RIGHT_ENCODER_1, Digital.RIGHT_ENCODER_2
   );
 
+  private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR, CAN.FEEDER_MOTOR2);
+
   private ShooterSubsystem m_shooter = new ShooterSubsystem(
-    CAN.FEEDER_MOTOR, CAN.FEEDER_MOTOR2,
     CAN.INDEX_MOTOR,
     CAN.FLYWHEEL_MOTOR, CAN.FLYWHEEL_MOTOR2
     );
@@ -66,7 +67,7 @@ public class RobotContainer {
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
 
-  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter); //pass in drivebase here
+  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder); //pass in drivebase here
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -100,12 +101,12 @@ public class RobotContainer {
     new JoystickButton(m_xboxController, XboxController.Button.kY.value)
     .whenPressed(new InstantCommand(() -> {
       m_shooter.spinIndex(-0.3);
-      m_shooter.spinFeeder(-0.4);
-    }, m_shooter))
+      m_feeder.spinFeeder(-0.4);
+    }, m_shooter, m_feeder))
     .whenReleased(new InstantCommand(() -> {
       m_shooter.spinIndex(0);
-      m_shooter.spinFeeder(0);
-    }, m_shooter));  // Feeds ball to flywheel
+      m_feeder.spinFeeder(0);
+    }, m_shooter, m_feeder));  // Feeds ball to flywheel
 
     new JoystickButton(m_xboxController, XboxController.Button.kStart.value)
     .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))
@@ -119,19 +120,19 @@ public class RobotContainer {
     .whenPressed(() -> {
       m_intake.extend();
       m_intake.spin(0.5);
-      m_shooter.spinFeeder(-0.4);
+      m_feeder.spinFeeder(-0.4);
     })
     .whenReleased(() -> {
       m_intake.spin(0);
-      m_shooter.spinFeeder(0);
+      m_feeder.spinFeeder(0);
     });  // Drops intake, spins meccanum intake wheels, and spins blue feeder wheels
 
     new JoystickButton(m_xboxController, XboxController.Button.kX.value)
     .whenPressed(() -> m_intake.retract());  // Retracts intake
     
     new JoystickButton(m_xboxController, XboxController.Button.kB.value)
-    .whenPressed(() -> m_shooter.spinFeeder(-0.4), m_shooter)
-    .whenReleased(() -> m_shooter.spinFeeder(0));  // ejects ball out by running blue feeder wheels backwards
+    .whenPressed(() -> m_feeder.spinFeeder(-0.4), m_shooter)
+    .whenReleased(() -> m_feeder.spinFeeder(0));  // ejects ball out by running blue feeder wheels backwards
 
     new Button(() -> {return m_xboxController.getPOV() == 0;})
       .whenPressed(() -> m_hook.extend())
@@ -143,8 +144,8 @@ public class RobotContainer {
 
 
     new JoystickButton(m_flightStick, 11)
-    .whenPressed(() -> m_shooter.spinFeeder(0.4))
-    .whenReleased(() -> m_shooter.spinFeeder(0));
+    .whenPressed(() -> m_feeder.spinFeeder(0.4))
+    .whenReleased(() -> m_feeder.spinFeeder(0));
 
     new JoystickButton(m_flightStick, 3)
     .whenPressed(() -> m_intake.spin(-0.4))
