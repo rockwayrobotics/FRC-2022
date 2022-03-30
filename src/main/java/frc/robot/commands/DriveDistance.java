@@ -20,7 +20,6 @@ public class DriveDistance extends CommandBase {
    * @param subsystem Set this to m_drivebase
    * @param distance Set to distance in inches
    * @param speed Set to speed from zero to one
-  
    */
   public DriveDistance(DrivebaseSubsystem subsystem, double distance, double speed) {
 
@@ -59,7 +58,7 @@ public class DriveDistance extends CommandBase {
 
   @Override
   public void end(boolean cancelled) {
-    m_drivebase.set(0,0); // Resets the drivebase to 0
+    m_drivebase.set(0,0); // Resets the drivebase to 0, ends command
   }
 
 }

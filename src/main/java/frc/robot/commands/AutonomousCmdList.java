@@ -6,7 +6,7 @@ import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-
+//Commands added here will be run in sequence when AutonomousCmdList is called upon 
 public class AutonomousCmdList extends SequentialCommandGroup {
 
     public AutonomousCmdList(DrivebaseSubsystem m_drivebase, ShooterSubsystem m_shooter, FeederSubsystem m_feeder) {

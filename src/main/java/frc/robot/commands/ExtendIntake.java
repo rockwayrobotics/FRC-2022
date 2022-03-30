@@ -16,16 +16,22 @@ public class ExtendIntake extends CommandBase{
     this.addRequirements(m_intakeSubsystem);
   }
 
+/**It extends the intake when called upon 
+ */
   @Override
   public void execute() {
     m_intakeSubsystem.extend();
   }
 
+/**Checks if the intake is extended, calls end() if it is
+  */
   @Override
   public boolean isFinished() {
     return m_intakeSubsystem.isExtended();
   }
 
+/**Turns off the intake and ends command
+  */
   public void end() {
     m_intakeSubsystem.off();
   }

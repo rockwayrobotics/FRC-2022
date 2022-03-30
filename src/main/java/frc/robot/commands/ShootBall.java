@@ -29,11 +29,17 @@ public class ShootBall extends CommandBase{
     this.addRequirements(m_feederSubsystem);
   }
 
+  /**Makes sure that the cycles counter is 0
+   * This is so that this command can be reused
+   */
   @Override
   public void initialize(){
     cycles = 0; 
   }
 
+  /**Turns on all of the shooter motors
+   * Adds 1 to cycles every cycle (20ms) to track time
+   */
   @Override
   public void execute() {
     m_shooterSubsystem.spinIndex(-0.3);
@@ -42,11 +48,17 @@ public class ShootBall extends CommandBase{
     cycles++;
   }
 
+  /**Checks to see if cycles ran enough, then calls end 
+   * Change the cycles number here for a longer or shorter run time
+   * Every cycle is 20ms
+   */
   @Override
   public boolean isFinished() {
     return cycles >= 100;
   }
 
+ /**Turns off all the shooter motors and ends command
+  */
   @Override 
   public void end(boolean cancelled) {
     m_shooterSubsystem.spinIndex(0);
