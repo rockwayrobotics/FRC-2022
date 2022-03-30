@@ -28,7 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_indexer.setIdleMode(IdleMode.kBrake);
 
     m_indexer.setInverted(true); 	
-    
+
     CANSparkMax flywheel1 = new CANSparkMax(flywheelMotor, MotorType.kBrushless);
     CANSparkMax flywheel2 = new CANSparkMax(flywheelMotor2, MotorType.kBrushless);
     m_flywheel = new MotorControllerGroup(flywheel1, flywheel2);
@@ -42,6 +42,10 @@ public class ShooterSubsystem extends SubsystemBase {
     m_flywheelPow = shootPow;
   }
 
+  /**
+   * Spins the index wheel at a specified power level.
+   * @param indexPow Speed to spin the wheel. -1 is full backwards, 1 is full forwards.
+   */
   public void spinIndex(double indexPow) {
     m_indexerPow = indexPow;
   }

@@ -12,7 +12,7 @@ public class FeederSubsystem extends SubsystemBase {
 
   private double m_feederPow = 0;
 
-
+/** Creates a new feederSubsystem. */
 public FeederSubsystem(int feederMotor, int feederMotor2) {
   CANSparkMax feeder1 = new CANSparkMax(feederMotor, MotorType.kBrushless);
   CANSparkMax feeder2 = new CANSparkMax(feederMotor2, MotorType.kBrushless);
@@ -21,6 +21,10 @@ public FeederSubsystem(int feederMotor, int feederMotor2) {
   m_feeder = new MotorControllerGroup(feeder1, feeder2);
 }
 
+/**
+ * Spins the feeder at a specified power level.
+ * @param indexPow Speed to spin the feeder. -1 is full backwards, 1 is full forwards.
+ */
 public void spinFeeder(double feedPow) {
   m_feederPow = feedPow;
 }
