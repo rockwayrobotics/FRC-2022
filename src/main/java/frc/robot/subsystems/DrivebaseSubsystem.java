@@ -59,14 +59,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
     MotorControllerGroup leftDrive = new MotorControllerGroup(
       leftMotorController1, leftMotorController2
     );
-    // MotorControllerGroup leftDrive = new MotorControllerGroup(
-    //   new WPI_VictorSPX(leftMotor1),
-    //   new WPI_VictorSPX(leftMotor2)
-    // );
-    // MotorControllerGroup rightDrive = new MotorControllerGroup(
-    //   new WPI_VictorSPX(rightMotor1),
-    //   new WPI_VictorSPX(rightMotor2)
-    // );
+
     rightDrive.setInverted(true);
     leftDrive.setInverted(true);
     /* Create new DifferentialDrive from the previously created MotorControllerGroups */
@@ -92,7 +85,6 @@ public class DrivebaseSubsystem extends SubsystemBase {
     m_y = y;
     m_x = x;
   }
-
 
   /**
    * Sets the scale for the drivebase. Speeds are multiplied by the scale before being sent to the motors.
@@ -159,9 +151,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
     if (Math.abs(m_y) <= Math.abs(p_y)) {
       filter.reset(m_y);
     }
-      //m_drive.arcadeDrive(m_scale * m_x, m_scale * m_y);
-      //m_drive.arcadeDrive(m_x, m_y);
-      // turnFilter.calculate(m_scale * m_x), filter.calculate(m_scale * m_y)
+
     p_x = turnFilter.calculate(m_scale * m_x);
     p_y = filter.calculate(m_scale * m_y);
     m_drive.arcadeDrive(p_x, p_y / 1.3, false);
