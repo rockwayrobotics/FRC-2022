@@ -68,29 +68,37 @@ public class RobotContainer {
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
 
-  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter); //pass in drivebase here
-
   ShuffleboardTab tab = Shuffleboard.getTab("Speeds");
   private NetworkTableEntry flywheelSpeed =
-       tab.add("Flywheel Speed", 1)
+        tab.add("Flywheel Speed", 1)
           .withWidget(BuiltInWidgets.kNumberSlider)
           .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
           .getEntry();
   private NetworkTableEntry intakeSpeed =
-       tab.add("Intake Speed", 0.5)
+        tab.add("Intake Speed", 0.5)
           .withWidget(BuiltInWidgets.kNumberSlider)
           .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
           .getEntry();
   private NetworkTableEntry feederSpeed =
-       tab.add("Feeder Speed", 0.4)
+        tab.add("Feeder Speed", 0.4)
           .withWidget(BuiltInWidgets.kNumberSlider)
           .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
           .getEntry();
   private NetworkTableEntry hookSpeed =
-       tab.add("Hook Speed", 0.8)
+        tab.add("Hook Speed", 0.8)
           .withWidget(BuiltInWidgets.kNumberSlider)
           .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
           .getEntry();
+  private NetworkTableEntry autoSpeed =
+        tab.add("Auto Speed", 0.5)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", -1, "max", 1)) // specify widget properties here
+            .getEntry();
+  private NetworkTableEntry autoDistance =
+        tab.add("Auto Distance", 50) // specify widget properties here
+            .getEntry();
+
+  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, autoDistance.getDouble(50), autoSpeed.getDouble(0.5)); //pass in drivebase here
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

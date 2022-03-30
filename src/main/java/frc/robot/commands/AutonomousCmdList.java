@@ -8,10 +8,10 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class AutonomousCmdList extends SequentialCommandGroup {
 
-    public AutonomousCmdList(DrivebaseSubsystem m_drivebase, ShooterSubsystem m_shooter) {
+    public AutonomousCmdList(DrivebaseSubsystem m_drivebase, ShooterSubsystem m_shooter, double driveDistance, double driveSpeed) {
         super();
         this.addCommands(new ShootBall(m_shooter, m_drivebase));
-        this.addCommands(new DriveDistance(m_drivebase, -50, -0.5));
+        this.addCommands(new DriveDistance(m_drivebase, driveDistance, driveSpeed));
     }
     
     
