@@ -79,6 +79,11 @@ public class RobotContainer {
           .withWidget(BuiltInWidgets.kNumberSlider)
           .withProperties(Map.of("min", -1, "max", 1)) // specify widget properties here
           .getEntry();
+  private NetworkTableEntry indexSpeed =
+        tab.add("Intake Speed", 0.5)
+          .withWidget(BuiltInWidgets.kNumberSlider)
+          .withProperties(Map.of("min", -1, "max", 1)) // specify widget properties here
+          .getEntry();
   private NetworkTableEntry feederSpeed =
         tab.add("Feeder Speed", 0.4)
           .withWidget(BuiltInWidgets.kNumberSlider)
@@ -131,7 +136,7 @@ public class RobotContainer {
 
     new JoystickButton(m_xboxController, XboxController.Button.kY.value)
     .whenPressed(new InstantCommand(() -> {
-      m_shooter.spinIndex(-intakeSpeed.getDouble(0.3));
+      m_shooter.spinIndex(indexSpeed.getDouble(0.3));
       m_shooter.spinFeeder(feederSpeed.getDouble(0.4));
     }, m_shooter))
     .whenReleased(new InstantCommand(() -> {

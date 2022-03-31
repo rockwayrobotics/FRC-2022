@@ -51,10 +51,16 @@ public class DriveDistance extends CommandBase {
     // This takes the values from encoder L and R and averages them out
     double averageDistance = (m_drivebase.getLDistance() + m_drivebase.getRDistance()) / 2; 
     // This will say to end when the encoders are equal with the distance we want
+
+    System.out.println(averageDistance);
+    System.out.println(m_drivebase.getLDistance());
+    System.out.println(m_drivebase.getRDistance());
+
     if (m_speed < 0) {
       return averageDistance <= m_distance;
-    } 
-    return averageDistance >= m_distance;  
+    } else {
+      return averageDistance >= m_distance;  
+    }
   }
 
   @Override
