@@ -70,19 +70,19 @@ public class RobotContainer {
 
   ShuffleboardTab tab = Shuffleboard.getTab("Speeds");
   private NetworkTableEntry flywheelSpeed =
-        tab.add("Flywheel Speed", 1)
+        tab.add("Flywheel Speed", 0.8)
           .withWidget(BuiltInWidgets.kNumberSlider)
-          .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
+          .withProperties(Map.of("min", -1, "max", 1)) // specify widget properties here
           .getEntry();
   private NetworkTableEntry intakeSpeed =
         tab.add("Intake Speed", 0.5)
           .withWidget(BuiltInWidgets.kNumberSlider)
-          .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
+          .withProperties(Map.of("min", -1, "max", 1)) // specify widget properties here
           .getEntry();
   private NetworkTableEntry feederSpeed =
         tab.add("Feeder Speed", 0.4)
           .withWidget(BuiltInWidgets.kNumberSlider)
-          .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
+          .withProperties(Map.of("min", -1, "max", 1)) // specify widget properties here
           .getEntry();
   private NetworkTableEntry hookSpeed =
         tab.add("Hook Speed", 0.8)
@@ -126,13 +126,13 @@ public class RobotContainer {
     .whenReleased(() -> m_drivebase.setScale(1));  // Sets drivebase to half speed, for more precise and slow movement (likely going to be used inside hangar)
  
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
-    .whenPressed(new InstantCommand(() -> m_shooter.spinFlywheel(flywheelSpeed.getDouble(1)), m_shooter))
+    .whenPressed(new InstantCommand(() -> m_shooter.spinFlywheel(flywheelSpeed.getDouble(0.8)), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
 
     new JoystickButton(m_xboxController, XboxController.Button.kY.value)
     .whenPressed(new InstantCommand(() -> {
-      m_shooter.spinIndex(0.3);
-      m_shooter.spinFeeder(0.4);
+      m_shooter.spinIndex(-intakeSpeed.getDouble(0.3));
+      m_shooter.spinFeeder(feederSpeed.getDouble(0.4));
     }, m_shooter))
     .whenReleased(new InstantCommand(() -> {
       m_shooter.spinIndex(0);
@@ -140,11 +140,11 @@ public class RobotContainer {
     }, m_shooter));  // Feeds ball to flywheel
 
     new JoystickButton(m_xboxController, XboxController.Button.kStart.value)
-    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
+    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));  // Manually jogs blue and green indexer wheel towards the flywheel
 
     new JoystickButton(m_xboxController, XboxController.Button.kBack.value)
-    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))
+    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));  // Manually jogs blue and green indexer wheel away from the flywheel
 
     new JoystickButton(m_xboxController, XboxController.Button.kA.value)
