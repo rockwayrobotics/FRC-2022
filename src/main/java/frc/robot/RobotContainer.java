@@ -56,7 +56,7 @@ public class RobotContainer {
     CAN.INTAKE_MOTOR
   );
 
-  private HookSubsystem m_hook = new HookSubsystem(CAN.WINCH_MOTOR);
+  private HookSubsystem m_hook = new HookSubsystem(CAN.WINCH_MOTOR, Digital.TOP_CLIMB_LIMIT, Digital.BOTTOM_CLIMB_LIMIT);
 
 
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
@@ -90,7 +90,7 @@ public class RobotContainer {
     .whenReleased(() -> m_drivebase.setScale(1));  // Sets drivebase to half speed, for more precise and slow movement (likely going to be used inside hangar)
  
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
-    .whenPressed(new InstantCommand(() -> m_shooter.spinFlywheel(0.5), m_shooter))
+    .whenPressed(new InstantCommand(() -> m_shooter.spinFlywheel(0.8), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
 
     new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel
@@ -161,6 +161,9 @@ public class RobotContainer {
     new JoystickButton(m_flightStick, 10) // Manually jogs indexer wheel away from the flywheel
     .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
+
+    new JoystickButton(m_xboxController, XboxController.Button.kRightStick.value)
+    .whenPressed(new InstantCommand(()-> m_hook.getSwitchState(), m_shooter));
 
     // new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
     // .whenPressed(() -> m_intake.retract());
