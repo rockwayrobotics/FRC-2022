@@ -24,7 +24,7 @@ public FeederSubsystem(int feederMotor) {
 
 /**
  * Spins the feeder at a specified power level.
- * @param indexPow Speed to spin the feeder. -1 is full backwards, 1 is full forwards.
+ * @param feedPow Speed to spin the feeder. -1 is full backwards, 1 is full forwards.
  */
 public void spinFeeder(double feedPow) {
   m_feederPow = feedPow;
