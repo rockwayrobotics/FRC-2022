@@ -4,11 +4,18 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -17,6 +24,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private double m_flywheelPow = 0;
   private double m_indexerPow = 0; 
+  private SparkMaxPIDController m_pidController;
+  private RelativeEncoder m_flywheelEncoder;
+  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
 
 
   /** Creates a new ShooterSubsystem. */
@@ -32,6 +42,37 @@ public class ShooterSubsystem extends SubsystemBase {
     CANSparkMax flywheel1 = new CANSparkMax(flywheelMotor, MotorType.kBrushless);
     CANSparkMax flywheel2 = new CANSparkMax(flywheelMotor2, MotorType.kBrushless);
     m_flywheel = new MotorControllerGroup(flywheel1, flywheel2);
+
+    m_flywheelEncoder = flywheel1.getEncoder();
+    m_pidController = flywheel1.getPIDController();
+
+    // PID coefficients
+    kP = 6e-5; 
+    kI = 0;
+    kD = 0; 
+    kIz = 0; 
+    kFF = 0.000015; 
+    kMaxOutput = 1; 
+    kMinOutput = -1;
+    maxRPM = 5700;
+    // default was 5700;
+
+    // set PID coefficients
+    m_pidController.setP(kP);
+    m_pidController.setI(kI);
+    m_pidController.setD(kD);
+    m_pidController.setIZone(kIz);
+    m_pidController.setFF(kFF);
+    m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+
+    // display PID coefficients on SmartDashboard
+    SmartDashboard.putNumber("P Gain", kP);
+    SmartDashboard.putNumber("I Gain", kI);
+    SmartDashboard.putNumber("D Gain", kD);
+    SmartDashboard.putNumber("I Zone", kIz);
+    SmartDashboard.putNumber("Feed Forward", kFF);
+    SmartDashboard.putNumber("Max Output", kMaxOutput);
+    SmartDashboard.putNumber("Min Output", kMinOutput);
   }
 
   /**
@@ -48,6 +89,45 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public void spinIndex(double indexPow) {
     m_indexerPow = indexPow;
+  }
+
+  /**
+   * Take a shot to the upper goal by spinning up the fly wheel and indexing the ball into the fly wheel when 
+   * fly wheel is at the proper velocity
+   */
+  public void takeShot() {
+    
+    // read PID coefficients from SmartDashboard
+    double p = SmartDashboard.getNumber("P Gain", 0);
+    double i = SmartDashboard.getNumber("I Gain", 0);
+    double d = SmartDashboard.getNumber("D Gain", 0);
+    double iz = SmartDashboard.getNumber("I Zone", 0);
+    double ff = SmartDashboard.getNumber("Feed Forward", 0);
+    double max = SmartDashboard.getNumber("Max Output", 0);
+    double min = SmartDashboard.getNumber("Min Output", 0);
+
+    // if PID coefficients on SmartDashboard have changed, write new values to controller
+    if((p != kP)) { m_pidController.setP(p); kP = p; }
+    if((i != kI)) { m_pidController.setI(i); kI = i; }
+    if((d != kD)) { m_pidController.setD(d); kD = d; }
+    if((iz != kIz)) { m_pidController.setIZone(iz); kIz = iz; }
+    if((ff != kFF)) { m_pidController.setFF(ff); kFF = ff; }
+    if((max != kMaxOutput) || (min != kMinOutput)) { 
+      m_pidController.setOutputRange(min, max); 
+      kMinOutput = min; kMaxOutput = max; 
+    }
+
+    double setPoint = maxRPM;
+    m_pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+    
+    SmartDashboard.putNumber("SetPoint", setPoint);
+    SmartDashboard.putNumber("ProcessVariable", m_flywheelEncoder.getVelocity());
+
+    if(m_flywheelEncoder.getVelocity() >= maxRPM) {
+      m_indexerPow = 0.5;
+    } else {
+      m_indexerPow = 0;
+    }
   }
 
   @Override
