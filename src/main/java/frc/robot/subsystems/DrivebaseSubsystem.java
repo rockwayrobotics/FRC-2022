@@ -75,7 +75,6 @@ public class DrivebaseSubsystem extends SubsystemBase {
     m_leftEncoder = new Encoder(leftEncoder1, leftEncoder2);
     m_leftEncoder.setReverseDirection(true);
     m_rightEncoder = new Encoder(rightEncoder1, rightEncoder2);
-    m_rightEncoder.setReverseDirection(true);
     
     // when robot goes forward, left encoder spins positive and right encoder spins negative
     m_leftEncoder.setDistancePerPulse(Drive.DISTANCE_PER_ENCODER_PULSE);
