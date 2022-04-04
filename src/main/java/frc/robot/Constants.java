@@ -36,7 +36,7 @@ public final class Constants {
         // public static final int WINCH_MOTOR = 5;
         // public static final int WHEEL_MOTOR = 6;
         public static final int FEEDER_MOTOR = 5;
-        public static final int FEEDER_MOTOR2 = 6;
+        //public static final int FEEDER_MOTOR2 = 6;
         public static final int INDEX_MOTOR = 7;
         public static final int FLYWHEEL_MOTOR = 8;
         public static final int FLYWHEEL_MOTOR2 = 9;
@@ -50,6 +50,8 @@ public final class Constants {
         public static final int LEFT_ENCODER_2 = 1;
         public static final int RIGHT_ENCODER_1 = 2;
         public static final int RIGHT_ENCODER_2 = 3;
+        public static final int TOP_CLIMB_LIMIT = 4;
+        public static final int BOTTOM_CLIMB_LIMIT = 5;
     }
     
     // Constants related to robot driving
