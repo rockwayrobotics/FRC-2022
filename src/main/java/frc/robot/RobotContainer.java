@@ -82,7 +82,7 @@ public class RobotContainer {
           .withProperties(Map.of("min", -1, "max", 1)) // specify widget properties here
           .getEntry();
   private NetworkTableEntry indexSpeed =
-        tab.add("Intake Speed", 0.5)
+        tab.add("Index Speed", 0.5)
           .withWidget(BuiltInWidgets.kNumberSlider)
           .withProperties(Map.of("min", -1, "max", 1)) // specify widget properties here
           .getEntry();
