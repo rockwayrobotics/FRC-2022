@@ -44,7 +44,8 @@ public class RobotContainer {
     Digital.RIGHT_ENCODER_1, Digital.RIGHT_ENCODER_2
   );
 
-  private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR, CAN.FEEDER_MOTOR2);
+  //private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR, CAN.FEEDER_MOTOR2);
+  private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR);
 
   private ShooterSubsystem m_shooter = new ShooterSubsystem(
     CAN.INDEX_MOTOR,
