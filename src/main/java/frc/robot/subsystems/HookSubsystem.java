@@ -30,26 +30,25 @@ public class HookSubsystem extends SubsystemBase {
   /**
    * Extends the hook.
    */
-  public void extend() {
-
+  public void extend(double extendPow) {
 
     // For some reason switch is reading inverse, false when pushed down and true when not pushed
 
     if(!m_topLimitSwitch.get()) {
       m_pow = 0;
     } else {
-      m_pow = 0.7;
+      m_pow = extendPow;
     }
   }
 
   /**
    * Retracts the hook.
    */
-  public void retract() {
+  public void retract(double retractPow) {
     if(!m_bottomLimitSwitch.get()) {
       m_pow = 0;
     } else {
-      m_pow = -0.7;
+      m_pow = retractPow;
     }
   }
 

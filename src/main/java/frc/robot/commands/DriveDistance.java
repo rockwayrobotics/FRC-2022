@@ -14,7 +14,6 @@ public class DriveDistance extends CommandBase {
 
   private double m_distance;
   private double m_speed;
-  
   /**
    * A command that spins the wheels for a certain distance
    * @param subsystem Set this to m_drivebase
@@ -50,10 +49,12 @@ public class DriveDistance extends CommandBase {
     // This takes the values from encoder L and R and averages them out
     double averageDistance = (m_drivebase.getLDistance() + m_drivebase.getRDistance()) / 2; 
     // This will say to end when the encoders are equal with the distance we want
+
     if (m_speed < 0) {
       return averageDistance <= m_distance;
-    } 
-    return averageDistance >= m_distance;  
+    } else {
+      return averageDistance >= m_distance;  
+    }
   }
 
   @Override
