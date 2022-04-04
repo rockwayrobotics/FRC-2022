@@ -56,7 +56,7 @@ public class RobotContainer {
     CAN.INTAKE_MOTOR
   );
 
-  private HookSubsystem m_hook = new HookSubsystem(CAN.WINCH_MOTOR);
+  private HookSubsystem m_hook = new HookSubsystem(CAN.WINCH_MOTOR, Digital.TOP_CLIMB_LIMIT, Digital.BOTTOM_CLIMB_LIMIT);
 
 
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
