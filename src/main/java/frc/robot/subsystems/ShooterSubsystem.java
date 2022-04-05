@@ -23,7 +23,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private SparkMaxPIDController m_pidController;
   private RelativeEncoder m_flywheelEncoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
-
+  private boolean shooting = false;
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(
@@ -50,7 +50,7 @@ public class ShooterSubsystem extends SubsystemBase {
     kFF = 0.000015; 
     kMaxOutput = 1; 
     kMinOutput = -1;
-    maxRPM = 5700;
+    maxRPM = 1000;
     // default was 5700;
 
     // set PID coefficients
@@ -87,49 +87,29 @@ public class ShooterSubsystem extends SubsystemBase {
     m_indexerPow = indexPow;
   }
 
-  /**
-   * Take a shot to the upper goal by spinning up the fly wheel and indexing the ball into the fly wheel when 
-   * fly wheel is at the proper velocity
-   */
-  public void takeShot() {
-    
-    // read PID coefficients from SmartDashboard
-    double p = SmartDashboard.getNumber("P Gain", 0);
-    double i = SmartDashboard.getNumber("I Gain", 0);
-    double d = SmartDashboard.getNumber("D Gain", 0);
-    double iz = SmartDashboard.getNumber("I Zone", 0);
-    double ff = SmartDashboard.getNumber("Feed Forward", 0);
-    double max = SmartDashboard.getNumber("Max Output", 0);
-    double min = SmartDashboard.getNumber("Min Output", 0);
-
-    // if PID coefficients on SmartDashboard have changed, write new values to controller
-    if((p != kP)) { m_pidController.setP(p); kP = p; }
-    if((i != kI)) { m_pidController.setI(i); kI = i; }
-    if((d != kD)) { m_pidController.setD(d); kD = d; }
-    if((iz != kIz)) { m_pidController.setIZone(iz); kIz = iz; }
-    if((ff != kFF)) { m_pidController.setFF(ff); kFF = ff; }
-    if((max != kMaxOutput) || (min != kMinOutput)) { 
-      m_pidController.setOutputRange(min, max); 
-      kMinOutput = min; kMaxOutput = max; 
-    }
-
+  public void spinFlywheelSpeed (double maxRPM) {
     double setPoint = maxRPM;
-    m_pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
-    
-    SmartDashboard.putNumber("SetPoint", setPoint);
-    SmartDashboard.putNumber("ProcessVariable", m_flywheelEncoder.getVelocity());
+      m_pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+      
+      SmartDashboard.putNumber("SetPoint", setPoint);
+      
+  }
 
-    if(m_flywheelEncoder.getVelocity() >= maxRPM) {
-      m_indexerPow = 0.5;
-    } else {
-      m_indexerPow = 0;
-    }
+  public void stopAll() {
+    m_flywheelPow = 0;
+    m_indexerPow = 0;
+  }
+
+  public double getVelocity() {
+    return m_flywheelEncoder.getVelocity();
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Flywheel RPM", m_flywheelEncoder.getVelocity());
+
     m_flywheel.set(m_flywheelPow);
     m_indexer.set(m_indexerPow);
-   
+
   }
 }
