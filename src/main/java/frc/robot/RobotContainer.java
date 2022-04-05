@@ -8,28 +8,37 @@ import frc.robot.Constants.CAN;
 import frc.robot.Constants.Controllers;
 import frc.robot.Constants.Digital;
 import frc.robot.Constants.Pneumatics;
+import frc.robot.Constants.Relay;
+
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.HookSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.CameraSubsystem;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
+
 import java.util.Map;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
+
 import frc.robot.commands.AutonomousCmdList;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.HookSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // import edu.wpi.first.wpilibj2.command.Command;
 
@@ -64,8 +73,11 @@ public class RobotContainer {
     CAN.INTAKE_MOTOR
   );
 
-  private HookSubsystem m_hook = new HookSubsystem(CAN.WINCH_MOTOR, Digital.TOP_CLIMB_LIMIT, Digital.BOTTOM_CLIMB_LIMIT);
+  private HookSubsystem m_hook = new HookSubsystem(
+    CAN.WINCH_MOTOR, 
+    Digital.TOP_CLIMB_LIMIT, Digital.BOTTOM_CLIMB_LIMIT);
 
+  private CameraSubsystem m_camera = new CameraSubsystem(Relay.CAMERA_RELAY);
 
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
@@ -112,6 +124,9 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    SmartDashboard.putData("Camera LED On", new InstantCommand(() -> m_camera.ledON()));
+    SmartDashboard.putData("Camera LED Off", new InstantCommand(() -> m_camera.ledOFF()));
   }
 
   /**

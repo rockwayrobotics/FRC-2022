@@ -62,6 +62,11 @@ public final class Constants {
         public final static IdleMode IDLE_MODE = IdleMode.kBrake;
     }
 
+    // Constants for spike relays
+    public static final class Relay {
+        public final static int CAMERA_RELAY = 1;
+    }
+
 
   /**
    * Constants for Pneumatics Control Module ports
