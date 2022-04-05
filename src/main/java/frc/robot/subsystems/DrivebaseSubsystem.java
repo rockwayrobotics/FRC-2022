@@ -144,7 +144,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
   /* Periodic method that runs once every cycle */
   @Override
   public void periodic() {
-    // u_x is use x, p_x is past x
+    // if controller is less than before than reset the filters
     if (Math.abs(m_x) <= Math.abs(p_x)) {
       turnFilter.reset(m_x);
     }
@@ -152,9 +152,9 @@ public class DrivebaseSubsystem extends SubsystemBase {
       filter.reset(m_y);
     }
 
-    p_x = turnFilter.calculate(m_scale * m_x);
+    p_x = turnFilter.calculate(m_scale * m_x); // Calculate curves for drivebase (not 0 to 1)
     p_y = filter.calculate(m_scale * m_y);
-    m_drive.arcadeDrive(p_x, p_y / 1.3, false);
+    m_drive.arcadeDrive(p_x, p_y / 1.3, false); // Actually move drivebase
     m_x = 0;
     m_y = 0;
   }

@@ -42,9 +42,11 @@ public class ShootBall extends CommandBase{
    */
   @Override
   public void execute() {
-    m_shooterSubsystem.spinIndex(-0.3);
-    m_feederSubsystem.spinFeeder(-0.4);
-    m_shooterSubsystem.spinFlywheel(0.5);
+    if (cycles >= 75) {
+      m_shooterSubsystem.spinIndex(-0.3);
+      m_feederSubsystem.spinFeeder(-0.4);
+    }
+    m_shooterSubsystem.spinFlywheel(0.8);
     cycles++;
   }
 
@@ -54,7 +56,7 @@ public class ShootBall extends CommandBase{
    */
   @Override
   public boolean isFinished() {
-    return cycles >= 100;
+    return cycles >= 150;
   }
 
  /**Turns off all the shooter motors and ends command
