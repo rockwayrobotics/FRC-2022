@@ -5,46 +5,55 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private final CANSparkMax m_shooterMotor;
-  private final CANSparkMax m_feederMotor;
+  CANSparkMax m_indexer;
+  MotorControllerGroup m_flywheel;
 
-  private double m_shootPow = 0;
-  private double m_feedPow = 0;
+  private double m_flywheelPow = 0;
+  private double m_indexerPow = 0; 
 
-    /**
-   * Creates a new ShooterSubsystem.
-   * @param shooterMotor Set to your Shooter Motor
-   * @param feederMotore Set to your Feeder Motor
-   */
 
-  public ShooterSubsystem(int shooterMotor, int feederMotor) {
-    m_shooterMotor = new CANSparkMax(shooterMotor, MotorType.kBrushless);
+  /** Creates a new ShooterSubsystem. */
+  public ShooterSubsystem(
+    int indexMotor,
+    int flywheelMotor, int flywheelMotor2
+  ) {
+    m_indexer = new CANSparkMax(indexMotor, MotorType.kBrushed);
+    m_indexer.setIdleMode(IdleMode.kBrake);
 
-    m_feederMotor = new CANSparkMax(feederMotor, MotorType.kBrushless);
+    m_indexer.setInverted(true); 	
+
+    CANSparkMax flywheel1 = new CANSparkMax(flywheelMotor, MotorType.kBrushless);
+    CANSparkMax flywheel2 = new CANSparkMax(flywheelMotor2, MotorType.kBrushless);
+    m_flywheel = new MotorControllerGroup(flywheel1, flywheel2);
   }
 
   /**
    * Spins the shooter wheel at a specified power level.
    * @param shootPow Speed to spin the wheel. -1 is full backwards, 1 is full forwards.
    */
-  public void spinShooter(double shootPow) {
-    m_shootPow = shootPow;
+  public void spinFlywheel(double shootPow) {
+    m_flywheelPow = shootPow;
   }
 
-  public void spinFeeder(double feedPow) {
-    m_feedPow = feedPow;
+  /**
+   * Spins the index wheel at a specified power level.
+   * @param indexPow Speed to spin the wheel. -1 is full backwards, 1 is full forwards.
+   */
+  public void spinIndex(double indexPow) {
+    m_indexerPow = indexPow;
   }
 
   @Override
   public void periodic() {
-    m_shooterMotor.set(m_shootPow);
-    m_feederMotor.set(m_feedPow);
-    // m_shootPow = 0;
-    // m_feedPow = 0;
+    m_flywheel.set(m_flywheelPow);
+    m_indexer.set(m_indexerPow);
+   
   }
 }

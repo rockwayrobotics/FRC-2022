@@ -5,16 +5,17 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-// import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.Drive;
+
+import java.lang.Math;
 
 public class DrivebaseSubsystem extends SubsystemBase {
   private final DifferentialDrive m_drive;
@@ -24,11 +25,13 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
   private double m_y = 0;
   private double m_x = 0;
+  private double p_x = 0;
+  private double p_y = 0;
   private double m_scale = 1;
 
-  // private final SlewRateLimiter filter = new SlewRateLimiter(1);
+  private final SlewRateLimiter filter = new SlewRateLimiter(3);
   
-  // private final SlewRateLimiter turnFilter = new SlewRateLimiter(1.7);
+  private final SlewRateLimiter turnFilter = new SlewRateLimiter(4);
 
   /** Creates a new DrivebaseSubsystem. */
   public DrivebaseSubsystem(
@@ -56,14 +59,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
     MotorControllerGroup leftDrive = new MotorControllerGroup(
       leftMotorController1, leftMotorController2
     );
-    // MotorControllerGroup leftDrive = new MotorControllerGroup(
-    //   new WPI_VictorSPX(leftMotor1),
-    //   new WPI_VictorSPX(leftMotor2)
-    // );
-    // MotorControllerGroup rightDrive = new MotorControllerGroup(
-    //   new WPI_VictorSPX(rightMotor1),
-    //   new WPI_VictorSPX(rightMotor2)
-    // );
+
     rightDrive.setInverted(true);
     leftDrive.setInverted(true);
     /* Create new DifferentialDrive from the previously created MotorControllerGroups */
@@ -89,7 +85,6 @@ public class DrivebaseSubsystem extends SubsystemBase {
     m_y = y;
     m_x = x;
   }
-
 
   /**
    * Sets the scale for the drivebase. Speeds are multiplied by the scale before being sent to the motors.
@@ -149,9 +144,17 @@ public class DrivebaseSubsystem extends SubsystemBase {
   /* Periodic method that runs once every cycle */
   @Override
   public void periodic() {
-      //m_drive.arcadeDrive(turnFilter.calculate(m_scale * m_x), filter.calculate(m_scale * m_y), false);
-      m_drive.arcadeDrive(m_scale * m_x, m_scale * m_y);
+    // u_x is use x, p_x is past x
+    if (Math.abs(m_x) <= Math.abs(p_x)) {
+      turnFilter.reset(m_x);
+    }
+    if (Math.abs(m_y) <= Math.abs(p_y)) {
+      filter.reset(m_y);
+    }
 
+    p_x = turnFilter.calculate(m_scale * m_x);
+    p_y = filter.calculate(m_scale * m_y);
+    m_drive.arcadeDrive(p_x, p_y / 1.3, false);
     m_x = 0;
     m_y = 0;
   }
