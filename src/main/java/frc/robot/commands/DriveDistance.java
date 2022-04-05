@@ -18,7 +18,7 @@ public class DriveDistance extends CommandBase {
    * A command that spins the wheels for a certain distance
    * @param subsystem Set this to m_drivebase
    * @param distance Set to distance in inches
-   * @param speed Set to speed from zero to one
+   * @param speed Set to speed from -1 to 1 (must match sign of distance)
    */
   public DriveDistance(DrivebaseSubsystem subsystem, double distance, double speed) {
 

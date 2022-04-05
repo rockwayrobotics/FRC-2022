@@ -16,22 +16,25 @@ public class RetractIntake extends CommandBase{
     this.addRequirements(m_intakeSubsystem);
   }
 
-/**It retracts the intake when called upon 
+/**
+ * Retracts the intake when called upon 
  */
   @Override
   public void execute() {
     m_intakeSubsystem.extend();
   }
 
-/**Checks if the intake is retracted, calls end() if it is
-  */
+/**
+ * Checks if the intake is retracted, calls end() if it is
+ */
   @Override
   public boolean isFinished() {
     return m_intakeSubsystem.isRetracted();
   }
 
-/**Turns off the intake and ends command
-  */
+/**
+ * Turns off the intake and ends command
+ */
   public void end() {
     m_intakeSubsystem.off();
   }
