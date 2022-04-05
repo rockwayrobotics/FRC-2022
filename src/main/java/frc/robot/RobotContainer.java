@@ -147,11 +147,11 @@ public class RobotContainer {
     }, m_shooter, m_feeder));
 
     new JoystickButton(m_xboxController, XboxController.Button.kStart.value) // Manually jogs indexer wheel towards the flywheel
-    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
+    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
 
     new JoystickButton(m_xboxController, XboxController.Button.kBack.value) // Manually jogs indexer wheel away from the flywheel
-    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))
+    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
 
     new JoystickButton(m_xboxController, XboxController.Button.kA.value) // Drops intake, spins intake wheels and feeder wheels
@@ -159,8 +159,8 @@ public class RobotContainer {
       if(m_intake.getExtended() == Value.kReverse){
         m_intake.extend();
       }
-      m_intake.spin(intakeSpeed.getDouble(0.5));
-      m_feeder.spinFeeder(feederSpeed.getDouble(0.4));
+      m_intake.spin(intakeSpeed.getDouble(0.7));
+      m_feeder.spinFeeder(-feederSpeed.getDouble(0.4));
       // m_intake.spin(0.5);
       // m_feeder.spinFeeder(-0.4);
     })
@@ -174,7 +174,7 @@ public class RobotContainer {
     
     new JoystickButton(m_xboxController, XboxController.Button.kB.value)  // ejects ball out by running blue feeder wheels backwards
     .whenPressed(() -> {
-      m_feeder.spinFeeder(-feederSpeed.getDouble(0.4)); // Checks if feeder is extended before spinning
+      m_feeder.spinFeeder(feederSpeed.getDouble(0.4)); // Checks if feeder is extended before spinning
       if(m_intake.getExtended() == Value.kForward){
         m_intake.spin(-intakeSpeed.getDouble(0.8));
       }
