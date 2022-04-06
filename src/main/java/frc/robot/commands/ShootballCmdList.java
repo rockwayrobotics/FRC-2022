@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -14,7 +15,11 @@ public class ShootballCmdList extends SequentialCommandGroup {
 
     public ShootballCmdList(DrivebaseSubsystem m_drivebase, ShooterSubsystem m_shooter, FeederSubsystem m_feeder) {
         super();
-        this.addCommands(new SpinFlywheel(m_shooter,m_drivebase,m_feeder,1000.0));
+        
+        // I want to get to 4000 RPM
+        double velocityTarget = SmartDashboard.getNumber("Desired Flywheel Velocity", 0);
+
+        this.addCommands(new SpinFlywheel(m_shooter,m_drivebase,m_feeder,velocityTarget));
         this.addCommands(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter));
         this.addCommands(new WaitCommand(1));
 

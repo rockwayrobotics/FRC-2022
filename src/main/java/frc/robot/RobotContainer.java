@@ -24,6 +24,7 @@ import java.util.Map;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.commands.AutonomousCmdList;
+import frc.robot.commands.ShootballCmdList;
 import frc.robot.commands.SpinFlywheel;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.HookSubsystem;
@@ -134,7 +135,7 @@ public class RobotContainer {
     .whenReleased(() -> m_drivebase.setScale(1));  // Sets drivebase to half speed, for more precise and slow movement (likely going to be used inside hangar)
  
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
-    .whenPressed(new SpinFlywheel(m_shooter,m_drivebase,m_feeder,1000.0))
+    .whenHeld(new ShootballCmdList(m_drivebase,m_shooter,m_feeder))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
 
     new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels

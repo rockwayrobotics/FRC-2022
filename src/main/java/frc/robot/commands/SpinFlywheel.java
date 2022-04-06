@@ -1,7 +1,5 @@
 package frc.robot.commands;
 
-import com.revrobotics.CANSparkMax;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
@@ -12,7 +10,6 @@ public class SpinFlywheel extends CommandBase{
   private ShooterSubsystem m_shooterSubsystem;
   private FeederSubsystem m_feederSubsystem;
   private DrivebaseSubsystem m_drivebase;
-  private int cycles = 0;
   private double m_RPM = 0;
  
   /**
@@ -39,7 +36,6 @@ public class SpinFlywheel extends CommandBase{
    */
   @Override
   public void initialize(){
-    cycles = 0; 
     m_shooterSubsystem.spinFlywheelSpeed(m_RPM);
   }
 
@@ -48,10 +44,6 @@ public class SpinFlywheel extends CommandBase{
    */
   @Override
   public void execute() {
-    m_shooterSubsystem.spinIndex(-0.3);
-    m_feederSubsystem.spinFeeder(-0.4);
-    m_shooterSubsystem.spinFlywheel(0.5);
-    cycles++;
   }
 
   /**Checks to see if cycles ran enough, then calls end 
@@ -60,7 +52,7 @@ public class SpinFlywheel extends CommandBase{
    */
   @Override
   public boolean isFinished() {
-    return m_shooterSubsystem.getVelocity() >= m_RPM;
+    return m_shooterSubsystem.getVelocity() >= (m_RPM / 3.25);
   }
 
  /**Turns off all the shooter motors and ends command
