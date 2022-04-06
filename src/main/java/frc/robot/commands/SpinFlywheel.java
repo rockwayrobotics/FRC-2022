@@ -52,7 +52,7 @@ public class SpinFlywheel extends CommandBase{
    */
   @Override
   public boolean isFinished() {
-    return m_shooterSubsystem.getVelocity() >= (m_RPM / 3.25);
+    return m_shooterSubsystem.getVelocity() >= m_RPM;
   }
 
  /**Turns off all the shooter motors and ends command
