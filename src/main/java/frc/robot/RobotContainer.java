@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import java.util.Map;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.commands.AutonomousCmdList;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -42,6 +43,9 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
+  private DigitalInput shooter_track_limit = new DigitalInput(Digital.SHOOTER_TRACK_LIMIT);
+
+  private boolean isShooting = false;
 
   /* Contstructor for subsystems */
   private DrivebaseSubsystem m_drivebase = new DrivebaseSubsystem(
@@ -52,17 +56,16 @@ public class RobotContainer {
   );
 
   //private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR, CAN.FEEDER_MOTOR2);
-  private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR);
+  private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR, shooter_track_limit);
 
   private ShooterSubsystem m_shooter = new ShooterSubsystem(
     CAN.INDEX_MOTOR,
-    CAN.FLYWHEEL_MOTOR, CAN.FLYWHEEL_MOTOR2,
-    Digital.SHOOTER_TRACK_LIMIT
+    CAN.FLYWHEEL_MOTOR, CAN.FLYWHEEL_MOTOR2, shooter_track_limit
     );
   
   private IntakeSubsystem m_intake = new IntakeSubsystem(
     Pneumatics.INTAKE_EXTEND, Pneumatics.INTAKE_RETRACT, 
-    CAN.INTAKE_MOTOR, Digital.SHOOTER_TRACK_LIMIT
+    CAN.INTAKE_MOTOR
   );
 
   private HookSubsystem m_hook = new HookSubsystem(CAN.WINCH_MOTOR, Digital.TOP_CLIMB_LIMIT, Digital.BOTTOM_CLIMB_LIMIT);

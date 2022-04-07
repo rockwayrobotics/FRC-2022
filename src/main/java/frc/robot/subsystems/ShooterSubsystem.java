@@ -26,7 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem(
     int indexMotor,
     int flywheelMotor, int flywheelMotor2,
-    int track_limit_switch
+    DigitalInput track_limit_switch
   ) {
     m_indexer = new CANSparkMax(indexMotor, MotorType.kBrushed);
     m_indexer.setIdleMode(IdleMode.kBrake);
@@ -37,7 +37,7 @@ public class ShooterSubsystem extends SubsystemBase {
     CANSparkMax flywheel2 = new CANSparkMax(flywheelMotor2, MotorType.kBrushless);
     m_flywheel = new MotorControllerGroup(flywheel1, flywheel2);
 
-    m_track_limit_switch = new DigitalInput(track_limit_switch);
+    m_track_limit_switch = track_limit_switch;
   }
 
   /**
@@ -60,7 +60,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     // TODO Find proper speed for getting ball away from flywheel
     if(!m_track_limit_switch.get()) {
-      m_indexer.set(-.4);
+      m_indexer.set(.3);
+      System.out.println("");
     } else {
       m_flywheel.set(m_flywheelPow);
       m_indexer.set(m_indexerPow);

@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -13,13 +14,17 @@ public class FeederSubsystem extends SubsystemBase {
 
   private double m_feederPow = 0;
 
+  private DigitalInput m_track_limit_switch;
+
 /** Creates a new feederSubsystem. */
-public FeederSubsystem(int feederMotor) {
+public FeederSubsystem(int feederMotor, DigitalInput track_limit_switch) {
   m_feeder = new CANSparkMax(feederMotor, MotorType.kBrushless);
   //CANSparkMax feeder2 = new CANSparkMax(feederMotor2, MotorType.kBrushless);
   m_feeder.setIdleMode(IdleMode.kBrake);
   //feeder2.setIdleMode(IdleMode.kBrake);
   //m_feeder = new MotorControllerGroup(feeder1, feeder2);
+
+  m_track_limit_switch = track_limit_switch;
 }
 
 /**
@@ -32,6 +37,12 @@ public void spinFeeder(double feedPow) {
 
 @Override
 public void periodic(){
-  m_feeder.set(m_feederPow); 
+  //TODO figure out proper speed
+  if(!m_track_limit_switch.get()) {
+    m_feeder.set(.3);
+    System.out.println("");
+  } else {
+    m_feeder.set(m_feederPow);
+  } 
   }
 }
