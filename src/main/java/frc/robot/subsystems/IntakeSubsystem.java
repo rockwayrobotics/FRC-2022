@@ -11,19 +11,25 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Pneumatics;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+
 public class IntakeSubsystem extends SubsystemBase {
   private DoubleSolenoid m_extend;
   private WPI_VictorSPX m_spin; 
   private boolean m_extended = false;
   private double m_speed = 0; 
 
+  private DigitalInput m_track_limit_switch;
+
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem(
-    int intakeExtend, int intakeRetract, int intakeMotor
+    int intakeExtend, int intakeRetract, int intakeMotor, int track_limit_switch
   ){
     m_extend = new DoubleSolenoid(Pneumatics.PNEUMATICS_MODULE_TYPE, intakeExtend, intakeRetract);
     m_spin = new WPI_VictorSPX(intakeMotor);
   
+
+    m_track_limit_switch = new DigitalInput(track_limit_switch);
   }
 
   /**
@@ -81,6 +87,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic(){
-    m_spin.set(m_speed);
+    //TODO figure out proper speed
+    if(!m_track_limit_switch.get()){
+      m_spin.set(-.4);
+    } else {
+      m_spin.set(m_speed);
+    }
   }
 }

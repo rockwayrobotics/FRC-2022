@@ -56,12 +56,13 @@ public class RobotContainer {
 
   private ShooterSubsystem m_shooter = new ShooterSubsystem(
     CAN.INDEX_MOTOR,
-    CAN.FLYWHEEL_MOTOR, CAN.FLYWHEEL_MOTOR2
+    CAN.FLYWHEEL_MOTOR, CAN.FLYWHEEL_MOTOR2,
+    Digital.SHOOTER_TRACK_LIMIT
     );
   
   private IntakeSubsystem m_intake = new IntakeSubsystem(
     Pneumatics.INTAKE_EXTEND, Pneumatics.INTAKE_RETRACT, 
-    CAN.INTAKE_MOTOR
+    CAN.INTAKE_MOTOR, Digital.SHOOTER_TRACK_LIMIT
   );
 
   private HookSubsystem m_hook = new HookSubsystem(CAN.WINCH_MOTOR, Digital.TOP_CLIMB_LIMIT, Digital.BOTTOM_CLIMB_LIMIT);
