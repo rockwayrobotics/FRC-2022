@@ -233,11 +233,11 @@ public class RobotContainer {
     .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
 
-    // new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
-    // .whenPressed(() -> m_intake.retract());
+    new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
+    .whenPressed(() -> m_camera.ledON());
     
-    // new Button(() -> {return m_xboxController.getRightTriggerAxis() > 0.5;})
-    // .whenPressed(() -> m_intake.extend());
+    new Button(() -> {return m_xboxController.getRightTriggerAxis() > 0.5;})
+    .whenPressed(() -> m_camera.ledOFF());
   }
 
   /**

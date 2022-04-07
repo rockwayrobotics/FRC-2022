@@ -17,10 +17,12 @@ public class CameraSubsystem extends SubsystemBase {
 
   public void ledON() {
       m_ledRing.set(Relay.Value.kForward);
+      System.out.println("LED ON");
   }
 
   public void ledOFF() {
       m_ledRing.set(Relay.Value.kOff);
+      System.out.println("LED OFF");
   }
 
   @Override
