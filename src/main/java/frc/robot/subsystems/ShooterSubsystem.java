@@ -21,6 +21,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private double m_indexerPow = 0; 
 
   private DigitalInput m_track_limit_switch;
+  private boolean m_shootStatus = false;
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(
@@ -56,15 +57,23 @@ public class ShooterSubsystem extends SubsystemBase {
     m_indexerPow = indexPow;
   }
 
+  public void setShootStatus(boolean shootStatus) {
+    m_shootStatus = shootStatus;
+  }
+
+  public boolean getShootStatus() {
+    return m_shootStatus;
+  }
+
   @Override
   public void periodic() {
     // TODO Find proper speed for getting ball away from flywheel
-    if(!m_track_limit_switch.get()) {
-      m_indexer.set(.3);
-      System.out.println("");
+    if(!m_shootStatus && !m_track_limit_switch.get()) {
+      m_indexer.set(.2);
     } else {
-      m_flywheel.set(m_flywheelPow);
       m_indexer.set(m_indexerPow);
     }
+
+    m_flywheel.set(m_flywheelPow);
   }
 }
