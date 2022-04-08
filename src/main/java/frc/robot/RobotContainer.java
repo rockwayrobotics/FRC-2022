@@ -77,7 +77,7 @@ public class RobotContainer {
     CAN.WINCH_MOTOR, 
     Digital.TOP_CLIMB_LIMIT, Digital.BOTTOM_CLIMB_LIMIT);
 
-  private CameraSubsystem m_camera = new CameraSubsystem(Relay.CAMERA_RELAY);
+  private CameraSubsystem m_camera = new CameraSubsystem(CAN.LED_CONTROLLER);
 
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
