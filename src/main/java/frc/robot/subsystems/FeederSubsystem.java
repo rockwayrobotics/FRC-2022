@@ -45,7 +45,6 @@ public class FeederSubsystem extends SubsystemBase {
     //TODO figure out proper speed
     if(!m_track_limit_switch.get() && !m_shootStatus) {
       m_feeder.set(.1);
-      System.out.println("");
     } else {
       m_feeder.set(m_feederPow);
     } 

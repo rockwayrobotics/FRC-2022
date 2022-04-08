@@ -34,7 +34,9 @@ public class ShootBall extends CommandBase{
    */
   @Override
   public void initialize(){
-    cycles = 0; 
+    cycles = 0;
+    m_shooterSubsystem.setShootStatus(true);
+    m_feederSubsystem.setShootStatus(true);
   }
 
   /**Turns on all of the shooter motors
@@ -66,5 +68,7 @@ public class ShootBall extends CommandBase{
     m_shooterSubsystem.spinIndex(0);
     m_feederSubsystem.spinFeeder(0);
     m_shooterSubsystem.spinFlywheel(0);
+    m_shooterSubsystem.setShootStatus(false);
+    m_feederSubsystem.setShootStatus(false);
   }  
 }
