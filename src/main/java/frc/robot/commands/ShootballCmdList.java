@@ -17,7 +17,7 @@ public class ShootballCmdList extends SequentialCommandGroup {
         super();
         
         // I want to get to 4000 RPM
-        double velocityTarget = SmartDashboard.getNumber("Desired Flywheel Velocity", 0);
+        double velocityTarget = SmartDashboard.getNumber("Flywheel Velocity Desired", 0);
 
         this.addCommands(new SpinFlywheel(m_shooter,m_drivebase,m_feeder,velocityTarget));
         this.addCommands(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter));

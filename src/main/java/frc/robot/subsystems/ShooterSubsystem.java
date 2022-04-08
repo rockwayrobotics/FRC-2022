@@ -59,7 +59,7 @@ public class ShooterSubsystem extends SubsystemBase {
     kFF = 1/5700;
     kMaxOutput = 1; 
     kMinOutput = -1;
-    velocityTarget = 40000;
+    velocityTarget = 4000;
 
     // set PID coefficients
     m_pidController.setP(kP);
@@ -78,7 +78,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Max Output", kMaxOutput);
     SmartDashboard.putNumber("Min Output", kMinOutput);
 
-    SmartDashboard.putNumber("Desired Flywheel Velocity", velocityTarget);
+    SmartDashboard.putNumber("Flywheel Velocity Desired", velocityTarget);
   }
 
   /**
