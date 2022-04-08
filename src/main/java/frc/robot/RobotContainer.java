@@ -107,7 +107,7 @@ public class RobotContainer {
         tab.add("Auto Distance", 50) // specify widget properties here
             .getEntry();
 
-  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder, autoDistance.getDouble(50), autoSpeed.getDouble(0.5)); //pass in drivebase here
+  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder, autoDistance, autoSpeed, flywheelSpeed, indexSpeed, feederSpeed); //pass in drivebase here
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
