@@ -51,6 +51,7 @@ public final class Constants {
         public static final int RIGHT_ENCODER_2 = 3;
         public static final int TOP_CLIMB_LIMIT = 4;
         public static final int BOTTOM_CLIMB_LIMIT = 5;
+        public static final int SHOOTER_TRACK_LIMIT = 6;
     }
     
     // Constants related to robot driving

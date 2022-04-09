@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
@@ -11,6 +12,10 @@ public class ShootBall extends CommandBase{
   private FeederSubsystem m_feederSubsystem;
   private DrivebaseSubsystem m_drivebase;
   private int cycles = 0;
+
+  private NetworkTableEntry m_flywheelSpeed;
+  private NetworkTableEntry m_indexSpeed;
+  private NetworkTableEntry m_feederSpeed;
  
   /**
    * A command that shoots the ball once
@@ -19,7 +24,7 @@ public class ShootBall extends CommandBase{
    * @param feeder Set this to m_feederSubsystem 
    * drivebase is added as requirement so command delays without turning it on
    */
-   public ShootBall(ShooterSubsystem shooter, DrivebaseSubsystem drivebase, FeederSubsystem feeder){
+   public ShootBall(ShooterSubsystem shooter, DrivebaseSubsystem drivebase, FeederSubsystem feeder, NetworkTableEntry flywheelSpeed, NetworkTableEntry indexSpeed, NetworkTableEntry feederSpeed){
     
     m_drivebase = drivebase;
     m_shooterSubsystem = shooter;
@@ -27,6 +32,10 @@ public class ShootBall extends CommandBase{
     this.addRequirements(m_shooterSubsystem);
     this.addRequirements(m_drivebase);
     this.addRequirements(m_feederSubsystem);
+
+    m_flywheelSpeed = flywheelSpeed;
+    m_indexSpeed = indexSpeed;
+    m_feederSpeed = feederSpeed;
   }
 
   /**Makes sure that the cycles counter is 0
@@ -34,7 +43,9 @@ public class ShootBall extends CommandBase{
    */
   @Override
   public void initialize(){
-    cycles = 0; 
+    cycles = 0;
+    m_shooterSubsystem.setShootStatus(true);
+    m_feederSubsystem.setShootStatus(true);
   }
 
   /**Turns on all of the shooter motors
@@ -43,10 +54,10 @@ public class ShootBall extends CommandBase{
   @Override
   public void execute() {
     if (cycles >= 75) {
-      m_shooterSubsystem.spinIndex(-0.3);
-      m_feederSubsystem.spinFeeder(-0.4);
+      m_shooterSubsystem.spinIndex(m_flywheelSpeed.getDouble(-0.3));
+      m_feederSubsystem.spinFeeder(m_feederSpeed.getDouble(-0.4));
     }
-    m_shooterSubsystem.spinFlywheel(0.8);
+    m_shooterSubsystem.spinFlywheel(m_flywheelSpeed.getDouble(0.8));
     cycles++;
   }
 
@@ -66,5 +77,7 @@ public class ShootBall extends CommandBase{
     m_shooterSubsystem.spinIndex(0);
     m_feederSubsystem.spinFeeder(0);
     m_shooterSubsystem.spinFlywheel(0);
+    m_shooterSubsystem.setShootStatus(false);
+    m_feederSubsystem.setShootStatus(false);
   }  
 }
