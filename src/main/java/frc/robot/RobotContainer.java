@@ -199,7 +199,7 @@ public class RobotContainer {
       .whenReleased(() -> m_hook.stop());
 
     new Button(() -> {return m_xboxController.getPOV() == 180;})  // Retracts hook down / Climbs robot
-      .whenPressed(() -> m_hook.retract(-hookSpeed.getDouble(0.8)/2))
+      .whenPressed(() -> m_hook.retract(-hookSpeed.getDouble(0.8)/1.5))
       .whenReleased(() -> m_hook.stop());
 
 

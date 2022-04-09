@@ -54,8 +54,8 @@ public class ShootBall extends CommandBase{
   @Override
   public void execute() {
     if (cycles >= 75) {
-      m_shooterSubsystem.spinIndex(m_indexSpeed.getDouble(-0.3));
-      m_feederSubsystem.spinFeeder(m_feederSpeed.getDouble(-0.4));
+      m_shooterSubsystem.spinIndex(-m_indexSpeed.getDouble(0.3));
+      m_feederSubsystem.spinFeeder(-m_feederSpeed.getDouble(0.4));
     }
     m_shooterSubsystem.spinFlywheel(m_flywheelSpeed.getDouble(0.8));
     cycles++;
