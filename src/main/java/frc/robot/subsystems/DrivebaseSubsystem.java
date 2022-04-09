@@ -23,6 +23,11 @@ public class DrivebaseSubsystem extends SubsystemBase {
   private final Encoder m_leftEncoder;
   private final Encoder m_rightEncoder;
 
+  CANSparkMax rightMotorController1;
+  CANSparkMax rightMotorController2;
+  CANSparkMax leftMotorController1;
+  CANSparkMax leftMotorController2;
+
   private double m_y = 0;
   private double m_x = 0;
   private double p_x = 0;
@@ -43,15 +48,11 @@ public class DrivebaseSubsystem extends SubsystemBase {
   
   /* Create motor controller groups for left and right side of drivebase */
   {
-    CANSparkMax rightMotorController1 = new CANSparkMax(rightMotor1, MotorType.kBrushed);
-    CANSparkMax rightMotorController2 = new CANSparkMax(rightMotor2, MotorType.kBrushed);
-    CANSparkMax leftMotorController1 = new CANSparkMax(leftMotor1, MotorType.kBrushed);
-    CANSparkMax leftMotorController2 = new CANSparkMax(leftMotor2, MotorType.kBrushed);
 
-    rightMotorController1.setIdleMode(Drive.IDLE_MODE);
-    rightMotorController2.setIdleMode(Drive.IDLE_MODE);
-    leftMotorController1.setIdleMode(Drive.IDLE_MODE);
-    leftMotorController2.setIdleMode(Drive.IDLE_MODE);
+    rightMotorController1 = new CANSparkMax(rightMotor1, MotorType.kBrushed);
+    rightMotorController2 = new CANSparkMax(rightMotor2, MotorType.kBrushed);
+    leftMotorController1 = new CANSparkMax(leftMotor1, MotorType.kBrushed);
+    leftMotorController2 = new CANSparkMax(leftMotor2, MotorType.kBrushed);
 
     MotorControllerGroup rightDrive = new MotorControllerGroup(
         rightMotorController1, rightMotorController2
@@ -100,6 +101,20 @@ public class DrivebaseSubsystem extends SubsystemBase {
    */
   public double getLDistance() {
     return m_leftEncoder.getDistance();
+  }
+
+  public void disable() {
+    rightMotorController1.setIdleMode(Drive.DISABLED_MODE);
+    rightMotorController2.setIdleMode(Drive.DISABLED_MODE);
+    leftMotorController1.setIdleMode(Drive.DISABLED_MODE);
+    leftMotorController2.setIdleMode(Drive.DISABLED_MODE);
+  }
+
+  public void enable() {
+    rightMotorController1.setIdleMode(Drive.ACTIVE_MODE);
+    rightMotorController2.setIdleMode(Drive.ACTIVE_MODE);
+    leftMotorController1.setIdleMode(Drive.ACTIVE_MODE);
+    leftMotorController2.setIdleMode(Drive.ACTIVE_MODE);
   }
   
   /**

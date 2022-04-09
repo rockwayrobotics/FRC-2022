@@ -243,4 +243,12 @@ public class RobotContainer {
     // Uses m_autoCommand which was created earlier
     return m_autoCommand;
   }
+
+  public void onDisable() {
+    m_drivebase.disable();
+  }
+  
+  public void onEnable() {
+    m_drivebase.enable();
+  }
 }

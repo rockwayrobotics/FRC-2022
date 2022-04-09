@@ -50,7 +50,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    m_robotContainer.onDisable();
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -64,6 +66,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    m_robotContainer.onEnable();
   }
 
   /** This function is called periodically during autonomous. */
@@ -79,6 +82,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.onEnable();
   }
 
   /** This function is called periodically during operator control. */
