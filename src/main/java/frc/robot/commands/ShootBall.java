@@ -67,7 +67,7 @@ public class ShootBall extends CommandBase{
    */
   @Override
   public boolean isFinished() {
-    return cycles >= 150;
+    return cycles >= 400;
   }
 
  /**Turns off all the shooter motors and ends command
