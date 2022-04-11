@@ -214,7 +214,7 @@ public class RobotContainer {
       .whenReleased(() -> m_hook.stop());
 
     new Button(() -> {return m_xboxController.getPOV() == 180;})  // Retracts hook down / Climbs robot
-      .whenPressed(() -> m_hook.retract(-hookSpeed.getDouble(0.4)))
+      .whenPressed(() -> m_hook.retract(-hookSpeed.getDouble(0.8)/1.5))
       .whenReleased(() -> m_hook.stop());
 
 
@@ -257,5 +257,13 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // Uses m_autoCommand which was created earlier
     return m_autoCommand;
+  }
+
+  public void onDisable() {
+    m_drivebase.disable();
+  }
+  
+  public void onEnable() {
+    m_drivebase.enable();
   }
 }
