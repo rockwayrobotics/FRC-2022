@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.Drive;
 
 import java.lang.Math;
@@ -32,6 +32,8 @@ public class DrivebaseSubsystem extends SubsystemBase {
   private final SlewRateLimiter filter = new SlewRateLimiter(3);
   
   private final SlewRateLimiter turnFilter = new SlewRateLimiter(4);
+
+  private boolean rotating = false;
 
   /** Creates a new DrivebaseSubsystem. */
   public DrivebaseSubsystem(
@@ -140,6 +142,10 @@ public class DrivebaseSubsystem extends SubsystemBase {
     m_rightEncoder.reset();
   }
 
+  public void rotate(boolean rotate) {
+    rotating = rotate;
+  }
+
 
   /* Periodic method that runs once every cycle */
   @Override
@@ -157,5 +163,9 @@ public class DrivebaseSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(p_x, p_y / 1.3, false); // Actually move drivebase
     m_x = 0;
     m_y = 0;
+    
+    if(rotating) {
+      m_drive.tankDrive(0.1, -0.1);
+    }
   }
 }

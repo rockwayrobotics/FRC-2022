@@ -31,7 +31,7 @@ public class ShootballCmdList extends SequentialCommandGroup {
         // feed second ball to indexer
         this.addCommands(new InstantCommand(() -> m_feeder.spinFeeder(-0.3), m_feeder));
         // slight pause to prevent momentum from feeder
-        this.addCommands(new WaitCommand(0.75));
+        this.addCommands(new WaitCommand(1));
         // stop feeder
         this.addCommands(new InstantCommand(() -> m_feeder.spinFeeder(0), m_feeder));
         
