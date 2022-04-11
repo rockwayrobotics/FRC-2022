@@ -163,13 +163,13 @@ public class DrivebaseSubsystem extends SubsystemBase {
     if (Math.abs(m_x) <= Math.abs(p_x)) {
       turnFilter.reset(m_x);
     }
-    if (Math.abs(m_y) <= Math.abs(p_y)) {
-      filter.reset(m_y);
-    }
+    // if (Math.abs(m_y) <= Math.abs(p_y)) {
+    //   filter.reset(m_y);
+    // }
 
-    p_x = turnFilter.calculate(m_scale * m_x); // Calculate curves for drivebase (not 0 to 1)
+    // p_x = turnFilter.calculate(m_scale * m_x); // Calculate curves for drivebase (not 0 to 1)
     p_y = filter.calculate(m_scale * m_y);
-    m_drive.arcadeDrive(p_x, p_y / 1.3, false); // Actually move drivebase
+    m_drive.arcadeDrive(m_x, p_y / 1.3, false); // Actually move drivebase
     m_x = 0;
     m_y = 0;
   }
