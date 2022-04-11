@@ -22,7 +22,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private double m_indexerPow = 0; 
   private SparkMaxPIDController m_pidController;
   private RelativeEncoder m_flywheelEncoder;
-  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, velocityTarget, setPoint;
+  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, velocityTarget;
   
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(
@@ -41,28 +41,18 @@ public class ShooterSubsystem extends SubsystemBase {
     m_flywheelEncoder = flywheel1.getEncoder();
     m_pidController = flywheel1.getPIDController();
 
-    /*
-    Found this brief explanation here -> https://www.chiefdelphi.com/t/spark-max-w-neos-pid-not-getting-to-setpoint/381728/2
-    Your PID constants are too small. An F of 0.000015 * 5700 RPM = 0.0855 motor output. A P of 0.00006 * (5700-1800) = .234 motor output for a total output of .32. That’s reasonable for 1800 RPM.
-    Since you know that at 1 output the RPM is 5700, set F to 1/5700. Then you can tune P from there.
-    A PID with I will get there eventually, but with just P,D, and F it won’t get there if the PID constants are too low.
-    I also wouldn’t run two separate PIDs for each motor. If one of them misses encoder pulses the motors could start fighting each other.
-    I would set one as a follower.
-    */
-
+    //Found this brief explanation here -> https://www.chiefdelphi.com/t/spark-max-w-neos-pid-not-getting-to-setpoint/381728/2
+  
     // PID coefficients
-    //kP = 6e-5; 
-    kP = 0.00006;
+    kP = 0.0001;
     kI = 0;
     kD = 0; 
     kIz = 0; 
-    //kFF = 0.000015; 
-    kFF = 1/5700;
+    kFF = 0.000187;
     kMaxOutput = 1; 
     kMinOutput = -1;
-    velocityTarget = 4000;
-    setPoint = 8000;
-
+    velocityTarget = 4100;
+  
     // set PID coefficients
     m_pidController.setP(kP);
     m_pidController.setI(kI);
@@ -80,8 +70,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Max Output", kMaxOutput);
     SmartDashboard.putNumber("Min Output", kMinOutput);
 
-    SmartDashboard.putNumber("Flywheel Velocity Target", velocityTarget);
-    SmartDashboard.putNumber("Set Point", setPoint);
+    SmartDashboard.putNumber("Flywheel Target RPM", velocityTarget);
   }
 
   /**
@@ -100,7 +89,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_indexerPow = indexPow;
   }
 
-  public void spinFlywheelSpeed (double RPMSetPoint) {
+  public void spinFlywheelSpeed () {
     // read PID coefficients from SmartDashboard
     double p = SmartDashboard.getNumber("P Gain", 0);
     double i = SmartDashboard.getNumber("I Gain", 0);
@@ -109,7 +98,7 @@ public class ShooterSubsystem extends SubsystemBase {
     double ff = SmartDashboard.getNumber("Feed Forward", 0);
     double max = SmartDashboard.getNumber("Max Output", 0);
     double min = SmartDashboard.getNumber("Min Output", 0);
-    double setpoint = SmartDashboard.getNumber("Set Point", 0);
+    double setpoint = SmartDashboard.getNumber("Flywheel Target RPM", 0);
     
     // if PID coefficients on SmartDashboard have changed, write new values to controller
     if((p != kP)) { m_pidController.setP(p); kP = p; }
@@ -125,8 +114,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     m_pidController.setReference(setpoint, CANSparkMax.ControlType.kVelocity);
     //m_flywheelPow = 0.70;
-
-    SmartDashboard.putNumber("SetPoint", setpoint);
   }
 
   public void stopAll() {

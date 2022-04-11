@@ -22,21 +22,24 @@ public class ShootballCmdList extends SequentialCommandGroup {
         m_drivebase = drivebase;
 
         // I want to get to 4000 RPM
-        double velocityTarget = SmartDashboard.getNumber("Flywheel Velocity Target", 0);
+        double velocityTarget = SmartDashboard.getNumber("Flywheel Target RPM", 0);
 
         // get flywheel to desired velocity in RPM
         this.addCommands(new SpinFlywheel(m_shooter,m_drivebase,m_feeder,velocityTarget));
         // roll indexer to shoot ball
         this.addCommands(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter));
+        // feed second ball to indexer
+        this.addCommands(new InstantCommand(() -> m_feeder.spinFeeder(-0.3), m_feeder));
+        // slight pause to prevent momentum from feeder
+        this.addCommands(new WaitCommand(0.75));
+        // stop feeder
+        this.addCommands(new InstantCommand(() -> m_feeder.spinFeeder(0), m_feeder));
+        
+        // ensure flywheel is at desired velocity
+        this.addCommands(new SpinFlywheel(m_shooter,m_drivebase,m_feeder,velocityTarget));
+        // shoot second ball by indexing second ball
+        this.addCommands(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter));
 
-        if(secondBall) {
-            // ensure flywheel is at desired velocity
-            this.addCommands(new SpinFlywheel(m_shooter,m_drivebase,m_feeder,velocityTarget));
-            // feed second ball to indexer
-            this.addCommands(new InstantCommand(() -> m_feeder.spinFeeder(-0.3), m_feeder));
-            // shoot second ball by indexing second ball
-            this.addCommands(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter));
-        }
         this.addCommands(new WaitCommand(1));
     }
     

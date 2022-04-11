@@ -36,7 +36,7 @@ public class SpinFlywheel extends CommandBase{
    */
   @Override
   public void initialize(){
-    m_shooterSubsystem.spinFlywheelSpeed(m_RPM);
+    m_shooterSubsystem.spinFlywheelSpeed();
   }
 
   /**Turns on all of the shooter motors
