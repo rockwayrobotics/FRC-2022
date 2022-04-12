@@ -3,15 +3,17 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivebaseSubsystem;
 
-import javax.lang.model.util.ElementScanner6;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class VisionCenter extends CommandBase {
 
-  NetworkTableEntry camEntry;
+  NetworkTableEntry m_camX;
+  NetworkTableEntry m_camY;
+  NetworkTableEntry m_camD;
+  NetworkTableEntry m_camA;
+
 
   private DrivebaseSubsystem m_drivebase;
   private final int LEFT = 0;
@@ -41,7 +43,10 @@ public class VisionCenter extends CommandBase {
 
       //Get the entries within that table that correspond to the X and Y values
       //for some operation in your program.
-      camEntry = table.getEntry("camX");
+      m_camX = table.getEntry("camX");
+      m_camY = table.getEntry("camY");
+      m_camD = table.getEntry("camD");
+      m_camA = table.getEntry("camA");
   }
   //takes the value from the x reading of the camera and turns it into a command
   public int parseNTX(double val)
@@ -62,7 +67,8 @@ public class VisionCenter extends CommandBase {
 
   @Override
   public void execute() {
-    double commandD = camEntry.getNumber(CENTERX).doubleValue();
+    double commandD = m_camX.getNumber(CENTERX).doubleValue();
+    System.out.println("CamX" + m_camX);
     int command = parseNTX(commandD);
     
     if (command == LEFT) {
