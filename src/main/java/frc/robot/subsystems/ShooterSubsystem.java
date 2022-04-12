@@ -26,8 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private RelativeEncoder m_flywheelEncoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, velocityTarget;
   
-
-  private DigitalInput m_track_limit_switch;
+private DigitalInput m_track_limit_switch;
   private boolean m_shootStatus = false;
 
   /** Creates a new ShooterSubsystem. */
@@ -148,13 +147,12 @@ public class ShooterSubsystem extends SubsystemBase {
     //m_flywheel.set(m_flywheelPow);
     m_indexer.set(m_indexerPow);
 
-    // TODO Find proper speed for getting ball away from flywheel
+    // TO DO Find proper speed for getting ball away from flywheel
     if(!m_shootStatus && !m_track_limit_switch.get()) {
       m_indexer.set(.2);
     } else {
       m_indexer.set(m_indexerPow);
     }
-
     m_flywheel.set(m_flywheelPow);
   }
 }

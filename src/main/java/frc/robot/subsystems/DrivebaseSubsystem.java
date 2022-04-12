@@ -39,6 +39,8 @@ public class DrivebaseSubsystem extends SubsystemBase {
   private final SlewRateLimiter turnFilter = new SlewRateLimiter(4);
 
   private boolean rotating = false;
+  private double rightPow = 0;
+  private double leftPow = 0;
 
   /** Creates a new DrivebaseSubsystem. */
   public DrivebaseSubsystem(
@@ -157,14 +159,23 @@ public class DrivebaseSubsystem extends SubsystemBase {
     m_rightEncoder.reset();
   }
 
-  public void rotate(boolean rotate) {
-    rotating = rotate;
+  public void rotate(String rotate) {
+    if(rotate == null) {
+      rightPow = 0;
+      leftPow = 0;
+    } else if(rotate == "left") {
+      rightPow = 0.3;
+      leftPow = -0.3;
+    } else if(rotate == "right") {
+      rightPow = -0.3;
+      leftPow = 0.3;
+    }
   }
-
 
   /* Periodic method that runs once every cycle */
   @Override
   public void periodic() {
+    
     // if controller is less than before than reset the filters
     if (Math.abs(m_x) <= Math.abs(p_x)) {
       turnFilter.reset(m_x);
@@ -178,9 +189,14 @@ public class DrivebaseSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(m_x, p_y / 1.3, false); // Actually move drivebase
     m_x = 0;
     m_y = 0;
+
+    
     
     if(rotating) {
-      m_drive.tankDrive(0.1, -0.1);
+      m_drive.tankDrive(rightPow,leftPow);
+      if(rightPow == 0 || leftPow == 0) {
+        rotating = false;
+      }
     }
   }
 }

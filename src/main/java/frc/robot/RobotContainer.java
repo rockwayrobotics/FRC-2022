@@ -212,13 +212,13 @@ public class RobotContainer {
 
 
       /// test
-    new Button(() -> {return m_xboxController.getPOV() == 90;})  // rotates robot right
-      .whenPressed(() -> m_drivebase.rotate(true))
-      .whenReleased(() -> m_drivebase.rotate(false));
+    new Button(() -> {return m_xboxController.getPOV() == 90;})  // rotates robot left
+      .whenPressed(() -> m_drivebase.rotate("left"))
+      .whenReleased(() -> m_drivebase.rotate("stop"));
 
-    new Button(() -> {return m_xboxController.getPOV() == 270;})  // rotates robot left
-    .whenPressed(() -> m_drivebase.rotate(true))
-      .whenReleased(() -> m_drivebase.rotate(false));
+    new Button(() -> {return m_xboxController.getPOV() == 270;})  // rotates robot right
+    .whenPressed(() -> m_drivebase.rotate("right"))
+      .whenReleased(() -> m_drivebase.rotate("stop"));
 
 
     new JoystickButton(m_flightStick, 11) // Spins feeder without any other motors
