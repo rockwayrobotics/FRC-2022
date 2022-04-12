@@ -178,6 +178,9 @@ public class DrivebaseSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     
+
+    /*
+
     // if controller is less than before than reset the filters
     if (Math.abs(m_x) <= Math.abs(p_x)) {
       turnFilter.reset(m_x);
@@ -191,12 +194,13 @@ public class DrivebaseSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(m_x, p_y / 1.3, false); // Actually move drivebase
     m_x = 0;
     m_y = 0;
+*/
 
     // Optional Driving control 2
-    // m_drive.arcadeDrive(m_x, p_y);
+    //m_drive.arcadeDrive(m_x, m_y);
 
     // Optional Driving control 3
-    // m_drive.curvatureDrive(m_x, m_y, true);
+    m_drive.curvatureDrive(m_x, m_y, true);
 
     // attempting a pure rotating function.
     if(rotating) {

@@ -27,7 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, velocityTarget;
   
 private DigitalInput m_track_limit_switch;
-  private boolean m_shootStatus = false;
+  private boolean m_shootStatus = true;
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(
@@ -153,6 +153,6 @@ private DigitalInput m_track_limit_switch;
     } else {
       m_indexer.set(m_indexerPow);
     }
-    m_flywheel.set(m_flywheelPow);
+    //m_flywheel.set(m_flywheelPow);
   }
 }
