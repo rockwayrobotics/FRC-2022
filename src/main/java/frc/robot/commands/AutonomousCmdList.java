@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.subsystems.DrivebaseSubsystem;
@@ -16,9 +17,9 @@ public class AutonomousCmdList extends SequentialCommandGroup {
    * @param drivedistance Set to distance in inches
    * @param driveSpeed Set to speed from -1 to 1 (must match sign of distance)
    */
-    public AutonomousCmdList(DrivebaseSubsystem m_drivebase, ShooterSubsystem m_shooter, FeederSubsystem m_feeder, double driveDistance, double driveSpeed) {
+    public AutonomousCmdList(DrivebaseSubsystem m_drivebase, ShooterSubsystem m_shooter, FeederSubsystem m_feeder, NetworkTableEntry driveDistance, NetworkTableEntry driveSpeed, NetworkTableEntry flywheelSpeed, NetworkTableEntry indexSpeed, NetworkTableEntry feederSpeed) {
         super();
-        this.addCommands(new ShootBall(m_shooter, m_drivebase, m_feeder));
+        this.addCommands(new ShootBall(m_shooter, m_drivebase, m_feeder, flywheelSpeed, indexSpeed, feederSpeed));
         this.addCommands(new DriveDistance(m_drivebase, driveDistance, driveSpeed));
     }
 }

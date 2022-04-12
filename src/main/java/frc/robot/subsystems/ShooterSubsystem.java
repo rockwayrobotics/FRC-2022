@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+
 public class ShooterSubsystem extends SubsystemBase {
   CANSparkMax m_indexer;
   MotorControllerGroup m_flywheel;
@@ -24,10 +26,15 @@ public class ShooterSubsystem extends SubsystemBase {
   private RelativeEncoder m_flywheelEncoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, velocityTarget;
   
+
+  private DigitalInput m_track_limit_switch;
+  private boolean m_shootStatus = false;
+
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(
     int indexMotor,
-    int flywheelMotor, int flywheelMotor2
+    int flywheelMotor, int flywheelMotor2,
+    DigitalInput track_limit_switch
   ) {
     m_indexer = new CANSparkMax(indexMotor, MotorType.kBrushed);
     m_indexer.setIdleMode(IdleMode.kBrake);
@@ -71,6 +78,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Min Output", kMinOutput);
 
     SmartDashboard.putNumber("Flywheel Target RPM", velocityTarget);
+    m_track_limit_switch = track_limit_switch;
   }
 
   /**
@@ -124,6 +132,14 @@ public class ShooterSubsystem extends SubsystemBase {
   public double getVelocity() {
     return m_flywheelEncoder.getVelocity();
   }
+  
+  public void setShootStatus(boolean shootStatus) {
+    m_shootStatus = shootStatus;
+  }
+
+  public boolean getShootStatus() {
+    return m_shootStatus;
+  }
 
   @Override
   public void periodic() {
@@ -131,5 +147,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
     //m_flywheel.set(m_flywheelPow);
     m_indexer.set(m_indexerPow);
+
+    // TODO Find proper speed for getting ball away from flywheel
+    if(!m_shootStatus && !m_track_limit_switch.get()) {
+      m_indexer.set(.2);
+    } else {
+      m_indexer.set(m_indexerPow);
+    }
+
+    m_flywheel.set(m_flywheelPow);
   }
 }

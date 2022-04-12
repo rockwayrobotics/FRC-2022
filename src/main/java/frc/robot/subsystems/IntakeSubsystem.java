@@ -17,13 +17,13 @@ public class IntakeSubsystem extends SubsystemBase {
   private boolean m_extended = false;
   private double m_speed = 0; 
 
+
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem(
     int intakeExtend, int intakeRetract, int intakeMotor
   ){
     m_extend = new DoubleSolenoid(Pneumatics.PNEUMATICS_MODULE_TYPE, intakeExtend, intakeRetract);
     m_spin = new WPI_VictorSPX(intakeMotor);
-  
   }
 
   /**

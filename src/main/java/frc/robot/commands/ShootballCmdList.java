@@ -21,6 +21,9 @@ public class ShootballCmdList extends SequentialCommandGroup {
         m_feeder = feeder;
         m_drivebase = drivebase;
 
+        m_shooter.setShootStatus(true);
+        m_feeder.setShootStatus(true);
+
         // I want to get to 4000 RPM
         double velocityTarget = SmartDashboard.getNumber("Flywheel Target RPM", 0);
 

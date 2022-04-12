@@ -50,6 +50,7 @@ public final class Constants {
         public static final int RIGHT_ENCODER_2 = 3;
         public static final int TOP_CLIMB_LIMIT = 4;
         public static final int BOTTOM_CLIMB_LIMIT = 5;
+        public static final int SHOOTER_TRACK_LIMIT = 6;
     }
     
     // Constants related to robot driving
@@ -57,7 +58,8 @@ public final class Constants {
         public final static double ENCODER_PULSES_PER_REVOLUTION = 360;
         public final static double WHEEL_DIAMETER = 6;
         public final static double DISTANCE_PER_ENCODER_PULSE = WHEEL_DIAMETER * Math.PI / ENCODER_PULSES_PER_REVOLUTION;
-        public final static IdleMode IDLE_MODE = IdleMode.kBrake;
+        public final static IdleMode ACTIVE_MODE = IdleMode.kBrake;
+        public final static IdleMode DISABLED_MODE = IdleMode.kCoast;
     }
 
 

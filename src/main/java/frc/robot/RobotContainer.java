@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import java.util.Map;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.commands.AutonomousCmdList;
 import frc.robot.commands.ShootballCmdList;
@@ -44,6 +45,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
+  private DigitalInput shooter_track_limit = new DigitalInput(Digital.SHOOTER_TRACK_LIMIT);
 
   /* Contstructor for subsystems */
   private DrivebaseSubsystem m_drivebase = new DrivebaseSubsystem(
@@ -54,11 +56,11 @@ public class RobotContainer {
   );
 
   //private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR, CAN.FEEDER_MOTOR2);
-  private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR);
+  private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR, shooter_track_limit);
 
   private ShooterSubsystem m_shooter = new ShooterSubsystem(
     CAN.INDEX_MOTOR,
-    CAN.FLYWHEEL_MOTOR, CAN.FLYWHEEL_MOTOR2
+    CAN.FLYWHEEL_MOTOR, CAN.FLYWHEEL_MOTOR2, shooter_track_limit
     );
   
   private IntakeSubsystem m_intake = new IntakeSubsystem(
@@ -107,7 +109,7 @@ public class RobotContainer {
         tab.add("Auto Distance", 50) // specify widget properties here
             .getEntry();
 
-  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder, autoDistance.getDouble(50), autoSpeed.getDouble(0.5)); //pass in drivebase here
+  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder, autoDistance, autoSpeed, flywheelSpeed, indexSpeed, feederSpeed); //pass in drivebase here
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -134,14 +136,28 @@ public class RobotContainer {
     .whenPressed(() -> m_drivebase.setScale(0.5))
     .whenReleased(() -> m_drivebase.setScale(1));  // Sets drivebase to half speed, for more precise and slow movement (likely going to be used inside hangar)
  
+    /*
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
     .whenHeld(new ShootballCmdList(m_drivebase,m_shooter,m_feeder,true))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
+    */
+    
+    new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value) // Drops intake, spins intake wheels and feeder wheels
+    .whenPressed(() -> {
+      m_shooter.setShootStatus(true);
+      m_feeder.setShootStatus(true);
+      m_shooter.spinFlywheel(flywheelSpeed.getDouble(0.8));
+    })
+    .whenReleased(() -> {
+      m_shooter.spinFlywheel(0);
+      m_shooter.setShootStatus(false);
+      m_feeder.setShootStatus(false);
+    });
 
     new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels
     .whenPressed(new InstantCommand(() -> {
-      m_shooter.spinIndex(indexSpeed.getDouble(0.3));
-      m_feeder.spinFeeder(feederSpeed.getDouble(0.4));
+      m_shooter.spinIndex(-indexSpeed.getDouble(0.3));
+      m_feeder.spinFeeder(-feederSpeed.getDouble(0.4));
     }, m_shooter, m_feeder))
     .whenReleased(new InstantCommand(() -> {
       m_shooter.spinIndex(0);
@@ -186,13 +202,12 @@ public class RobotContainer {
       m_intake.spin(0);
     });
 
-
     new Button(() -> {return m_xboxController.getPOV() == 0;})  // Extends hook up
       .whenPressed(() -> m_hook.extend(hookSpeed.getDouble(0.8)))
       .whenReleased(() -> m_hook.stop());
 
     new Button(() -> {return m_xboxController.getPOV() == 180;})  // Retracts hook down / Climbs robot
-      .whenPressed(() -> m_hook.retract(-hookSpeed.getDouble(0.4)))
+      .whenPressed(() -> m_hook.retract(-hookSpeed.getDouble(0.8)/1.5))
       .whenReleased(() -> m_hook.stop());
 
 
@@ -245,5 +260,13 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // Uses m_autoCommand which was created earlier
     return m_autoCommand;
+  }
+
+  public void onDisable() {
+    m_drivebase.disable();
+  }
+  
+  public void onEnable() {
+    m_drivebase.enable();
   }
 }

@@ -23,6 +23,11 @@ public class DrivebaseSubsystem extends SubsystemBase {
   private final Encoder m_leftEncoder;
   private final Encoder m_rightEncoder;
 
+  CANSparkMax rightMotorController1;
+  CANSparkMax rightMotorController2;
+  CANSparkMax leftMotorController1;
+  CANSparkMax leftMotorController2;
+
   private double m_y = 0;
   private double m_x = 0;
   private double p_x = 0;
@@ -45,15 +50,11 @@ public class DrivebaseSubsystem extends SubsystemBase {
   
   /* Create motor controller groups for left and right side of drivebase */
   {
-    CANSparkMax rightMotorController1 = new CANSparkMax(rightMotor1, MotorType.kBrushed);
-    CANSparkMax rightMotorController2 = new CANSparkMax(rightMotor2, MotorType.kBrushed);
-    CANSparkMax leftMotorController1 = new CANSparkMax(leftMotor1, MotorType.kBrushed);
-    CANSparkMax leftMotorController2 = new CANSparkMax(leftMotor2, MotorType.kBrushed);
 
-    rightMotorController1.setIdleMode(Drive.IDLE_MODE);
-    rightMotorController2.setIdleMode(Drive.IDLE_MODE);
-    leftMotorController1.setIdleMode(Drive.IDLE_MODE);
-    leftMotorController2.setIdleMode(Drive.IDLE_MODE);
+    rightMotorController1 = new CANSparkMax(rightMotor1, MotorType.kBrushed);
+    rightMotorController2 = new CANSparkMax(rightMotor2, MotorType.kBrushed);
+    leftMotorController1 = new CANSparkMax(leftMotor1, MotorType.kBrushed);
+    leftMotorController2 = new CANSparkMax(leftMotor2, MotorType.kBrushed);
 
     MotorControllerGroup rightDrive = new MotorControllerGroup(
         rightMotorController1, rightMotorController2
@@ -102,6 +103,20 @@ public class DrivebaseSubsystem extends SubsystemBase {
    */
   public double getLDistance() {
     return m_leftEncoder.getDistance();
+  }
+
+  public void disable() {
+    rightMotorController1.setIdleMode(Drive.DISABLED_MODE);
+    rightMotorController2.setIdleMode(Drive.DISABLED_MODE);
+    leftMotorController1.setIdleMode(Drive.DISABLED_MODE);
+    leftMotorController2.setIdleMode(Drive.DISABLED_MODE);
+  }
+
+  public void enable() {
+    rightMotorController1.setIdleMode(Drive.ACTIVE_MODE);
+    rightMotorController2.setIdleMode(Drive.ACTIVE_MODE);
+    leftMotorController1.setIdleMode(Drive.ACTIVE_MODE);
+    leftMotorController2.setIdleMode(Drive.ACTIVE_MODE);
   }
   
   /**
@@ -154,13 +169,13 @@ public class DrivebaseSubsystem extends SubsystemBase {
     if (Math.abs(m_x) <= Math.abs(p_x)) {
       turnFilter.reset(m_x);
     }
-    if (Math.abs(m_y) <= Math.abs(p_y)) {
-      filter.reset(m_y);
-    }
+    // if (Math.abs(m_y) <= Math.abs(p_y)) {
+    //   filter.reset(m_y);
+    // }
 
-    p_x = turnFilter.calculate(m_scale * m_x); // Calculate curves for drivebase (not 0 to 1)
+    // p_x = turnFilter.calculate(m_scale * m_x); // Calculate curves for drivebase (not 0 to 1)
     p_y = filter.calculate(m_scale * m_y);
-    m_drive.arcadeDrive(p_x, p_y / 1.3, false); // Actually move drivebase
+    m_drive.arcadeDrive(m_x, p_y / 1.3, false); // Actually move drivebase
     m_x = 0;
     m_y = 0;
     
