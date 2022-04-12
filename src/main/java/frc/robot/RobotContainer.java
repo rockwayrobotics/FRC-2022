@@ -136,13 +136,13 @@ public class RobotContainer {
     .whenPressed(() -> m_drivebase.setScale(0.5))
     .whenReleased(() -> m_drivebase.setScale(1));  // Sets drivebase to half speed, for more precise and slow movement (likely going to be used inside hangar)
  
-    /*
+    // shooting command using PID to control the RPM of the fly wheel
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
     .whenHeld(new ShootballCmdList(m_drivebase,m_shooter,m_feeder,true))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
-    */
-    
-    new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value) // Drops intake, spins intake wheels and feeder wheels
+  
+    /*
+    new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
     .whenPressed(() -> {
       m_shooter.setShootStatus(true);
       m_feeder.setShootStatus(true);
@@ -153,6 +153,7 @@ public class RobotContainer {
       m_shooter.setShootStatus(false);
       m_feeder.setShootStatus(false);
     });
+    */
 
     new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels
     .whenPressed(new InstantCommand(() -> {
