@@ -164,9 +164,11 @@ public class DrivebaseSubsystem extends SubsystemBase {
       rightPow = 0;
       leftPow = 0;
     } else if(rotate == "left") {
+      rotating = true;
       rightPow = 0.3;
       leftPow = -0.3;
     } else if(rotate == "right") {
+      rotating = true;
       rightPow = -0.3;
       leftPow = 0.3;
     }
@@ -190,8 +192,13 @@ public class DrivebaseSubsystem extends SubsystemBase {
     m_x = 0;
     m_y = 0;
 
-    
-    
+    // Optional Driving control 2
+    // m_drive.arcadeDrive(m_x, p_y);
+
+    // Optional Driving control 3
+    // m_drive.curvatureDrive(m_x, m_y, true);
+
+    // attempting a pure rotating function.
     if(rotating) {
       m_drive.tankDrive(rightPow,leftPow);
       if(rightPow == 0 || leftPow == 0) {
