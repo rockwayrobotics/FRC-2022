@@ -68,7 +68,10 @@ public class VisionCenter extends CommandBase {
   @Override
   public void execute() {
     double commandD = m_camX.getNumber(CENTERX).doubleValue();
-    System.out.println("CamX" + m_camX);
+    System.out.println("CamX " + m_camX);
+    System.out.println("CamY " + m_camY);
+    System.out.println("CamD " + m_camD);
+    System.out.println("CamA " + m_camA);
     int command = parseNTX(commandD);
     
     if (command == LEFT) {

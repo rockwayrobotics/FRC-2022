@@ -8,7 +8,6 @@ import frc.robot.Constants.CAN;
 import frc.robot.Constants.Controllers;
 import frc.robot.Constants.Digital;
 import frc.robot.Constants.Pneumatics;
-import frc.robot.Constants.Relay;
 
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
@@ -26,20 +25,22 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
-
 import java.util.Map;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 
 import frc.robot.commands.AutonomousCmdList;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.commands.VisionCenter;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // import edu.wpi.first.wpilibj2.command.Command;
 
@@ -78,6 +79,8 @@ public class RobotContainer {
   private HookSubsystem m_hook = new HookSubsystem(
     CAN.WINCH_MOTOR, 
     Digital.TOP_CLIMB_LIMIT, Digital.BOTTOM_CLIMB_LIMIT);
+
+  private VisionCenter m_VisionCenter = new VisionCenter(m_drivebase);
 
   private CameraSubsystem m_camera = new CameraSubsystem(CAN.LED_CONTROLLER);
 
@@ -120,15 +123,25 @@ public class RobotContainer {
             .getEntry();
 
   public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder, autoDistance, autoSpeed, flywheelSpeed, indexSpeed, feederSpeed); //pass in drivebase here
+  
+  //Get the default instance of NetworkTables that was created automatically
+  //when your program starts
+  NetworkTableInstance inst = NetworkTableInstance.getDefault();
 
+  //Get the table within that instance that contains the data. There can
+  //be as many tables as you like and exist to make it easier to organize
+  //your data. In this case, it's a table called datatable.
+  NetworkTable table = inst.getTable("dataTable");
+  
+  private NetworkTableEntry m_camX = table.getEntry("camX");
+  private NetworkTableEntry m_camY = table.getEntry("camY");
+  private NetworkTableEntry m_camD = table.getEntry("camD");
+  private NetworkTableEntry m_camA = table.getEntry("camA");
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-
-    SmartDashboard.putData("Camera LED On", new InstantCommand(() -> m_camera.ledON()));
-    SmartDashboard.putData("Camera LED Off", new InstantCommand(() -> m_camera.ledOFF()));
   }
 
   /**
@@ -155,6 +168,23 @@ public class RobotContainer {
       m_feeder.setShootStatus(true);
       m_shooter.spinFlywheel(flywheelSpeed.getDouble(0.8));
     })
+    .whenReleased(() -> {
+      m_shooter.spinFlywheel(0);
+      m_shooter.setShootStatus(false);
+      m_feeder.setShootStatus(false);
+    });
+
+    new JoystickButton(m_xboxController, XboxController.Button.kRightStick.value) // Drops intake, spins intake wheels and feeder wheels
+    .whenPressed(() -> {
+      System.out.println("CamX: '" + m_camX.getDouble(101) + "'");
+      System.out.println("CamY: '" + m_camY.getDouble(101) + "'");
+      System.out.println("CamD: '" + m_camD.getDouble(101) + "'");
+      System.out.println("CamA: '" + m_camA.getDouble(101) + "'");
+    })
+    .whenReleased(() -> {});
+
+    new JoystickButton(m_xboxController, XboxController.Button.kRightStick.value) // Drops intake, spins intake wheels and feeder wheels
+    .whenPressed(m_VisionCenter)
     .whenReleased(() -> {
       m_shooter.spinFlywheel(0);
       m_shooter.setShootStatus(false);
