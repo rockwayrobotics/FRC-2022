@@ -62,6 +62,11 @@ public final class Constants {
         public final static IdleMode DISABLED_MODE = IdleMode.kCoast;
     }
 
+    // Constants for spike relays
+    public static final class Relay {
+        public final static int CAMERA_RELAY = 1;
+    }
+
 
   /**
    * Constants for Pneumatics Control Module ports
