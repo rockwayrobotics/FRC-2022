@@ -40,7 +40,7 @@ public final class Constants {
         public static final int FLYWHEEL_MOTOR2 = 9;
         public static final int INTAKE_MOTOR = 10;
         public static final int WINCH_MOTOR = 11;
-        public static final int CAMERA_CONTROLLER = 12;
+        public static final int LED_CONTROLLER = 12;
     }
     
     // Information on digital pins on RoboRio

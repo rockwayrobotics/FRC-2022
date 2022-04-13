@@ -8,7 +8,6 @@ import frc.robot.Constants.CAN;
 import frc.robot.Constants.Controllers;
 import frc.robot.Constants.Digital;
 import frc.robot.Constants.Pneumatics;
-import frc.robot.Constants.Relay;
 
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
@@ -26,11 +25,11 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
-import frc.robot.subsystems.CameraSubsystem;
-
 import java.util.Map;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 
@@ -38,11 +37,12 @@ import frc.robot.commands.AutonomousCmdList;
 import frc.robot.commands.ShootballCmdList;
 import frc.robot.commands.SpinFlywheel;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.commands.VisionCenter;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // import edu.wpi.first.wpilibj2.command.Command;
 
@@ -82,12 +82,12 @@ public class RobotContainer {
     CAN.WINCH_MOTOR, 
     Digital.TOP_CLIMB_LIMIT, Digital.BOTTOM_CLIMB_LIMIT);
 
-  private CameraSubsystem m_camera = new CameraSubsystem(Relay.CAMERA_RELAY);
+  private VisionCenter m_VisionCenter = new VisionCenter(m_drivebase);
+
+  private CameraSubsystem m_camera = new CameraSubsystem(CAN.LED_CONTROLLER);
 
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
-
-  private CameraSubsystem m_camerasubsystem = new CameraSubsystem(CAN.CAMERA_CONTROLLER);
 
   ShuffleboardTab tab = Shuffleboard.getTab("Speeds");
   private NetworkTableEntry flywheelSpeed =
@@ -125,7 +125,20 @@ public class RobotContainer {
             .getEntry();
 
   public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder, autoDistance, autoSpeed, flywheelSpeed, indexSpeed, feederSpeed); //pass in drivebase here
+  
+  //Get the default instance of NetworkTables that was created automatically
+  //when your program starts
+  NetworkTableInstance inst = NetworkTableInstance.getDefault();
 
+  //Get the table within that instance that contains the data. There can
+  //be as many tables as you like and exist to make it easier to organize
+  //your data. In this case, it's a table called datatable.
+  NetworkTable table = inst.getTable("dataTable");
+  
+  private NetworkTableEntry m_camX = table.getEntry("camX");
+  private NetworkTableEntry m_camY = table.getEntry("camY");
+  private NetworkTableEntry m_camD = table.getEntry("camD");
+  private NetworkTableEntry m_camA = table.getEntry("camA");
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -248,10 +261,10 @@ public class RobotContainer {
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
 
     new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
-    .whenPressed(() -> m_camera.ledOFF());
+    .whenPressed(() -> m_camera.ledON());
     
     new Button(() -> {return m_xboxController.getRightTriggerAxis() > 0.5;})
-    .whenPressed(() -> m_camera.ledON());
+    .whenPressed(() -> m_camera.ledOFF());
   }
 
   /**
