@@ -182,15 +182,7 @@ public class RobotContainer {
       System.out.println("CamA: '" + m_camA.getDouble(101) + "'");
     })
     .whenReleased(() -> {});
-
-    new JoystickButton(m_xboxController, XboxController.Button.kRightStick.value) // Drops intake, spins intake wheels and feeder wheels
-    .whenPressed(m_VisionCenter)
-    .whenReleased(() -> {
-      m_shooter.spinFlywheel(0);
-      m_shooter.setShootStatus(false);
-      m_feeder.setShootStatus(false);
-    });
-
+    
     new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels
     .whenPressed(new InstantCommand(() -> {
       m_shooter.spinIndex(-indexSpeed.getDouble(0.3));
