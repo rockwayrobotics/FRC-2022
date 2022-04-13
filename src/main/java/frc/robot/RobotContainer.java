@@ -43,6 +43,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // import edu.wpi.first.wpilibj2.command.Command;
 
@@ -124,22 +125,8 @@ public class RobotContainer {
         tab.add("Auto Distance", 50) // specify widget properties here
             .getEntry();
 
-  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder, autoDistance, autoSpeed, flywheelSpeed, indexSpeed, feederSpeed); //pass in drivebase here
+  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder, autoDistance, autoSpeed, flywheelSpeed, indexSpeed, feederSpeed, m_camera); //pass in drivebase here
   
-  //Get the default instance of NetworkTables that was created automatically
-  //when your program starts
-  NetworkTableInstance inst = NetworkTableInstance.getDefault();
-
-  //Get the table within that instance that contains the data. There can
-  //be as many tables as you like and exist to make it easier to organize
-  //your data. In this case, it's a table called datatable.
-  NetworkTable table = inst.getTable("dataTable");
-  
-  private NetworkTableEntry m_camX = table.getEntry("camX");
-  private NetworkTableEntry m_camY = table.getEntry("camY");
-  private NetworkTableEntry m_camD = table.getEntry("camD");
-  private NetworkTableEntry m_camA = table.getEntry("camA");
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -166,7 +153,7 @@ public class RobotContainer {
  
     // shooting command using PID to control the RPM of the fly wheel
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
-    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder))
+    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, m_camera, true))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
   
     new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels

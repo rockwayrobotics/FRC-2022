@@ -6,6 +6,7 @@ import frc.robot.subsystems.DrivebaseSubsystem;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionCenter extends CommandBase {
 
@@ -13,7 +14,6 @@ public class VisionCenter extends CommandBase {
   NetworkTableEntry m_camY;
   NetworkTableEntry m_camD;
   NetworkTableEntry m_camA;
-
 
   private DrivebaseSubsystem m_drivebase;
   private final int LEFT = 0;
@@ -67,11 +67,17 @@ public class VisionCenter extends CommandBase {
 
   @Override
   public void execute() {
-    double commandD = m_camX.getNumber(CENTERX).doubleValue();
+    SmartDashboard.putNumber("Cam X", m_camX.getDouble(0));
+    SmartDashboard.putNumber("Cam Y", m_camY.getDouble(0));
+    SmartDashboard.putNumber("Cam D", m_camD.getDouble(0));
+    SmartDashboard.putNumber("Cam A", m_camA.getDouble(0));
+    
     System.out.println("CamX " + m_camX);
     System.out.println("CamY " + m_camY);
     System.out.println("CamD " + m_camD);
     System.out.println("CamA " + m_camA);
+
+    double commandD = m_camX.getNumber(CENTERX).doubleValue();
     int command = parseNTX(commandD);
     
     if (command == LEFT) {

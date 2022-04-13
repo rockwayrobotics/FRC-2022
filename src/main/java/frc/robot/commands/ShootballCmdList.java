@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -14,27 +15,19 @@ public class ShootballCmdList extends SequentialCommandGroup {
     DrivebaseSubsystem m_drivebase;
     ShooterSubsystem m_shooter;
     FeederSubsystem m_feeder;
+    CameraSubsystem m_camera;
 
-    Thread shooting;
-
-    public ShootballCmdList(DrivebaseSubsystem drivebase, ShooterSubsystem shooter, FeederSubsystem feeder) {
+    public ShootballCmdList(DrivebaseSubsystem drivebase, ShooterSubsystem shooter, FeederSubsystem feeder, CameraSubsystem camera, boolean secondBall) {
         super();
         m_drivebase = drivebase;
         m_shooter = shooter;
         m_feeder = feeder;
-        setupShooter();
-    }
-
-    public ShootballCmdList(ShooterSubsystem shooter, FeederSubsystem feeder) {
-        super();
-        m_shooter = shooter;
-        m_feeder = feeder;
-        setupShooter();
-    }
-
-    public void setupShooter() {
+        m_camera = camera;
+        
         m_shooter.setShootStatus(true);
         m_feeder.setShootStatus(true);
+        m_camera.checkVision();
+        double[] visionValues = m_camera.getVisionValues();
 
         double velocityTarget = SmartDashboard.getNumber("Flywheel Target RPM", 0);
        
@@ -44,19 +37,25 @@ public class ShootballCmdList extends SequentialCommandGroup {
         this.addCommands(new WaitCommand(0.5));
         // roll indexer to shoot ball
         this.addCommands(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter));
-        // feed second ball to indexer
-        this.addCommands(new InstantCommand(() -> m_feeder.spinFeeder(-0.3), m_feeder));
-        
-        // slight pause to prevent momentum from feeder
-        this.addCommands(new WaitCommand(2));
-        
-        // stop feeder
-        this.addCommands(new InstantCommand(() -> m_feeder.spinFeeder(0), m_feeder));
-        // ensure flywheel is at desired velocity
-        this.addCommands(new SpinFlywheel(m_shooter,null,m_feeder,velocityTarget));
-        // shoot second ball by indexing second ball
-        this.addCommands(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter));
 
+        if(secondBall) {
+            // slight pause to prevent momentum from feeder
+            this.addCommands(new WaitCommand(0.5));
+            // stop indexer
+            this.addCommands(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
+            // feed second ball to indexer
+            this.addCommands(new InstantCommand(() -> m_feeder.spinFeeder(-0.3), m_feeder));
+            
+            // slight pause to prevent momentum from feeder
+            this.addCommands(new WaitCommand(2));
+            
+            // stop feeder
+            this.addCommands(new InstantCommand(() -> m_feeder.spinFeeder(0), m_feeder));
+            // ensure flywheel is at desired velocity
+            this.addCommands(new SpinFlywheel(m_shooter,null,m_feeder,velocityTarget));
+            // shoot second ball by indexing second ball
+            this.addCommands(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter));
+        }
         this.addCommands(new WaitCommand(1));
     }
     
