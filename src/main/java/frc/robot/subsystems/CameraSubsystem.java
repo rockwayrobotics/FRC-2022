@@ -4,27 +4,31 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Relay;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CameraSubsystem extends SubsystemBase {
-    private final Relay m_ledRing;
+    private final WPI_VictorSPX m_ledRing;
+    private double m_led_brightness = 0;
 
   /** Creates a new CameraSubsystem. */
   public CameraSubsystem(int ledRing) {
-    m_ledRing = new Relay(ledRing);
+    m_ledRing = new WPI_VictorSPX(ledRing);
   }
 
   public void ledON() {
-      m_ledRing.set(Relay.Value.kForward);
+      m_led_brightness = 1;
+      System.out.println("LED ON");
   }
 
   public void ledOFF() {
-      m_ledRing.set(Relay.Value.kOff);
+      m_led_brightness = 0;
+      System.out.println("LED OFF");
   }
 
   @Override
   public void periodic() {
-
+    m_ledRing.set(m_led_brightness);
   }
 }

@@ -11,21 +11,33 @@ import frc.robot.subsystems.ShooterSubsystem;
 //Commands added here will be run in sequence when AutonomousCmdList is called upon 
 public class ShootballCmdList extends SequentialCommandGroup {
 
+    DrivebaseSubsystem m_drivebase;
     ShooterSubsystem m_shooter;
     FeederSubsystem m_feeder;
-    DrivebaseSubsystem m_drivebase;
 
-    public ShootballCmdList(DrivebaseSubsystem drivebase, ShooterSubsystem shooter, FeederSubsystem feeder, boolean secondBall) {
+    Thread shooting;
+
+    public ShootballCmdList(DrivebaseSubsystem drivebase, ShooterSubsystem shooter, FeederSubsystem feeder) {
+        super();
+        m_drivebase = drivebase;
+        m_shooter = shooter;
+        m_feeder = feeder;
+        setupShooter();
+    }
+
+    public ShootballCmdList(ShooterSubsystem shooter, FeederSubsystem feeder) {
         super();
         m_shooter = shooter;
         m_feeder = feeder;
-        m_drivebase = drivebase;
-        System.out.println("shooting");
+        setupShooter();
+    }
+
+    public void setupShooter() {
         m_shooter.setShootStatus(true);
         m_feeder.setShootStatus(true);
 
         double velocityTarget = SmartDashboard.getNumber("Flywheel Target RPM", 0);
-
+       
         // get flywheel to desired velocity in RPM
         this.addCommands(new SpinFlywheel(m_shooter,m_drivebase,m_feeder,velocityTarget));
         // slight pause to prevent momentum from feeder
@@ -41,7 +53,7 @@ public class ShootballCmdList extends SequentialCommandGroup {
         // stop feeder
         this.addCommands(new InstantCommand(() -> m_feeder.spinFeeder(0), m_feeder));
         // ensure flywheel is at desired velocity
-        this.addCommands(new SpinFlywheel(m_shooter,m_drivebase,m_feeder,velocityTarget));
+        this.addCommands(new SpinFlywheel(m_shooter,null,m_feeder,velocityTarget));
         // shoot second ball by indexing second ball
         this.addCommands(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter));
 

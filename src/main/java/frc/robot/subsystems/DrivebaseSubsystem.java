@@ -200,7 +200,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
     //m_drive.arcadeDrive(m_x, m_y);
 
     // Optional Driving control 3
-    m_drive.curvatureDrive(m_x, m_y, true);
+    m_drive.curvatureDrive(m_x*.8, m_y, true);
 
     // attempting a pure rotating function.
     if(rotating) {

@@ -25,7 +25,7 @@ public class SpinFlywheel extends CommandBase{
     m_shooterSubsystem = shooter;
     m_feederSubsystem = feeder;
     this.addRequirements(m_shooterSubsystem);
-    this.addRequirements(m_drivebase);
+    //this.addRequirements(m_drivebase);
     this.addRequirements(m_feederSubsystem);
 
     m_RPM = RPM;

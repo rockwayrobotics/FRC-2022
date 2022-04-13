@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
+import frc.robot.subsystems.CameraSubsystem;
 
 import java.util.Map;
 
@@ -86,6 +87,8 @@ public class RobotContainer {
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
 
+  private CameraSubsystem m_camerasubsystem = new CameraSubsystem(CAN.CAMERA_CONTROLLER);
+
   ShuffleboardTab tab = Shuffleboard.getTab("Speeds");
   private NetworkTableEntry flywheelSpeed =
         tab.add("Flywheel Speed", 0.8)
@@ -128,9 +131,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-
-    SmartDashboard.putData("Camera LED On", new InstantCommand(() -> m_camera.ledON()));
-    SmartDashboard.putData("Camera LED Off", new InstantCommand(() -> m_camera.ledOFF()));
   }
 
   /**
@@ -153,23 +153,9 @@ public class RobotContainer {
  
     // shooting command using PID to control the RPM of the fly wheel
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
-    .whenHeld(new ShootballCmdList(m_drivebase,m_shooter,m_feeder,true))
+    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
   
-    /*
-    new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
-    .whenPressed(() -> {
-      m_shooter.setShootStatus(true);
-      m_feeder.setShootStatus(true);
-      m_shooter.spinFlywheel(flywheelSpeed.getDouble(0.8));
-    })
-    .whenReleased(() -> {
-      m_shooter.spinFlywheel(0);
-      m_shooter.setShootStatus(false);
-      m_feeder.setShootStatus(false);
-    });
-    */
-
     new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels
     .whenPressed(new InstantCommand(() -> {
       m_shooter.spinIndex(-indexSpeed.getDouble(0.3));
@@ -261,11 +247,11 @@ public class RobotContainer {
     .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
 
-    // new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
-    // .whenPressed(() -> m_intake.retract());
+    new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
+    .whenPressed(() -> m_camera.ledOFF());
     
-    // new Button(() -> {return m_xboxController.getRightTriggerAxis() > 0.5;})
-    // .whenPressed(() -> m_intake.extend());
+    new Button(() -> {return m_xboxController.getRightTriggerAxis() > 0.5;})
+    .whenPressed(() -> m_camera.ledON());
   }
 
   /**
