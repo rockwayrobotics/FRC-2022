@@ -36,7 +36,7 @@ public class ShootballCmdList extends SequentialCommandGroup {
         // get flywheel to desired velocity in RPM
         this.addCommands(new SpinFlywheel(m_shooter,m_drivebase,m_feeder,velocityTarget));
         // slight pause to prevent momentum from feeder
-        this.addCommands(new WaitCommand(0.5));
+        this.addCommands(new WaitCommand(0.2));
         // roll indexer to shoot ball
         this.addCommands(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter));
 
@@ -49,7 +49,7 @@ public class ShootballCmdList extends SequentialCommandGroup {
             this.addCommands(new InstantCommand(() -> m_feeder.spinFeeder(-0.3), m_feeder));
             
             // slight pause to prevent momentum from feeder
-            this.addCommands(new WaitCommand(2));
+            this.addCommands(new WaitCommand(0.2));
             
             // stop feeder
             this.addCommands(new InstantCommand(() -> m_feeder.spinFeeder(0), m_feeder));
