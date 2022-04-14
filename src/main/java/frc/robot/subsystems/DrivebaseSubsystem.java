@@ -159,6 +159,11 @@ public class DrivebaseSubsystem extends SubsystemBase {
     m_rightEncoder.reset();
   }
 
+  public void stopRobot() {
+    m_x = 0;
+    m_y = 0;
+  }
+
   public void rotate(String rotate) {
     if(rotate == null) {
       rightPow = 0;
@@ -178,7 +183,6 @@ public class DrivebaseSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     
-
     /*
 
     // if controller is less than before than reset the filters

@@ -27,7 +27,9 @@ public class ShootballCmdList extends SequentialCommandGroup {
         m_shooter.setShootStatus(true);
         m_feeder.setShootStatus(true);
         m_camera.checkVision();
-        double[] visionValues = m_camera.getVisionValues();
+        
+        boolean autoTarget = SmartDashboard.getBoolean("Auto Target", true);
+        //if(autoTarget) this.addCommands(new VisionCenter(m_drivebase));
 
         double velocityTarget = SmartDashboard.getNumber("Flywheel Target RPM", 0);
        

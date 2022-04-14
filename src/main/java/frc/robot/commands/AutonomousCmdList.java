@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
@@ -21,6 +22,7 @@ public class AutonomousCmdList extends SequentialCommandGroup {
         super();
         //this.addCommands(new ShootBall(m_shooter, m_drivebase, m_feeder, flywheelSpeed, indexSpeed, feederSpeed));
         this.addCommands(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, m_camera, false));
+        this.addCommands(new WaitCommand(2));
         this.addCommands(new DriveDistance(m_drivebase, driveDistance, driveSpeed));
     }
 }

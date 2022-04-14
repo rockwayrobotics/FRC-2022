@@ -156,6 +156,7 @@ public class RobotContainer {
     .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, m_camera, true))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
   
+    /* changing to auto targetting
     new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels
     .whenPressed(new InstantCommand(() -> {
       m_shooter.spinIndex(-indexSpeed.getDouble(0.3));
@@ -165,6 +166,11 @@ public class RobotContainer {
       m_shooter.spinIndex(0);
       m_feeder.spinFeeder(0);
     }, m_shooter, m_feeder));
+    */
+
+    new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels
+    .whenHeld(new VisionCenter(m_drivebase))
+    .whenReleased(new InstantCommand(() -> m_drivebase.stopRobot(), m_drivebase));
 
     new JoystickButton(m_xboxController, XboxController.Button.kStart.value) // Manually jogs indexer wheel towards the flywheel
     .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))

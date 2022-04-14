@@ -39,6 +39,8 @@ public class CameraSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Cam Y", m_camY.getDouble(0));
     SmartDashboard.putNumber("Cam D", m_camD.getDouble(0));
     SmartDashboard.putNumber("Cam A", m_camA.getDouble(0));
+
+    SmartDashboard.putBoolean("Auto Target", true);
   }
 
   public double[] getVisionValues() {

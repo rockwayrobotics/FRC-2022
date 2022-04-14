@@ -65,6 +65,9 @@ public class VisionCenter extends CommandBase {
     }
   }
 
+  // CamA is 0 when target is aquired
+  // if Cam A is Negative then robot needs to turn left
+  // if Cam A is Positive then robot needs to turn right
   @Override
   public void execute() {
     SmartDashboard.putNumber("Cam X", m_camX.getDouble(0));
@@ -77,18 +80,32 @@ public class VisionCenter extends CommandBase {
     System.out.println("CamD " + m_camD);
     System.out.println("CamA " + m_camA);
 
-    double commandD = m_camX.getNumber(CENTERX).doubleValue();
-    int command = parseNTX(commandD);
-    
-    if (command == LEFT) {
-      m_drivebase.set(-0.5, 0);
+    boolean autoTarget = SmartDashboard.getBoolean("Auto Target", true);
+    //double commandD = m_camX.getNumber(CENTERX).doubleValue();
+
+    boolean processTargetting = true;
+    String directionToTarget = "Ready";
+    do {
+      double targetAngle = m_camA.getDouble(0);
+
+      if(targetAngle > -1 && targetAngle < 1) {
+        directionToTarget = "STOP";
+        if(autoTarget) m_drivebase.set(0, 0);
+      } else if(targetAngle > 0) {
+        directionToTarget = "RIGHT";
+        if(autoTarget) m_drivebase.set(0.5, 0);
+      } else if(targetAngle < 0) {
+        directionToTarget = "LEFT";
+        if(autoTarget) m_drivebase.set(-0.5, 0);
+      }
+      if(directionToTarget == "STOP" || autoTarget == false) {
+        processTargetting = false;
+      }
     }
-    else if (command == RIGHT) {
-      m_drivebase.set(0.5, 0);
-    }
-    else if (command == STOP) {
-      m_stop = true;
-    }    
+    while (processTargetting);
+
+
+    SmartDashboard.putString("Target Direction", directionToTarget);
   }
   
   @Override 
