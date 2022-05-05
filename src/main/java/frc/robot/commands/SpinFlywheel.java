@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
@@ -10,7 +11,7 @@ public class SpinFlywheel extends CommandBase{
   private ShooterSubsystem m_shooterSubsystem;
   private FeederSubsystem m_feederSubsystem;
   private DrivebaseSubsystem m_drivebase;
-  private double m_RPM = 0;
+  private NetworkTableEntry m_RPM;
  
   /**
    * A command that shoots the ball once
@@ -19,7 +20,7 @@ public class SpinFlywheel extends CommandBase{
    * @param feeder Set this to m_feederSubsystem 
    * drivebase is added as requirement so command delays without turning it on
    */
-   public SpinFlywheel(ShooterSubsystem shooter, DrivebaseSubsystem drivebase, FeederSubsystem feeder, Double RPM){
+   public SpinFlywheel(ShooterSubsystem shooter, DrivebaseSubsystem drivebase, FeederSubsystem feeder, NetworkTableEntry RPM){
     
     m_drivebase = drivebase;
     m_shooterSubsystem = shooter;
@@ -37,6 +38,8 @@ public class SpinFlywheel extends CommandBase{
   @Override
   public void initialize(){
     m_shooterSubsystem.spinFlywheelSpeed();
+    m_shooterSubsystem.setShootStatus(true);
+    m_feederSubsystem.setShootStatus(true);
   }
 
   /**Turns on all of the shooter motors
@@ -52,7 +55,7 @@ public class SpinFlywheel extends CommandBase{
    */
   @Override
   public boolean isFinished() {
-    return m_shooterSubsystem.getVelocity() >= m_RPM;
+    return m_shooterSubsystem.getVelocity() >= m_RPM.getDouble(4100);
   }
 
  /**Turns off all the shooter motors and ends command

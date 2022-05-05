@@ -14,18 +14,21 @@ public class FeederSubsystem extends SubsystemBase {
 
   private double m_feederPow = 0;
 
-  private DigitalInput m_track_limit_switch;
+  private DigitalInput m_track_limit_switch_back;
+  private DigitalInput m_track_limit_switch_front;
   private boolean m_shootStatus = false;
 
   /** Creates a new feederSubsystem. */
-  public FeederSubsystem(int feederMotor, DigitalInput track_limit_switch) {
+  public FeederSubsystem(int feederMotor, DigitalInput track_limit_switch_back, DigitalInput track_limit_switch_front) {
     m_feeder = new CANSparkMax(feederMotor, MotorType.kBrushless);
     //CANSparkMax feeder2 = new CANSparkMax(feederMotor2, MotorType.kBrushless);
     m_feeder.setIdleMode(IdleMode.kBrake);
     //feeder2.setIdleMode(IdleMode.kBrake);
     //m_feeder = new MotorControllerGroup(feeder1, feeder2);
 
-    m_track_limit_switch = track_limit_switch;
+    m_track_limit_switch_back = track_limit_switch_back;
+
+    m_track_limit_switch_front = track_limit_switch_front;
   }
 
   /**
@@ -43,8 +46,8 @@ public class FeederSubsystem extends SubsystemBase {
   @Override
   public void periodic(){
     //TODO figure out proper speed
-    if(!m_track_limit_switch.get() && !m_shootStatus) {
-      m_feeder.set(.1);
+    if(!m_track_limit_switch_back.get() && m_track_limit_switch_front.get() && !m_shootStatus) {
+      m_feeder.set(.05);
     } else {
       m_feeder.set(m_feederPow);
     } 

@@ -13,7 +13,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -26,15 +27,20 @@ public class ShooterSubsystem extends SubsystemBase {
   private RelativeEncoder m_flywheelEncoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, velocityTarget;
   
-private DigitalInput m_track_limit_switch;
-  private boolean m_shootStatus = true;
+private DigitalInput m_track_limit_switch_back;
+  private boolean m_shootStatus = false;
+
+  private NetworkTableEntry setpoint;
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem(
     int indexMotor,
     int flywheelMotor, int flywheelMotor2,
-    DigitalInput track_limit_switch
+    DigitalInput track_limit_switch_back,
+    NetworkTableEntry RPM
   ) {
+    setpoint = RPM;
+
     m_indexer = new CANSparkMax(indexMotor, MotorType.kBrushed);
     m_indexer.setIdleMode(IdleMode.kBrake);
 
@@ -77,7 +83,7 @@ private DigitalInput m_track_limit_switch;
     SmartDashboard.putNumber("Min Output", kMinOutput);
 
     SmartDashboard.putNumber("Flywheel Target RPM", velocityTarget);
-    m_track_limit_switch = track_limit_switch;
+    m_track_limit_switch_back = track_limit_switch_back;
   }
 
   /**
@@ -105,7 +111,7 @@ private DigitalInput m_track_limit_switch;
     double ff = SmartDashboard.getNumber("Feed Forward", 0);
     double max = SmartDashboard.getNumber("Max Output", 0);
     double min = SmartDashboard.getNumber("Min Output", 0);
-    double setpoint = SmartDashboard.getNumber("Flywheel Target RPM", 0);
+    //double setpoint = SmartDashboard.getNumber("Flywheel Target RPM", 0);
     
     // if PID coefficients on SmartDashboard have changed, write new values to controller
     if((p != kP)) { m_pidController.setP(p); kP = p; }
@@ -119,7 +125,8 @@ private DigitalInput m_track_limit_switch;
       kMinOutput = min; kMaxOutput = max; 
     }
 
-    m_pidController.setReference(setpoint, CANSparkMax.ControlType.kVelocity);
+    m_pidController.setReference(setpoint.getDouble(4100), CANSparkMax.ControlType.kVelocity);
+    //m_pidController.setReference(setpoint.getDouble(4100), CANSparkMax.ControlType.kVelocity);
     //m_flywheelPow = 0.70;
   }
 
@@ -148,10 +155,14 @@ private DigitalInput m_track_limit_switch;
     m_indexer.set(m_indexerPow);
 
     // TO DO Find proper speed for getting ball away from flywheel
-    if(!m_shootStatus && !m_track_limit_switch.get()) {
+    if(!m_shootStatus && !m_track_limit_switch_back.get()) {
       m_indexer.set(.2);
+      m_flywheel.set(-.05);
     } else {
       m_indexer.set(m_indexerPow);
+      if(!m_shootStatus){
+        m_flywheel.set(0);
+      }
     }
     //m_flywheel.set(m_flywheelPow);
   }

@@ -18,11 +18,11 @@ public class AutonomousCmdList extends SequentialCommandGroup {
    * @param drivedistance Set to distance in inches
    * @param driveSpeed Set to speed from -1 to 1 (must match sign of distance)
    */
-    public AutonomousCmdList(DrivebaseSubsystem m_drivebase, ShooterSubsystem m_shooter, FeederSubsystem m_feeder, NetworkTableEntry driveDistance, NetworkTableEntry driveSpeed, NetworkTableEntry flywheelSpeed, NetworkTableEntry indexSpeed, NetworkTableEntry feederSpeed, CameraSubsystem m_camera) {
+    public AutonomousCmdList(DrivebaseSubsystem m_drivebase, ShooterSubsystem m_shooter, FeederSubsystem m_feeder, NetworkTableEntry driveDistance, NetworkTableEntry driveSpeed, NetworkTableEntry flywheelSpeed, NetworkTableEntry indexSpeed, NetworkTableEntry feederSpeed, CameraSubsystem m_camera, NetworkTableEntry flywheelRPM) {
         super();
         //this.addCommands(new ShootBall(m_shooter, m_drivebase, m_feeder, flywheelSpeed, indexSpeed, feederSpeed));
-        this.addCommands(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, m_camera, false));
-        this.addCommands(new WaitCommand(2));
+        this.addCommands(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, m_camera, false, flywheelRPM));
+        this.addCommands(new WaitCommand(8));
         this.addCommands(new DriveDistance(m_drivebase, driveDistance, driveSpeed));
     }
 }

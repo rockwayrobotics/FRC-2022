@@ -56,7 +56,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  private DigitalInput shooter_track_limit = new DigitalInput(Digital.SHOOTER_TRACK_LIMIT);
+  private DigitalInput shooter_track_limit_back = new DigitalInput(Digital.SHOOTER_TRACK_LIMIT_BACK);
+  private DigitalInput shooter_track_limit_front = new DigitalInput(Digital.SHOOTER_TRACK_LIMIT_FRONT);
 
   /* Contstructor for subsystems */
   private DrivebaseSubsystem m_drivebase = new DrivebaseSubsystem(
@@ -67,12 +68,7 @@ public class RobotContainer {
   );
 
   //private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR, CAN.FEEDER_MOTOR2);
-  private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR, shooter_track_limit);
-
-  private ShooterSubsystem m_shooter = new ShooterSubsystem(
-    CAN.INDEX_MOTOR,
-    CAN.FLYWHEEL_MOTOR, CAN.FLYWHEEL_MOTOR2, shooter_track_limit
-    );
+  private FeederSubsystem m_feeder = new FeederSubsystem(CAN.FEEDER_MOTOR, shooter_track_limit_back, shooter_track_limit_front);
   
   private IntakeSubsystem m_intake = new IntakeSubsystem(
     Pneumatics.INTAKE_EXTEND, Pneumatics.INTAKE_RETRACT, 
@@ -125,7 +121,16 @@ public class RobotContainer {
         tab.add("Auto Distance", 50) // specify widget properties here
             .getEntry();
 
-  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder, autoDistance, autoSpeed, flywheelSpeed, indexSpeed, feederSpeed, m_camera); //pass in drivebase here
+  private NetworkTableEntry flywheelRPM = 
+        tab.add("Flywheel RPM", 4100)
+        .getEntry();
+
+  private ShooterSubsystem m_shooter = new ShooterSubsystem(
+    CAN.INDEX_MOTOR,
+    CAN.FLYWHEEL_MOTOR, CAN.FLYWHEEL_MOTOR2, shooter_track_limit_back, flywheelRPM
+    );
+
+  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder, autoDistance, autoSpeed, flywheelSpeed, indexSpeed, feederSpeed, m_camera, flywheelRPM); //pass in drivebase here
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -147,13 +152,20 @@ public class RobotContainer {
       )
     );  // Runs drivebase off left stick
   
-    new JoystickButton(m_xboxController, XboxController.Button.kLeftBumper.value)
+   /* new JoystickButton(m_xboxController, XboxController.Button.kLeftBumper.value)
     .whenPressed(() -> m_drivebase.setScale(0.5))
     .whenReleased(() -> m_drivebase.setScale(1));  // Sets drivebase to half speed, for more precise and slow movement (likely going to be used inside hangar)
- 
+ */
+
+    // shooting command using PID to control the RPM of the fly wheel
+    new JoystickButton(m_xboxController, XboxController.Button.kLeftBumper.value)
+    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, m_camera, false, flywheelRPM))
+    .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
+
+
     // shooting command using PID to control the RPM of the fly wheel
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
-    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, m_camera, true))
+    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, m_camera, true, flywheelRPM))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
   
     /* changing to auto targetting
@@ -168,10 +180,10 @@ public class RobotContainer {
     }, m_shooter, m_feeder));
     */
 
-    new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels
+   /* new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels
     .whenHeld(new VisionCenter(m_drivebase))
     .whenReleased(new InstantCommand(() -> m_drivebase.stopRobot(), m_drivebase));
-
+*/
     new JoystickButton(m_xboxController, XboxController.Button.kStart.value) // Manually jogs indexer wheel towards the flywheel
     .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
@@ -220,13 +232,13 @@ public class RobotContainer {
 
 
       /// test
-    new Button(() -> {return m_xboxController.getPOV() == 90;})  // rotates robot left
-      .whenPressed(() -> m_drivebase.rotate("left"))
-      .whenReleased(() -> m_drivebase.rotate("stop"));
+    // new Button(() -> {return m_xboxController.getPOV() == 90;})  // rotates robot left
+    //   .whenPressed(() -> m_drivebase.rotate("left"))
+    //   .whenReleased(() -> m_drivebase.rotate("stop"));
 
-    new Button(() -> {return m_xboxController.getPOV() == 270;})  // rotates robot right
-    .whenPressed(() -> m_drivebase.rotate("right"))
-      .whenReleased(() -> m_drivebase.rotate("stop"));
+    // new Button(() -> {return m_xboxController.getPOV() == 270;})  // rotates robot right
+    // .whenPressed(() -> m_drivebase.rotate("right"))
+    //   .whenReleased(() -> m_drivebase.rotate("stop"));
 
 
     new JoystickButton(m_flightStick, 11) // Spins feeder without any other motors
