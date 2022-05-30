@@ -55,6 +55,7 @@ public class SpinFlywheel extends CommandBase{
    */
   @Override
   public boolean isFinished() {
+    // TODO MAKE THAT A VARIABLE
     return m_shooterSubsystem.getVelocity() >= m_RPM.getDouble(4100);
   }
 
