@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 
 import frc.robot.commands.AutonomousCmdList;
+import frc.robot.commands.CenterTarget;
 import frc.robot.commands.ShootballCmdList;
 import frc.robot.commands.SpinFlywheel;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -79,7 +80,6 @@ public class RobotContainer {
     CAN.WINCH_MOTOR, 
     Digital.TOP_CLIMB_LIMIT, Digital.BOTTOM_CLIMB_LIMIT);
 
-  private VisionCenter m_VisionCenter = new VisionCenter(m_drivebase);
 
   private CameraSubsystem m_camera = new CameraSubsystem(CAN.LED_CONTROLLER);
 
@@ -168,6 +168,10 @@ public class RobotContainer {
     .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, m_camera, true, flywheelRPM))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
   
+    new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels
+    .whenPressed(new CenterTarget(m_drivebase))
+    .whenReleased(new InstantCommand(() -> m_drivebase.set(0,0), m_drivebase)); 
+
     /* changing to auto targetting
     new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels
     .whenPressed(new InstantCommand(() -> {
@@ -231,10 +235,11 @@ public class RobotContainer {
       .whenReleased(() -> m_hook.stop());
 
 
-      /// test
-    // new Button(() -> {return m_xboxController.getPOV() == 90;})  // rotates robot left
-    //   .whenPressed(() -> m_drivebase.rotate("left"))
-    //   .whenReleased(() -> m_drivebase.rotate("stop"));
+
+   // new Button(() -> {return m_xboxController.getPOV() == 90;})  // rotates robot left
+   //.whenPressed(new CenterTarget(m_drivebase))
+   // .whenReleased(new InstantCommand(() -> m_drivebase.set(0,0), m_drivebase));  // Spins flywheel for shooter
+
 
     // new Button(() -> {return m_xboxController.getPOV() == 270;})  // rotates robot right
     // .whenPressed(() -> m_drivebase.rotate("right"))

@@ -32,7 +32,7 @@ public class VisionCenter extends CommandBase {
   @Override
   public void initialize() {
     m_stop = false;
-          //Get the default instance of NetworkTables that was created automatically
+      //Get the default instance of NetworkTables that was created automatically
       //when your program starts
       NetworkTableInstance inst = NetworkTableInstance.getDefault();
 

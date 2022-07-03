@@ -23,6 +23,9 @@ public class CameraSubsystem extends SubsystemBase {
     NetworkTableEntry m_camD;
     NetworkTableEntry m_camA;
 
+    NetworkTableEntry m_test;
+
+
   /** Creates a new CameraSubsystem. */
   public CameraSubsystem(int ledRing) {
     m_ledRing = new WPI_VictorSPX(ledRing);
@@ -35,6 +38,13 @@ public class CameraSubsystem extends SubsystemBase {
     m_camY = table.getEntry("camY");
     m_camD = table.getEntry("camD");
     m_camA = table.getEntry("camA");
+
+    m_test = table.getEntry("test");
+
+    double m_camtest = 100;
+    SmartDashboard.putNumber("Cam test", m_camtest);
+    SmartDashboard.putNumber("Nick Test", m_test.getDouble(0));
+
     SmartDashboard.putNumber("Cam X", m_camX.getDouble(0));
     SmartDashboard.putNumber("Cam Y", m_camY.getDouble(0));
     SmartDashboard.putNumber("Cam D", m_camD.getDouble(0));
