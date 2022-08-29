@@ -13,7 +13,7 @@ import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.HookSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.CameraSubsystem;
+// import frc.robot.subsystems.CameraSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -27,23 +27,23 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 
 import java.util.Map;
 
-import edu.wpi.first.networktables.NetworkTable;
+// import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
+// import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 
 import frc.robot.commands.AutonomousCmdList;
 import frc.robot.commands.ShootballCmdList;
-import frc.robot.commands.SpinFlywheel;
+// import frc.robot.commands.SpinFlywheel;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.VisionCenter;
+// import frc.robot.commands.VisionCenter;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // import edu.wpi.first.wpilibj2.command.Command;
 
@@ -79,9 +79,9 @@ public class RobotContainer {
     CAN.WINCH_MOTOR, 
     Digital.TOP_CLIMB_LIMIT, Digital.BOTTOM_CLIMB_LIMIT);
 
-  private VisionCenter m_VisionCenter = new VisionCenter(m_drivebase);
+  // private VisionCenter m_VisionCenter = new VisionCenter(m_drivebase);
 
-  private CameraSubsystem m_camera = new CameraSubsystem(CAN.LED_CONTROLLER);
+  // private CameraSubsystem m_camera = new CameraSubsystem(CAN.LED_CONTROLLER);
 
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
   private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
@@ -130,7 +130,7 @@ public class RobotContainer {
     CAN.FLYWHEEL_MOTOR, CAN.FLYWHEEL_MOTOR2, shooter_track_limit_back, flywheelRPM
     );
 
-  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder, autoDistance, autoSpeed, flywheelSpeed, indexSpeed, feederSpeed, m_camera, flywheelRPM); //pass in drivebase here
+  public final Command m_autoCommand = new AutonomousCmdList(m_drivebase, m_shooter, m_feeder, autoDistance, autoSpeed, flywheelSpeed, indexSpeed, feederSpeed, flywheelRPM); //pass in drivebase here
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -159,13 +159,13 @@ public class RobotContainer {
 
     // shooting command using PID to control the RPM of the fly wheel
     new JoystickButton(m_xboxController, XboxController.Button.kLeftBumper.value)
-    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, m_camera, false, flywheelRPM))
+    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, false, flywheelRPM))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
 
 
     // shooting command using PID to control the RPM of the fly wheel
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
-    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, m_camera, true, flywheelRPM))
+    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, true, flywheelRPM))
     .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
   
     /* changing to auto targetting
@@ -265,11 +265,11 @@ public class RobotContainer {
     .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
     .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
 
-    new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
-    .whenPressed(() -> m_camera.ledON());
+    // new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
+    // .whenPressed(() -> m_camera.ledON());
     
-    new Button(() -> {return m_xboxController.getRightTriggerAxis() > 0.5;})
-    .whenPressed(() -> m_camera.ledOFF());
+    // new Button(() -> {return m_xboxController.getRightTriggerAxis() > 0.5;})
+    // .whenPressed(() -> m_camera.ledOFF());
   }
 
   /**

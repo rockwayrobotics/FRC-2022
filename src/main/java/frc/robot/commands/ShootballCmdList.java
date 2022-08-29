@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -18,16 +18,17 @@ public class ShootballCmdList extends SequentialCommandGroup {
     FeederSubsystem m_feeder;
     CameraSubsystem m_camera;
 
-    public ShootballCmdList(DrivebaseSubsystem drivebase, ShooterSubsystem shooter, FeederSubsystem feeder, CameraSubsystem camera, boolean secondBall, NetworkTableEntry velocityTarget) {
+    // public ShootballCmdList(DrivebaseSubsystem drivebase, ShooterSubsystem shooter, FeederSubsystem feeder, CameraSubsystem camera, boolean secondBall, NetworkTableEntry velocityTarget) {
+    public ShootballCmdList(DrivebaseSubsystem drivebase, ShooterSubsystem shooter, FeederSubsystem feeder, boolean secondBall, NetworkTableEntry velocityTarget) {
         super();
         m_drivebase = drivebase;
         m_shooter = shooter;
         m_feeder = feeder;
-        m_camera = camera;
+        // m_camera = camera;
         
         m_camera.checkVision();
         
-        boolean autoTarget = SmartDashboard.getBoolean("Auto Target", true);
+        // boolean autoTarget = SmartDashboard.getBoolean("Auto Target", true);
         //if(autoTarget) this.addCommands(new VisionCenter(m_drivebase));
 
         //double velocityTarget = SmartDashboard.getNumber("Flywheel Target RPM", 0);

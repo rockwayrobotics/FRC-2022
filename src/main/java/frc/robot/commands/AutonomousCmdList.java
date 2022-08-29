@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.subsystems.CameraSubsystem;
+// import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -18,10 +18,12 @@ public class AutonomousCmdList extends SequentialCommandGroup {
    * @param drivedistance Set to distance in inches
    * @param driveSpeed Set to speed from -1 to 1 (must match sign of distance)
    */
-    public AutonomousCmdList(DrivebaseSubsystem m_drivebase, ShooterSubsystem m_shooter, FeederSubsystem m_feeder, NetworkTableEntry driveDistance, NetworkTableEntry driveSpeed, NetworkTableEntry flywheelSpeed, NetworkTableEntry indexSpeed, NetworkTableEntry feederSpeed, CameraSubsystem m_camera, NetworkTableEntry flywheelRPM) {
+    // public AutonomousCmdList(DrivebaseSubsystem m_drivebase, ShooterSubsystem m_shooter, FeederSubsystem m_feeder, NetworkTableEntry driveDistance, NetworkTableEntry driveSpeed, NetworkTableEntry flywheelSpeed, NetworkTableEntry indexSpeed, NetworkTableEntry feederSpeed, CameraSubsystem m_camera, NetworkTableEntry flywheelRPM) {
+    public AutonomousCmdList(DrivebaseSubsystem m_drivebase, ShooterSubsystem m_shooter, FeederSubsystem m_feeder, NetworkTableEntry driveDistance, NetworkTableEntry driveSpeed, NetworkTableEntry flywheelSpeed, NetworkTableEntry indexSpeed, NetworkTableEntry feederSpeed, NetworkTableEntry flywheelRPM) {
+
         super();
         //this.addCommands(new ShootBall(m_shooter, m_drivebase, m_feeder, flywheelSpeed, indexSpeed, feederSpeed));
-        this.addCommands(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, m_camera, false, flywheelRPM));
+        this.addCommands(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, false, flywheelRPM));
         this.addCommands(new WaitCommand(8));
         this.addCommands(new DriveDistance(m_drivebase, driveDistance, driveSpeed));
     }
