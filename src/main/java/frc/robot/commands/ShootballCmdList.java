@@ -5,7 +5,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.subsystems.CameraSubsystem;
+// import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -16,7 +16,7 @@ public class ShootballCmdList extends SequentialCommandGroup {
     DrivebaseSubsystem m_drivebase;
     ShooterSubsystem m_shooter;
     FeederSubsystem m_feeder;
-    CameraSubsystem m_camera;
+    // CameraSubsystem m_camera;
 
     // public ShootballCmdList(DrivebaseSubsystem drivebase, ShooterSubsystem shooter, FeederSubsystem feeder, CameraSubsystem camera, boolean secondBall, NetworkTableEntry velocityTarget) {
     public ShootballCmdList(DrivebaseSubsystem drivebase, ShooterSubsystem shooter, FeederSubsystem feeder, boolean secondBall, NetworkTableEntry velocityTarget) {
@@ -26,7 +26,7 @@ public class ShootballCmdList extends SequentialCommandGroup {
         m_feeder = feeder;
         // m_camera = camera;
         
-        m_camera.checkVision();
+        // m_camera.checkVision();
         
         // boolean autoTarget = SmartDashboard.getBoolean("Auto Target", true);
         //if(autoTarget) this.addCommands(new VisionCenter(m_drivebase));

@@ -157,7 +157,7 @@ private DigitalInput m_track_limit_switch_back;
     // TO DO Find proper speed for getting ball away from flywheel
     if(!m_shootStatus && !m_track_limit_switch_back.get()) {
       m_indexer.set(.2);
-      m_flywheel.set(-.05);
+      m_flywheel.set(-.08);
     } else {
       m_indexer.set(m_indexerPow);
       if(!m_shootStatus){
