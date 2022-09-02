@@ -32,7 +32,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 // import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
+// import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.AutonomousCmdList;
 import frc.robot.commands.ShootballCmdList;
 // import frc.robot.commands.SpinFlywheel;
@@ -159,14 +159,14 @@ public class RobotContainer {
 
     // shooting command using PID to control the RPM of the fly wheel
     new JoystickButton(m_xboxController, XboxController.Button.kLeftBumper.value)
-    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, false, flywheelRPM))
-    .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
+    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, false, flywheelRPM));
+    // .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
 
 
     // shooting command using PID to control the RPM of the fly wheel
     new JoystickButton(m_xboxController, XboxController.Button.kRightBumper.value)
-    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, true, flywheelRPM))
-    .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
+    .whenHeld(new ShootballCmdList(m_drivebase, m_shooter, m_feeder, true, flywheelRPM));
+    // .whenReleased(new InstantCommand(() -> m_shooter.spinFlywheel(0), m_shooter));  // Spins flywheel for shooter
   
     /* changing to auto targetting
     new JoystickButton(m_xboxController, XboxController.Button.kY.value) // Feeds ball to flywheel, spinning feeder and indexer wheels

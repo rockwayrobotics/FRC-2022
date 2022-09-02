@@ -7,15 +7,15 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
+// import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+// import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.Drive;
 
-import java.lang.Math;
+// import java.lang.Math;
 
 public class DrivebaseSubsystem extends SubsystemBase {
   private final DifferentialDrive m_drive;
@@ -30,13 +30,13 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
   private double m_y = 0;
   private double m_x = 0;
-  private double p_x = 0;
-  private double p_y = 0;
-  private double m_scale = 1;
+  // private double p_x = 0;
+  // private double p_y = 0;
+  // private double m_scale = 1;
 
-  private final SlewRateLimiter filter = new SlewRateLimiter(3);
+  // private final SlewRateLimiter filter = new SlewRateLimiter(3);
   
-  private final SlewRateLimiter turnFilter = new SlewRateLimiter(4);
+  // private final SlewRateLimiter turnFilter = new SlewRateLimiter(4);
 
   private boolean rotating = false;
   private double rightPow = 0;
@@ -95,9 +95,9 @@ public class DrivebaseSubsystem extends SubsystemBase {
    * Sets the scale for the drivebase. Speeds are multiplied by the scale before being sent to the motors.
    * @param scale New scale to multiply speed by.
    */
-  public void setScale(double scale) {
-    m_scale = scale;
-  }
+  // public void setScale(double scale) {
+  //   m_scale = scale;
+  // }
 
   /**
    * Gets the distance travelled by the left-side wheels of the drivebase since last reset.

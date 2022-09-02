@@ -10,7 +10,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class SpinFlywheel extends CommandBase{
   private ShooterSubsystem m_shooterSubsystem;
   private FeederSubsystem m_feederSubsystem;
-  private DrivebaseSubsystem m_drivebase;
+  // private DrivebaseSubsystem m_drivebase;
   private NetworkTableEntry m_RPM;
  
   /**
@@ -22,7 +22,7 @@ public class SpinFlywheel extends CommandBase{
    */
    public SpinFlywheel(ShooterSubsystem shooter, DrivebaseSubsystem drivebase, FeederSubsystem feeder, NetworkTableEntry RPM){
     
-    m_drivebase = drivebase;
+    // m_drivebase = drivebase;
     m_shooterSubsystem = shooter;
     m_feederSubsystem = feeder;
     this.addRequirements(m_shooterSubsystem);

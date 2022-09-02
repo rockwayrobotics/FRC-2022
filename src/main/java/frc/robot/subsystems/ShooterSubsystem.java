@@ -13,7 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.networktables.NetworkTable;
+// import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 
@@ -21,7 +21,7 @@ public class ShooterSubsystem extends SubsystemBase {
   CANSparkMax m_indexer;
   MotorControllerGroup m_flywheel;
 
-  private double m_flywheelPow = 0;
+  // private double m_flywheelPow = 0;
   private double m_indexerPow = 0; 
   private SparkMaxPIDController m_pidController;
   private RelativeEncoder m_flywheelEncoder;
@@ -90,9 +90,9 @@ private DigitalInput m_track_limit_switch_back;
    * Spins the shooter wheel at a specified power level.
    * @param shootPow Speed to spin the wheel. -1 is full backwards, 1 is full forwards.
    */
-  public void spinFlywheel(double shootPow) {
-    m_flywheelPow = shootPow;
-  }
+  // public void spinFlywheel(double shootPow) {
+  //   m_flywheelPow = shootPow;
+  // }
 
   /**
    * Spins the index wheel at a specified power level.
