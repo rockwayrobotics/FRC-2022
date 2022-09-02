@@ -13,7 +13,7 @@ public class ShootBall extends CommandBase{
   private DrivebaseSubsystem m_drivebase;
   private int cycles = 0;
 
-  private NetworkTableEntry m_flywheelSpeed;
+  // private NetworkTableEntry m_flywheelSpeed;
   private NetworkTableEntry m_indexSpeed;
   private NetworkTableEntry m_feederSpeed;
  
@@ -33,7 +33,7 @@ public class ShootBall extends CommandBase{
     this.addRequirements(m_drivebase);
     this.addRequirements(m_feederSubsystem);
 
-    m_flywheelSpeed = flywheelSpeed;
+    // m_flywheelSpeed = flywheelSpeed;
     m_indexSpeed = indexSpeed;
     m_feederSpeed = feederSpeed;
   }
@@ -57,7 +57,7 @@ public class ShootBall extends CommandBase{
       m_shooterSubsystem.spinIndex(-m_indexSpeed.getDouble(0.3));
       m_feederSubsystem.spinFeeder(-m_feederSpeed.getDouble(0.4));
     }
-    m_shooterSubsystem.spinFlywheel(m_flywheelSpeed.getDouble(0.8));
+    // m_shooterSubsystem.spinFlywheel(m_flywheelSpeed.getDouble(0.8));
     cycles++;
   }
 
@@ -76,7 +76,7 @@ public class ShootBall extends CommandBase{
   public void end(boolean cancelled) {
     m_shooterSubsystem.spinIndex(0);
     m_feederSubsystem.spinFeeder(0);
-    m_shooterSubsystem.spinFlywheel(0);
+    // m_shooterSubsystem.spinFlywheel(0);
     m_shooterSubsystem.setShootStatus(false);
     m_feederSubsystem.setShootStatus(false);
   }  
