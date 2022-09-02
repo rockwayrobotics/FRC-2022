@@ -15,7 +15,7 @@ import frc.robot.subsystems.HookSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 // import frc.robot.subsystems.CameraSubsystem;
 
-import edu.wpi.first.wpilibj.Joystick;
+// import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
@@ -32,7 +32,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 // import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
-
+import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.AutonomousCmdList;
 import frc.robot.commands.ShootballCmdList;
 // import frc.robot.commands.SpinFlywheel;
@@ -84,7 +84,7 @@ public class RobotContainer {
   // private CameraSubsystem m_camera = new CameraSubsystem(CAN.LED_CONTROLLER);
 
   private XboxController m_xboxController = new XboxController(Controllers.XBOX);
-  private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
+  // private Joystick m_flightStick = new Joystick(Controllers.FLIGHT);
 
   ShuffleboardTab tab = Shuffleboard.getTab("Speeds");
   private NetworkTableEntry flywheelSpeed =
@@ -222,6 +222,18 @@ public class RobotContainer {
       m_intake.spin(0);
     });
 
+    new JoystickButton(m_xboxController, XboxController.Button.kRightStick.value) // Runs indexer and feeders forward to allow for manual firing if the flywheel cannot get up to speed
+    .whenPressed(() -> {
+      m_feeder.spinFeeder(-feederSpeed.getDouble(0.4)); // Checks if feeder is extended before spinning
+      if(m_intake.getExtended() == Value.kForward){
+        m_intake.spin(intakeSpeed.getDouble(0.8));
+      }
+    }, m_intake, m_shooter)
+    .whenReleased(() -> {
+      m_feeder.spinFeeder(0);
+      m_intake.spin(0);
+    });
+
     new Button(() -> {return m_xboxController.getPOV() == 0;})  // Extends hook up
       .whenPressed(() -> m_hook.extend(hookSpeed.getDouble(0.8)))
       .whenReleased(() -> m_hook.stop());
@@ -241,29 +253,29 @@ public class RobotContainer {
     //   .whenReleased(() -> m_drivebase.rotate("stop"));
 
 
-    new JoystickButton(m_flightStick, 11) // Spins feeder without any other motors
-    .whenPressed(() -> m_feeder.spinFeeder(feederSpeed.getDouble(0.4)))
-    .whenReleased(() -> m_feeder.spinFeeder(0));
+    // new JoystickButton(m_flightStick, 11) // Spins feeder without any other motors
+    // .whenPressed(() -> m_feeder.spinFeeder(feederSpeed.getDouble(0.4)))
+    // .whenReleased(() -> m_feeder.spinFeeder(0));
 
-    new JoystickButton(m_flightStick, 3) // Spins intake backwards without any other motors
-    .whenPressed(() -> m_intake.spin(-intakeSpeed.getDouble(0.4)))
-    .whenReleased(() -> m_intake.spin(0));
+    // new JoystickButton(m_flightStick, 3) // Spins intake backwards without any other motors
+    // .whenPressed(() -> m_intake.spin(-intakeSpeed.getDouble(0.4)))
+    // .whenReleased(() -> m_intake.spin(0));
 
-    new JoystickButton(m_flightStick, 4) // Spins intake without any other motors
-    .whenPressed(() -> m_intake.spin(intakeSpeed.getDouble(0.4)))
-    .whenReleased(() -> m_intake.spin(0));
+    // new JoystickButton(m_flightStick, 4) // Spins intake without any other motors
+    // .whenPressed(() -> m_intake.spin(intakeSpeed.getDouble(0.4)))
+    // .whenReleased(() -> m_intake.spin(0));
 
-    new JoystickButton(m_flightStick, 12) // Spins flywheel backwards
-    .whenPressed(() -> m_shooter.spinFlywheel(-flywheelSpeed.getDouble(0.4)))
-    .whenReleased(() -> m_shooter.spinFlywheel(0));
+    // new JoystickButton(m_flightStick, 12) // Spins flywheel backwards
+    // .whenPressed(() -> m_shooter.spinFlywheel(-flywheelSpeed.getDouble(0.4)))
+    // .whenReleased(() -> m_shooter.spinFlywheel(0));
 
-    new JoystickButton(m_flightStick, 9) // Manually jogs indexer wheel towards the flywheel
-    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))
-    .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
+    // new JoystickButton(m_flightStick, 9) // Manually jogs indexer wheel towards the flywheel
+    // .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(-0.3), m_shooter))
+    // .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
 
-    new JoystickButton(m_flightStick, 10) // Manually jogs indexer wheel away from the flywheel
-    .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
-    .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
+    // new JoystickButton(m_flightStick, 10) // Manually jogs indexer wheel away from the flywheel
+    // .whenPressed(new InstantCommand(() -> m_shooter.spinIndex(0.3), m_shooter))
+    // .whenReleased(new InstantCommand(() -> m_shooter.spinIndex(0), m_shooter));
 
     // new Button(() -> {return m_xboxController.getLeftTriggerAxis() > 0.5;})
     // .whenPressed(() -> m_camera.ledON());
